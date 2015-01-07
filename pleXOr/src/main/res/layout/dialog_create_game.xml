@@ -1,0 +1,152 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="1dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+    <!-- android:layout_gravity="center" -->
+        
+    <View 
+        android:background="#E7E8CE"
+        android:layout_alignTop="@+id/dialog_create_game_title"
+        android:layout_height="80dp"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="25dp"/>
+    
+    <TextView
+        android:id="@+id/dialog_create_game_title"
+        android:text="@string/dialog_game_settings"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        style="@style/MenuTitle"/>
+    
+    <View 
+        android:background="#E7E8CE"
+        android:layout_alignTop="@+id/dialog_create_game_spinner_move_timelimit"
+        android:clickable="false"
+        android:layout_height="63dp"
+        android:layout_width="fill_parent"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"/>
+    
+    <Spinner
+        android:id="@+id/dialog_create_game_spinner_move_timelimit"
+        style="@style/SpinnerMenuItem"
+        android:layout_below="@id/dialog_create_game_title"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:spinnerMode="dropdown" />
+    
+    <View 
+        android:background="#E7E8CE"
+        android:layout_alignTop="@+id/dialog_create_game_radio_group"
+        android:clickable="false"
+        android:layout_height="85dp"
+        android:layout_width="fill_parent"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"/>
+    
+    <RadioGroup 
+        android:id="@+id/dialog_create_game_radio_group"
+        style="@style/RadioGroupMenuItem"
+        android:layout_below="@id/dialog_create_game_spinner_move_timelimit"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingRight="4dp"
+        android:paddingLeft="0dp">
+        <RadioButton 
+            android:id="@+id/dialog_create_game_radio_ranked"
+            android:background="#5B5B5B"
+            android:text="@string/game_settings_ranked"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton 
+            android:id="@+id/dialog_create_game_radio_unranked"
+            android:background="#5B5B5B"
+            android:text="@string/game_settings_unranked"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:onClick="onRadioButtonClicked"
+            android:checked="true"/>
+    </RadioGroup>
+    
+    <View 
+		android:background="#E7E8CE"
+		android:layout_alignTop="@+id/dialog_button_create_game_invite_players"
+		android:clickable="false"
+		android:layout_height="48dp"
+		android:layout_width="fill_parent"
+		android:layout_marginRight="15dp"
+		android:layout_marginTop="5dp"/>
+    
+    <Button
+	    android:id="@+id/dialog_button_create_game_invite_players"
+	    android:layout_below="@id/dialog_create_game_radio_group"
+        android:layout_marginBottom="20dp"
+       	android:layout_marginRight="20dp"
+	    android:text="@string/game_settings_invite_players" 
+	    style="@style/ButtonMenuItem"/>
+    
+    <View 
+        android:id="@+id/dialog_text_view_invited_players_shadow"
+		android:background="#E7E8CE"
+		android:layout_alignTop="@+id/dialog_text_view_invited_players"
+		android:clickable="false"
+		android:layout_height="67dp"
+		android:layout_width="fill_parent"
+		android:layout_marginRight="15dp"
+		android:layout_marginTop="5dp"
+		android:visibility="gone"/>
+    
+    <TextView
+	    android:id="@+id/dialog_text_view_invited_players"
+	    android:layout_below="@id/dialog_button_create_game_invite_players"
+        android:layout_marginBottom="20dp"
+       	android:layout_marginRight="20dp"
+	    style="@style/MenuTitle"
+	    android:visibility="gone"
+	    android:textSize="20sp"/>
+    
+    <!-- #########################################################################################################-->
+    <!-- TODO create a player name+whatever area here to acknowledge when some player is selected to be challenged-->
+    <!-- #########################################################################################################-->
+    
+    <LinearLayout android:layout_gravity="center"
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/dialog_text_view_invited_players">
+	    
+        <Button
+		    android:id="@+id/dialog_button_create_game"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:text="@string/dialog_game_settings_confirm" 
+		    android:layout_weight="1"
+		    android:background="#5B5B5B"
+		    style="?android:attr/buttonBarButtonStyle"/>
+        
+        <View 
+            android:background="#FFFFFF"
+            android:layout_height="fill_parent"
+            android:layout_width="1dp"/>
+	    
+	    <Button
+		    android:id="@+id/dialog_button_create_game_cancel"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:text="@string/cancel" 
+		    android:layout_weight="1"
+		    android:background="#5B5B5B"
+		    style="?android:attr/buttonBarButtonStyle"/>
+	    
+    </LinearLayout>
+    
+    </RelativeLayout>

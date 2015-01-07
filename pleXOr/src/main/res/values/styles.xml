@@ -1,0 +1,105 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Holo">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    
+    <style name="Theme.MenuDefault" parent="@android:style/Theme.Holo"></style>
+    <style name="Theme.ActivityDefault" parent="@android:style/Theme.NoTitleBar.Fullscreen"></style>
+    <style name="Theme.NoTitle" parent="@android:style/Theme.Holo"></style>
+    <style name="Theme.FullScreen" parent="@android:style/Theme.NoTitleBar.Fullscreen"></style>
+    
+    <style name="Theme.Dialog.NoTitle" parent="android:style/Theme.Holo.Dialog">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
+    <style name="EditText.Clean.Table" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">0dp</item>
+    </style>
+    
+    <style name="MenuTitle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">#5B5B5B</item>
+    </style>
+    
+    <style name="SpinnerMenuItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">#8FAF23</item>
+        <item name="android:popupBackground">#8FAF23</item>
+    </style>
+    
+    <style name="RadioGroupMenuItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">#8FAF23</item>
+        <item name="android:popupBackground">#8FAF23</item>
+    </style>
+    
+    <style name="ButtonMenuItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">#8FAF23</item>
+        <item name="android:popupBackground">#8FAF23</item>
+    </style>
+    
+    <color name="ETwhite">#ffffff</color>
+    
+    <style name="EditText.Clean.FixedVals" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_width">35dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:hint">@string/dash</item>
+        <item name="android:inputType">textCapCharacters</item>
+        <item name="android:layout_marginLeft">1.5dip</item>
+        <item name="android:layout_marginRight">1.5dip</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:background">@color/ETwhite</item>
+        <item name="android:maxLength">1</item>
+    </style>
+
+
+</resources>

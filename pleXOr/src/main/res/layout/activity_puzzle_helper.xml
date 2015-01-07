@@ -1,0 +1,988 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="14dp" >
+    
+	<View
+	    android:id="@+id/LeftBar"
+    	android:layout_width="3dip"
+    	android:layout_height="368dip"
+   		android:background="#000000"/>
+	
+	<View
+	android:id="@+id/RightBar"
+    android:layout_width="3dip"
+    android:layout_height="368dip"
+    android:background="#000000"
+    android:layout_alignParentRight="true"/>
+	
+	<View android:id="@+id/top"
+ 	android:layout_width="match_parent"
+ 	android:layout_height="3dp"
+ 	android:background="@android:color/black"
+ 	android:layout_alignParentTop="true" />
+    
+    <EditText
+        android:id="@+id/TextBoxR1C1"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        android:layout_toRightOf="@id/LeftBar"> 
+    </EditText>
+    
+    <View
+	    android:id="@+id/col1"
+	    android:layout_width="1dip"
+	    android:layout_height="368dip"
+	    android:background="#000000"
+	    android:layout_toRightOf="@id/TextBoxR1C1" />
+    
+    <EditText
+        android:id="@+id/TextBoxR1C2"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col1">
+    </EditText>
+    
+    <View
+	    android:id="@+id/col2"
+	    android:layout_width="1dip"
+	    android:layout_height="368dip"
+	    android:background="#000000"
+	    android:layout_toRightOf="@id/TextBoxR1C2" />
+    
+    <EditText
+        android:id="@+id/TextBoxR1C3"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col2">
+    </EditText>
+    
+    <View
+	    android:id="@+id/col3"
+	    android:layout_width="3dip"
+	    android:layout_height="368dip"
+	    android:background="#000000"
+	    android:layout_toRightOf="@id/TextBoxR1C3" />
+    
+    <EditText
+        android:id="@+id/TextBoxR1C4"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col3">
+    </EditText>
+    
+    <View
+	    android:id="@+id/col4"
+	    android:layout_width="1dip"
+	    android:layout_height="368dip"
+	    android:background="#000000"
+	    android:layout_toRightOf="@id/TextBoxR1C4" />
+    
+    <EditText
+        android:id="@+id/TextBoxR1C5"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col4">
+    </EditText>
+    
+    <View
+	    android:id="@+id/col5"
+	    android:layout_width="1dip"
+	    android:layout_height="368dip"
+	    android:background="#000000"
+	    android:layout_toRightOf="@id/TextBoxR1C5" />
+    
+    <EditText
+        android:id="@+id/TextBoxR1C6"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col5"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+         >
+    </EditText>
+    
+    <View
+	    android:id="@+id/col6"
+	    android:layout_width="3dip"
+	    android:layout_height="368dip"
+	    android:background="#000000"
+	    android:layout_toRightOf="@id/TextBoxR1C6" />
+    
+    <EditText
+        android:id="@+id/TextBoxR1C7"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col6"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        >
+    </EditText>
+    
+    <View
+	    android:id="@+id/col7"
+	    android:layout_width="1dip"
+	    android:layout_height="368dip"
+	    android:background="#000000"
+	    android:layout_toRightOf="@id/TextBoxR1C7" />
+    
+    <EditText
+        android:id="@+id/TextBoxR1C8"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col7">
+    </EditText>
+    
+    <View
+	    android:id="@+id/col8"
+	    android:layout_width="1dip"
+	    android:layout_height="368dip"
+	    android:background="#000000"
+	    android:layout_toRightOf="@id/TextBoxR1C8" />
+    
+    <EditText
+        android:id="@+id/TextBoxR1C9"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col8">
+    </EditText>
+    
+
+	<View
+	    android:id="@+id/row1"
+	 	android:layout_width="match_parent"
+	 	android:layout_height="1dp"
+	 	android:background="@android:color/black"
+	 	android:layout_below="@id/TextBoxR1C1" />
+
+ 	<EditText
+        android:id="@+id/TextBoxR2C1"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        android:layout_toRightOf="@id/LeftBar"
+        android:layout_below="@id/row1"> 
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR2C2"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col1"
+        android:layout_below="@id/row1">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR2C3"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col2"
+        android:layout_below="@id/row1">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR2C4"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col3"
+        android:layout_below="@id/row1">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR2C5"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col4"
+        android:layout_below="@id/row1">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR2C6"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col5"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+         
+        android:layout_below="@id/row1">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR2C7"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col6"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        
+        android:layout_below="@id/row1">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR2C8"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col7"
+        android:layout_below="@id/row1">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR2C9"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col8"
+        android:layout_below="@id/row1">
+    </EditText>
+    
+    <View
+	    android:id="@+id/row2"
+	 	android:layout_width="match_parent"
+	 	android:layout_height="1dp"
+	 	android:background="@android:color/black"
+	 	android:layout_below="@id/TextBoxR2C1" />
+    
+    <EditText
+        android:id="@+id/TextBoxR3C1"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        android:layout_toRightOf="@id/LeftBar"
+        android:layout_below="@id/row2"> 
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR3C2"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col1"
+        android:layout_below="@id/row2">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR3C3"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col2"
+        android:layout_below="@id/row2">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR3C4"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col3"
+        android:layout_below="@id/row2">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR3C5"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col4"
+        android:layout_below="@id/row2">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR3C6"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col5"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+         
+        android:layout_below="@id/row2">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR3C7"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col6"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        
+        android:layout_below="@id/row2">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR3C8"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col7"
+        android:layout_below="@id/row2">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR3C9"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col8"
+        android:layout_below="@id/row2">
+    </EditText>
+    
+    <View
+	    android:id="@+id/row3"
+	 	android:layout_width="match_parent"
+	 	android:layout_height="3dp"
+	 	android:background="@android:color/black"
+	 	android:layout_below="@id/TextBoxR3C1" />
+    
+    <EditText
+        android:id="@+id/TextBoxR4C1"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        android:layout_toRightOf="@id/LeftBar"
+        android:layout_below="@id/row3"> 
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR4C2"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col1"
+        android:layout_below="@id/row3">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR4C3"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col2"
+        android:layout_below="@id/row3">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR4C4"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col3"
+        android:layout_below="@id/row3">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR4C5"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col4"
+        android:layout_below="@id/row3">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR4C6"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col5"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+         
+        android:layout_below="@id/row3">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR4C7"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col6"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        
+        android:layout_below="@id/row3">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR4C8"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col7"
+        android:layout_below="@id/row3">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR4C9"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col8"
+        android:layout_below="@id/row3">
+    </EditText>
+    
+    <View
+    android:id="@+id/row4"
+ 	android:layout_width="match_parent"
+ 	android:layout_height="1dp"
+ 	android:background="@android:color/black"
+ 	android:layout_below="@id/TextBoxR4C1" />
+    
+    <EditText
+        android:id="@+id/TextBoxR5C1"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        android:layout_toRightOf="@id/LeftBar"
+        android:layout_below="@id/row4"> 
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR5C2"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col1"
+        android:layout_below="@id/row4">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR5C3"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col2"
+        android:layout_below="@id/row4">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR5C4"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col3"
+        android:layout_below="@id/row4">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR5C5"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col4"
+        android:layout_below="@id/row4">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR5C6"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col5"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+         
+        android:layout_below="@id/row4">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR5C7"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col6"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        
+        android:layout_below="@id/row4">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR5C8"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col7"
+        android:layout_below="@id/row4">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR5C9"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col8"
+        android:layout_below="@id/row4">
+    </EditText>
+    
+    <View
+    android:id="@+id/row5"
+ 	android:layout_width="match_parent"
+ 	android:layout_height="1dp"
+ 	android:background="@android:color/black"
+ 	android:layout_below="@id/TextBoxR5C1" />
+    
+    <EditText
+        android:id="@+id/TextBoxR6C1"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        android:layout_toRightOf="@id/LeftBar"
+        android:layout_below="@id/row5"> 
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR6C2"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col1"
+        android:layout_below="@id/row5">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR6C3"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col2"
+        android:layout_below="@id/row5">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR6C4"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col3"
+        android:layout_below="@id/row5">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR6C5"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col4"
+        android:layout_below="@id/row5">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR6C6"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col5"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+         
+        android:layout_below="@id/row5">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR6C7"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col6"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        
+        android:layout_below="@id/row5">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR6C8"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col7"
+        android:layout_below="@id/row5">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR6C9"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col8"
+        android:layout_below="@id/row5">
+    </EditText>
+    
+    <View
+    android:id="@+id/row6"
+ 	android:layout_width="match_parent"
+ 	android:layout_height="3dp"
+ 	android:background="@android:color/black"
+ 	android:layout_below="@id/TextBoxR6C1" />
+    
+    <EditText
+        android:id="@+id/TextBoxR7C1"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        android:layout_toRightOf="@id/LeftBar"
+        android:layout_below="@id/row6"> 
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR7C2"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col1"
+        android:layout_below="@id/row6">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR7C3"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col2"
+        android:layout_below="@id/row6">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR7C4"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col3"
+        android:layout_below="@id/row6">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR7C5"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col4"
+        android:layout_below="@id/row6">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR7C6"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col5"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+         
+        android:layout_below="@id/row6">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR7C7"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col6"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        
+        android:layout_below="@id/row6">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR7C8"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col7"
+        android:layout_below="@id/row6">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR7C9"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col8"
+        android:layout_below="@id/row6">
+    </EditText>
+    
+    <View
+    android:id="@+id/row7"
+ 	android:layout_width="match_parent"
+ 	android:layout_height="1dp"
+ 	android:background="@android:color/black"
+ 	android:layout_below="@id/TextBoxR7C1" />
+    
+    <EditText
+        android:id="@+id/TextBoxR8C1"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        android:layout_toRightOf="@id/LeftBar"
+        android:layout_below="@id/row7"> 
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR8C2"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col1"
+        android:layout_below="@id/row7">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR8C3"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col2"
+        android:layout_below="@id/row7">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR8C4"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col3"
+        android:layout_below="@id/row7">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR8C5"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col4"
+        android:layout_below="@id/row7">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR8C6"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col5"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+         
+        android:layout_below="@id/row7">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR8C7"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col6"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        
+        android:layout_below="@id/row7">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR8C8"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col7"
+        android:layout_below="@id/row7">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR8C9"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col8"
+        android:layout_below="@id/row7">
+    </EditText>
+    
+    <View
+    android:id="@+id/row8"
+ 	android:layout_width="match_parent"
+ 	android:layout_height="1dp"
+ 	android:background="@android:color/black"
+ 	android:layout_below="@id/TextBoxR8C1" />
+    
+    <EditText
+        android:id="@+id/TextBoxR9C1"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        android:layout_toRightOf="@id/LeftBar"
+        android:layout_below="@id/row8"> 
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR9C2"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col1"
+        android:layout_below="@id/row8">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR9C3"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col2"
+        android:layout_below="@id/row8">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR9C4"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col3"
+        android:layout_below="@id/row8">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR9C5"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col4"
+        android:layout_below="@id/row8">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR9C6"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col5"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+         
+        android:layout_below="@id/row8">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR9C7"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/col6"
+        android:hint="@string/empty_message"
+        android:inputType="number"
+        
+        android:layout_below="@id/row8">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR9C8"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col7"
+        android:layout_below="@id/row8">
+    </EditText>
+    
+    <EditText
+        android:id="@+id/TextBoxR9C9"
+        android:inputType="number"
+        android:layout_width="35dip"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_message"
+        android:layout_toRightOf="@id/col8"
+        android:layout_below="@id/row8">
+    </EditText>
+    
+    <View
+    android:id="@+id/row9"
+ 	android:layout_width="match_parent"
+ 	android:layout_height="3dp"
+ 	android:background="@android:color/black"
+ 	android:layout_below="@id/TextBoxR9C1" />
+
+	<Button 
+	    android:id="@+id/button_clear"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="@string/button_clear"
+	    android:layout_alignParentBottom="true"/>
+
+	<Button
+	    android:id="@+id/button_solve"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@id/button_clear"
+	    android:text="@string/button_solve" />
+	
+	<ToggleButton
+	    android:id="@+id/tbutton_hint"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignRight="@id/RightBar"
+	    android:layout_alignTop="@id/button_solve"
+	    android:textOff="@string/button_hint"
+	    android:textOn="@string/button_hint"
+	    android:textSize="18sp" />
+
+</RelativeLayout>

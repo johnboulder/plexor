@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+    
+<TableLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+    
+    <!-- android:padding="14dp"  -->
+
+    <TableRow android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:layout_marginTop="0dp">
+        
+	    <EditText
+	        android:id="@+id/TextBoxR1C1"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR1C2"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR1C3"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR1C4"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	     
+	    <EditText
+	        android:id="@+id/TextBoxR1C5"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR1C6"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR1C7"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR1C8"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR1C9"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+    </TableRow>
+    
+    <TableRow android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp">
+        
+	    <EditText
+	        android:id="@+id/TextBoxR2C1"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR2C2"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR2C3"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR2C4"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	     
+	    <EditText
+	        android:id="@+id/TextBoxR2C5"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR2C6"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR2C7"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR2C8"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR2C9"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+    </TableRow>
+    
+    <TableRow android:id="@+id/tableRow3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp">
+        
+	    <EditText
+	        android:id="@+id/TextBoxR3C1"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR3C2"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR3C3"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR3C4"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	     
+	    <EditText
+	        android:id="@+id/TextBoxR3C5"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR3C6"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR3C7"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR3C8"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR3C9"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+    </TableRow>
+    
+    <TableRow android:id="@+id/tableRow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp">
+        
+	    <EditText
+	        android:id="@+id/TextBoxR4C1"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR4C2"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR4C3"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR4C4"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	     
+	    <EditText
+	        android:id="@+id/TextBoxR4C5"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR4C6"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR4C7"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR4C8"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR4C9"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+    </TableRow>
+    
+        <TableRow android:id="@+id/tableRow5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp">
+        
+	    <EditText
+	        android:id="@+id/TextBoxR5C1"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR5C2"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR5C3"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR5C4"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	     
+	    <EditText
+	        android:id="@+id/TextBoxR5C5"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR5C6"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR5C7"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR5C8"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR5C9"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+    </TableRow>
+    
+    <TableRow android:id="@+id/tableRow6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp">
+        
+	    <EditText
+	        android:id="@+id/TextBoxR6C1"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR6C2"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR6C3"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR6C4"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	     
+	    <EditText
+	        android:id="@+id/TextBoxR6C5"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR6C6"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR6C7"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR6C8"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR6C9"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+    </TableRow>
+    
+    <TableRow android:id="@+id/tableRow7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp">
+        
+	    <EditText
+	        android:id="@+id/TextBoxR7C1"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR7C2"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR7C3"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR7C4"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	     
+	    <EditText
+	        android:id="@+id/TextBoxR7C5"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR7C6"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR7C7"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR7C8"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR7C9"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+    </TableRow>
+    
+    <TableRow android:id="@+id/tableRow8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp">
+        
+	    <EditText
+	        android:id="@+id/TextBoxR8C1"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR8C2"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR8C3"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR8C4"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	     
+	    <EditText
+	        android:id="@+id/TextBoxR8C5"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR8C6"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR8C7"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR8C8"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR8C9"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+    </TableRow>
+    
+
+    
+    <TableRow android:id="@+id/tableRow9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:padding="0dp">
+        
+	    <EditText
+	        android:id="@+id/TextBoxR9C1"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR9C2"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR9C3"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR9C4"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	     
+	    <EditText
+	        android:id="@+id/TextBoxR9C5"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR9C6"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR9C7"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	    
+	    <EditText
+	        android:id="@+id/TextBoxR9C8"
+	        android:layout_weight="1"
+			android:layout_margin="0dp" 
+			style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+	
+	    <EditText
+	        android:id="@+id/TextBoxR9C9"
+	        android:layout_weight="1"
+			android:layout_margin="0dp"
+	        style="@style/EditText.Clean.FixedVals">
+	    </EditText>
+    </TableRow>
+    
+    <Button
+        android:id="@+id/button_confirm_move"
+        style="@style/ButtonMenuItem"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/confirm_move" />
+    
+</TableLayout>
+<RelativeLayout android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#AAAAAAAA"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:id="@+id/progress_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+    
+</RelativeLayout>

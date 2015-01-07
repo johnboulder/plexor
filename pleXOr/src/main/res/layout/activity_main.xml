@@ -1,0 +1,126 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".MainActivity">
+    
+    <View 
+        android:background="#E7E8CE"
+        android:layout_alignTop="@+id/activity_main_menu_title"
+        android:clickable="false"
+        android:layout_height="82dp"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="25dp"/>
+    
+    <TextView
+        android:id="@+id/activity_main_menu_title"
+        android:text="@string/app_name"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        style="@style/MenuTitle"
+        android:paddingLeft="115dp"/>
+    
+    <View 
+        android:id="@+id/play_locally_shadow"
+		android:background="#E7E8CE"
+		android:layout_alignTop="@+id/button_play_locally"
+		android:clickable="false"
+		android:layout_height="48dp"
+		android:layout_width="fill_parent"
+		android:layout_marginRight="15dp"
+		android:layout_marginTop="5dp"/>
+    
+    <Button
+        android:id="@+id/button_play_locally"
+        android:text="@string/button_play_locally"
+        android:onClick="openMatchLocal"
+        android:layout_below="@id/activity_main_menu_title"
+        android:layout_marginBottom="20dp"
+       	android:layout_marginRight="20dp"
+       	style="@style/ButtonMenuItem"/>
+    
+    <View 
+        android:id="@+id/sign_in_shadow"
+		android:background="#E7E8CE"
+		android:layout_alignTop="@+id/button_sign_in"
+		android:clickable="false"
+		android:layout_height="48dp"
+		android:layout_width="fill_parent"
+		android:layout_marginRight="15dp"
+		android:layout_marginTop="5dp"/>
+    
+    <Button
+        android:id="@+id/button_sign_in"
+        android:text="@string/sign_in"
+        style="@style/ButtonMenuItem"
+        android:layout_below="@id/button_play_locally"
+        android:layout_marginBottom="20dp"
+       	android:layout_marginRight="20dp"/>
+    
+    <View 
+        android:id="@+id/sign_out_shadow"
+		android:background="#E7E8CE"
+		android:layout_alignTop="@+id/button_sign_out"
+		android:clickable="false"
+		android:layout_height="48dp"
+		android:layout_width="fill_parent"
+		android:layout_marginRight="15dp"
+		android:layout_marginTop="5dp"
+		android:visibility="gone"/>
+    
+    <Button
+        android:id="@+id/button_sign_out"
+        android:visibility="gone"
+        android:text="@string/sign_out"
+        style="@style/ButtonMenuItem"
+        android:layout_below="@+id/button_view_games"
+        android:layout_marginBottom="20dp"
+       	android:layout_marginRight="20dp"/>
+    
+    <View 
+        android:id="@+id/create_game_shadow"
+		android:background="#E7E8CE"
+		android:layout_alignTop="@+id/button_create_game"
+		android:clickable="false"
+		android:layout_height="48dp"
+		android:layout_width="fill_parent"
+		android:layout_marginRight="15dp"
+		android:layout_marginTop="5dp"
+		android:visibility="gone"/>
+    
+    <Button
+	    android:id="@id/button_create_game"
+	    android:onClick="onCreateAGameClicked"
+	    android:text="@string/create_a_game" 
+	    android:visibility="gone"
+	    style="@style/ButtonMenuItem"
+	    android:layout_below="@id/button_play_locally"
+	    android:layout_marginBottom="20dp"
+       	android:layout_marginRight="20dp"/>
+    
+    <View 
+        android:id="@+id/view_games_shadow"
+		android:background="#E7E8CE"
+		android:layout_alignTop="@+id/button_view_games"
+		android:clickable="false"
+		android:layout_height="48dp"
+		android:layout_width="fill_parent"
+		android:layout_marginRight="15dp"
+		android:layout_marginTop="5dp"
+		android:visibility="gone"/>
+    
+    <Button
+	    android:id="@+id/button_view_games"
+	    android:onClick="onViewGamesClicked"
+	    android:text="@string/view_games" 
+	    android:visibility="gone"
+	    style="@style/ButtonMenuItem"
+	    android:layout_below="@id/button_create_game"
+	    android:layout_marginBottom="20dp"
+       	android:layout_marginRight="20dp"/>
+
+
+</RelativeLayout>

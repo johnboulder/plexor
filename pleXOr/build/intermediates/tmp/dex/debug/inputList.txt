@@ -1,0 +1,6 @@
+C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\classes\debug
+C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-617a52e772c94119f799fe23329aa63fdc13a589.jar
+C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\classes-94aef85d227c19111b3fe1bc1fa42be013f5f988.jar
+C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-0f85204cae0a783d74673f66094f026d4039b681.jar
+C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\classes-f5977de355b1db475eac7e1ebbff652f23c4b5d1.jar
+C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\classes-28468320b68216e54ddd49fae20cef6e76ede29f.jar

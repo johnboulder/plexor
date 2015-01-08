@@ -125,7 +125,7 @@ public class MatchLocal extends Activity
 							{
 								/* TODO not sure whether we should make this call or, just call something that
 								 * disables all the blocks so the first player can't make a move again.
-								 * */
+								 */
 								updateVisuals();
 
 								selectedRow = i;
@@ -336,8 +336,30 @@ public class MatchLocal extends Activity
 
 			deSerializeBoard(matchData.serializedBoard);
 
+			for(int i = 0; i<3; i++)
+			{
+				for(int j = 0; j<3; j++)
+				{
+					Block localBlock = board[i][j];
+					localBlock.checkForWin();
+
+					if (localBlock.getWinStatus())
+					{
+						setBlockValue(i, j, localBlock.getWinner(), localBlock);
+						//setBlockValue(i, j, localBlock);
+					}
+				}
+			}
+
 			currentBlock = board[currentBlockRow][currentBlockCol];
+
 			lockVisuals(matchData.lastMoveX - currentBlockRow * 3, matchData.lastMoveY - currentBlockCol * 3);
+
+			if(currentBlock.getWinStatus())
+			{
+				nextTurnSelectABlock = true;
+				enableAllBlocks();
+			}
 		}
 	}
 
@@ -647,6 +669,7 @@ public class MatchLocal extends Activity
 				if (i.matchName.equals(matchData.matchName))
 				{
 					matchList.remove(i);
+					break;
 				}
 			}
 
@@ -888,6 +911,49 @@ public class MatchLocal extends Activity
 	 * Sets the value of the current block. Uses the greaterBoard variable and sets the value at
 	 * the current row and column to the winner in the block
 	 */
+	private boolean setBlockValue(int localBlockRow, int localBlockCol, Block localBlock)
+	{
+		try
+		{
+			greaterBoard.setSquare(localBlockRow, localBlockCol, localBlock.getWinner());
+
+			String winner = localBlock.getWinner();
+
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					//ViewArray[j + i * 3][l + k * 3].setText(localBlock[j][l] != Block.empty ? localBlock[j][l] : "#");
+					localBlock.clearSquare(i, j);
+					localBlock.setSquare(i, j, winner);
+				}
+			}
+
+			/* The following creates a simple animation which appears as a spiral when a block is won */
+			ViewArray[3 * localBlockRow][3 * localBlockCol].setText(winner);
+			ViewArray[3 * localBlockRow][1 + 3 * localBlockCol].setText(winner);
+			ViewArray[3 * localBlockRow][2 + 3 * localBlockCol].setText(winner);
+
+			ViewArray[1 + 3 * localBlockRow][2 + 3 * localBlockCol].setText(winner);
+			ViewArray[2 + 3 * localBlockRow][2 + 3 * localBlockCol].setText(winner);
+			ViewArray[2 + 3 * localBlockRow][1 + 3 * localBlockCol].setText(winner);
+
+			ViewArray[2 + 3 * localBlockRow][3 * localBlockCol].setText(winner);
+			ViewArray[1 + 3 * localBlockRow][3 * localBlockCol].setText(winner);
+			ViewArray[1 + 3 * localBlockRow][1 + 3 * localBlockCol].setText(winner);
+
+			return true;
+		}
+		catch (CannotPlaceValueException cpve)
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Sets the value of the current block. Uses the greaterBoard variable and sets the value at
+	 * the current row and column to the winner in the block
+	 */
 	private boolean setCurrentBlockValue()
 	{
 		try
@@ -918,8 +984,6 @@ public class MatchLocal extends Activity
 			ViewArray[2 + 3 * currentBlockRow][3 * currentBlockCol].setText(winner);
 			ViewArray[1 + 3 * currentBlockRow][3 * currentBlockCol].setText(winner);
 			ViewArray[1 + 3 * currentBlockRow][1 + 3 * currentBlockCol].setText(winner);
-
-			nextTurnSelectABlock = true;
 
 			return true;
 		}

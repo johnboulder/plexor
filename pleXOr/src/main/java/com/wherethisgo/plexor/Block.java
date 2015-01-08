@@ -39,102 +39,102 @@ public class Block
 
 	public String checkForWin()
 	{
-		if (board[0][0] == "X" && board[0][1] == "X" && board[0][2] == "X")
+		if (board[0][0].equals("X") && board[0][1].equals("X") && board[0][2].equals("X"))
 		{
 			this.won = true;
 			this.winner = "X";
 			return "X";
 		}
-		if (board[1][0] == "X" && board[1][1] == "X" && board[1][2] == "X")
+		if (board[1][0].equals("X") && board[1][1].equals("X") && board[1][2].equals("X"))
 		{
 			this.won = true;
 			this.winner = "X";
 			return "X";
 		}
-		if (board[2][0] == "X" && board[2][1] == "X" && board[2][2] == "X")
-		{
-			this.won = true;
-			this.winner = "X";
-			return "X";
-		}
-
-		if (board[0][0] == "X" && board[1][1] == "X" && board[2][2] == "X")
-		{
-			this.won = true;
-			this.winner = "X";
-			return "X";
-		}
-		if (board[2][0] == "X" && board[1][1] == "X" && board[0][2] == "X")
+		if (board[2][0].equals("X") && board[2][1].equals("X") && board[2][2].equals("X"))
 		{
 			this.won = true;
 			this.winner = "X";
 			return "X";
 		}
 
-		if (board[0][0] == "X" && board[1][0] == "X" && board[2][0] == "X")
+		if (board[0][0].equals("X") && board[1][1].equals("X") && board[2][2].equals("X"))
 		{
 			this.won = true;
 			this.winner = "X";
 			return "X";
 		}
-		if (board[0][1] == "X" && board[1][1] == "X" && board[2][1] == "X")
-		{
-			this.won = true;
-			this.winner = "X";
-			return "X";
-		}
-		if (board[0][2] == "X" && board[1][2] == "X" && board[2][2] == "X")
+		if (board[2][0].equals("X") && board[1][1].equals("X") && board[0][2].equals("X"))
 		{
 			this.won = true;
 			this.winner = "X";
 			return "X";
 		}
 
-		if (board[0][0] == "O" && board[0][1] == "O" && board[0][2] == "O")
+		if (board[0][0].equals("X") && board[1][0].equals("X") && board[2][0].equals("X"))
+		{
+			this.won = true;
+			this.winner = "X";
+			return "X";
+		}
+		if (board[0][1].equals("X") && board[1][1].equals("X") && board[2][1].equals("X"))
+		{
+			this.won = true;
+			this.winner = "X";
+			return "X";
+		}
+		if (board[0][2].equals("X") && board[1][2].equals("X") && board[2][2].equals("X"))
+		{
+			this.won = true;
+			this.winner = "X";
+			return "X";
+		}
+
+		if (board[0][0].equals("O") && board[0][1].equals("O") && board[0][2].equals("O"))
 		{
 			this.won = true;
 			this.winner = "O";
 			return "O";
 		}
-		if (board[1][0] == "O" && board[1][1] == "O" && board[1][2] == "O")
+		if (board[1][0].equals("O") && board[1][1].equals("O") && board[1][2].equals("O"))
 		{
 			this.won = true;
 			this.winner = "O";
 			return "O";
 		}
-		if (board[2][0] == "O" && board[2][1] == "O" && board[2][2] == "O")
+		if (board[2][0].equals("O") && board[2][1].equals("O") && board[2][2].equals("O"))
 		{
 			this.won = true;
 			this.winner = "O";
 			return "O";
 		}
 
-		if (board[0][0] == "O" && board[1][1] == "O" && board[2][2] == "O")
+		if (board[0][0].equals("O") && board[1][1].equals("O") && board[2][2].equals("O"))
 		{
 			this.won = true;
 			this.winner = "O";
 			return "O";
 		}
-		if (board[2][0] == "O" && board[1][1] == "O" && board[0][2] == "O")
+		if (board[2][0].equals("O") && board[1][1].equals("O") && board[0][2].equals("O"))
 		{
 			this.won = true;
 			this.winner = "O";
 			return "O";
 		}
 
-		if (board[0][0] == "O" && board[1][0] == "O" && board[2][0] == "O")
+		if (board[0][0].equals("O") && board[1][0].equals("O") && board[2][0].equals("O"))
 		{
 			this.won = true;
 			this.winner = "O";
 			return "O";
 		}
-		if (board[0][1] == "O" && board[1][1] == "O" && board[2][1] == "O")
+		if (board[0][1].equals("O") && board[1][1].equals("O") && board[2][1].equals("O"))
 		{
 			this.won = true;
 			this.winner = "O";
 			return "O";
 		}
-		if (board[0][2] == "O" && board[1][2] == "O" && board[2][2] == "O")
+		if (board[0][2].equals("O") && board[1][2].equals("O") && board[2][2].equals("O"))
 		{
 			this.won = true;
 			this.winner = "O";

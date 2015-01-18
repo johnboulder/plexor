@@ -1,8 +1,9 @@
 package com.wherethisgo.plexor;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -13,6 +14,12 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -32,11 +39,12 @@ import java.util.Random;
 /**
  *
  */
-public class MatchLocal extends Activity
+public class MatchLocal extends MainActivity
 {
 
 	final String LETTER_O = "O";
 	final String LETTER_X = "X";
+	public PlexorTurn mTurnData;
 	// private String grid[][]= new String [9][9];
 	EditText ViewArray[][] = new EditText[9][9];
 	Drawable DEFAULT_COLOR;
@@ -64,6 +72,11 @@ public class MatchLocal extends Activity
 	private boolean nextTurnSelectABlock = false;
 	private boolean gameFinished         = false;
 	private String player, firstPlayer, secondPlayer;
+	private boolean multiplayerMatch = false;
+	private Context        context;
+	// This is the current match we're in; null if not loaded
+	private TurnBasedMatch mMatch;
+	private       boolean         isDoingTurn     = false;
 	/**
 	 *
 	 */
@@ -74,7 +87,7 @@ public class MatchLocal extends Activity
 		public boolean onTouch(View v, MotionEvent event)
 		{
 			int action = event.getActionMasked();
-			if (!gameWon() && v.isEnabled() && !gameFinished && action == MotionEvent.ACTION_DOWN)
+			if (!gameWon() && v.isEnabled() && !gameFinished && action == MotionEvent.ACTION_DOWN && isDoingTurn)
 			{
 				for (int i = 0; i < 9; i++)
 				{
@@ -167,6 +180,8 @@ public class MatchLocal extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game_board);
+
+		context = getApplicationContext();
 
 		ViewArray[0][0] = (EditText) findViewById(R.id.TextBoxR1C1);
 		ViewArray[0][1] = (EditText) findViewById(R.id.TextBoxR1C2);
@@ -307,7 +322,25 @@ public class MatchLocal extends Activity
 		firstPlayer = LETTER_X;
 		secondPlayer = LETTER_O;
 
-		if (matchData == null)
+		// TODO implement stuff in ActiveGamesList to handle the passing of this extra
+		// TODO will the variable 'matchData' be initialized here? or passed into the Globals?
+		if (getIntent().hasExtra(EXTRA_MATCH_DATA))
+		{
+			TurnBasedMatch match = getIntent().getParcelableExtra(EXTRA_MATCH_DATA);
+			// TODO setup class so we're only using one version of the match
+			mMatch = match;
+			matchData = PlexorTurn.unpersist(mMatch.getData());
+			multiplayerMatch = true;
+		}
+		else
+		{
+			multiplayerMatch = false;
+			// Player is always doing turn when the game is not multiplayer
+			isDoingTurn = true;
+		}
+
+		// Initialize data for a new game that's been started
+		if (matchData == null || mMatch.getData() == null)
 		{
 			player = firstPlayer;
 
@@ -323,6 +356,8 @@ public class MatchLocal extends Activity
 			lockVisuals(currentBlockRow, currentBlockCol);
 			matchData = new PlexorTurn();
 		}
+
+		// Initialize data specific to a match that has already started
 		else
 		{
 			player = matchData.firstPlayer;
@@ -336,9 +371,9 @@ public class MatchLocal extends Activity
 
 			deSerializeBoard(matchData.serializedBoard);
 
-			for(int i = 0; i<3; i++)
+			for (int i = 0; i < 3; i++)
 			{
-				for(int j = 0; j<3; j++)
+				for (int j = 0; j < 3; j++)
 				{
 					Block localBlock = board[i][j];
 					localBlock.checkForWin();
@@ -355,12 +390,141 @@ public class MatchLocal extends Activity
 
 			lockVisuals(matchData.lastMoveX - currentBlockRow * 3, matchData.lastMoveY - currentBlockCol * 3);
 
-			if(currentBlock.getWinStatus())
+			if (currentBlock.getWinStatus())
 			{
 				nextTurnSelectABlock = true;
 				enableAllBlocks();
 			}
+
+			if (multiplayerMatch)
+			{
+				int turnStatus = mMatch.getTurnStatus();
+				isDoingTurn = false;
+				switch (turnStatus)
+				{
+					case TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN:
+						isDoingTurn = true;
+
+						initializeMatchOnUpdate();
+
+						return;
+					case TurnBasedMatch.MATCH_TURN_STATUS_THEIR_TURN:
+					{
+						isDoingTurn = false;
+
+						initializeMatchOnUpdate();
+
+						return;
+					}
+					//TODO investigate when this turn status is given
+					case TurnBasedMatch.MATCH_TURN_STATUS_INVITED:
+						showWarning("Good inititative!", "Still waiting for invitations.\n\nBe patient!");
+				}
+			}
+
+			// Connect to google
+			new AsyncTask<Void, Void, Void>()
+			{
+
+				@Override
+				protected Void doInBackground(Void... params)
+				{
+					ConnectionResult cr = getApiClient().blockingConnect();
+					//dismissSpinner();
+					if (!cr.isSuccess())
+					{
+						showWarning("Connection Failed", "Could not connect to google api client");
+					}
+					/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
+					String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+					String myParticipantId = mMatch.getParticipantId(playerId);
+					mTurnData.firstPlayer = myParticipantId;
+					return null;
+				}
+
+				@Override
+				protected void onPostExecute(Void result)
+				{
+					dismissSpinner();
+				}
+
+			}.execute();
 		}
+	}
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+
+		if (lastRow != null && lastCol != null)
+		{
+			// Some basic turn data
+			matchData.serializedBoard = serializeBoard();
+			matchData.matchName = matchName;
+			// TODO check for initializations
+			matchData.lastMoveX = lastRow;
+			matchData.lastMoveY = lastCol;
+			// Put the player whose turn it is to go in the firstPlayer variable
+			matchData.firstPlayer = player;
+
+			ArrayList<PlexorTurn> matchList;
+
+			String matchListPath = getFilesDir().getPath() + File.separator + "matches" + File.separator + "matchList.plx";
+			File gamesListFile = new File(matchListPath);
+
+			// Read the matchList from file so we can update it
+			try
+			{
+				InputStream file = new FileInputStream(gamesListFile);
+				InputStream buffer = new BufferedInputStream(file);
+				ObjectInput input = new ObjectInputStream(buffer);
+				matchList = (ArrayList<PlexorTurn>) input.readObject();
+				input.close();
+				buffer.close();
+				file.close();
+			}
+			catch (IOException | ClassNotFoundException ex)
+			{
+				ex.printStackTrace();
+				// Create the folder we need
+				if (!(new File(getFilesDir().getPath() + File.separator + "matches").mkdir()))
+				{
+					Log.e("plexor", "matches folder created");
+				}
+				matchList = new ArrayList<>();
+			}
+
+			// Update the matchList
+			for (PlexorTurn i : matchList)
+			{
+				if (i.matchName.equals(matchData.matchName))
+				{
+					matchList.remove(i);
+					break;
+				}
+			}
+
+			matchList.add(matchData);
+
+			// Write the list of games to a file
+			try
+			{
+				File matchListFile = new File(matchListPath);
+				OutputStream file = new FileOutputStream(matchListFile);
+				OutputStream buffer = new BufferedOutputStream(file);
+				ObjectOutput output = new ObjectOutputStream(buffer);
+				output.writeObject(matchList);
+				output.close();
+				buffer.close();
+				file.close();
+			}
+			catch (IOException ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+		Globals.turnData = null;
 	}
 
 	/**
@@ -372,6 +536,11 @@ public class MatchLocal extends Activity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.play_puzzles, menu);
 		return true;
+	}
+
+	private void dismissSpinner()
+	{
+		findViewById(R.id.progressLayout).setVisibility(View.GONE);
 	}
 
 	/**
@@ -571,7 +740,7 @@ public class MatchLocal extends Activity
 	public void confirmMove()
 	{
 		/* TODO
-		 * We want this method to 
+		 * We want this method to
 		 * - Confirm our move placement with a popup dialog
 		 * - Send the move data to the server
 		 */
@@ -586,26 +755,79 @@ public class MatchLocal extends Activity
 
 			lockVisuals(selectedRow - currentBlockRow * 3, selectedCol - currentBlockCol * 3);
 
-			lastRow = selectedRow;
-			lastCol = selectedCol;
-
-			selectedRow = null;
-			selectedCol = null;
-
-			if (player.equals(firstPlayer))
+			if (multiplayerMatch)
 			{
-				player = secondPlayer;
-			} else
-			{
-				player = firstPlayer;
+				// Some basic turn data
+				mTurnData.serializedBoard = serializeBoard();
+				// TODO confirm that selectedRow and selectedCol are not null at this point.
+				mTurnData.lastMoveX = selectedRow;
+				mTurnData.lastMoveY = selectedCol;
+				if (player.equals(firstPlayer))
+				{
+					mTurnData.firstPlayer = secondPlayer;
+				}
+				else
+				{
+					mTurnData.firstPlayer = firstPlayer;
+				}
+
+				/* gets the id of the next participant. next participant is NULL on first move, and will have the participant ID on every other move*/
+				String nextParticipant = getNextParticipantID();
+
+				Games.TurnBasedMultiplayer.takeTurn(getApiClient(), mMatch.getMatchId(), mTurnData.persist(), nextParticipant /*The ID of the player who's turn is next*/).setResultCallback(new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>()
+				{
+					@Override
+					public void onResult(TurnBasedMultiplayer.UpdateMatchResult result)
+					{
+						processResult(result);
+					}
+				});
 			}
-		} else
+			else
+			{
+				lastRow = selectedRow;
+				lastCol = selectedCol;
+
+				selectedRow = null;
+				selectedCol = null;
+
+				if (player.equals(firstPlayer))
+				{
+					player = secondPlayer;
+				}
+				else
+				{
+					player = firstPlayer;
+				}
+			}
+		}
+		else
 		{
 			/*
 			 * TODO
 			 * output a toast saying that the player has to select a square
 			 */
 		}
+	}
+
+	/**
+	 *
+	 */
+	public String getNextParticipantID()
+	{
+		String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+		String myId = mMatch.getParticipantId(playerId);
+
+		String firstPlayer = mTurnData.firstPlayer;
+		if (myId == firstPlayer)
+		{
+			return mTurnData.secondPlayer;
+		}
+		else
+		{
+			return firstPlayer;
+		}
+
 	}
 
 	/**
@@ -617,82 +839,6 @@ public class MatchLocal extends Activity
 		int temp = col + 1;
 		int value = temp + (row * 3);
 		return value;
-	}
-
-	// TODO get working
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-
-		if(lastRow != null)
-		{
-			// Some basic turn data
-			matchData.serializedBoard = serializeBoard();
-			matchData.matchName = matchName;
-			// TODO check for initializations
-			matchData.lastMoveX = lastRow;
-			matchData.lastMoveY = lastCol;
-			// Put the player whose turn it is to go in the firstPlayer variable
-			matchData.firstPlayer = player;
-
-			ArrayList<PlexorTurn> matchList;
-
-			String matchListPath = getFilesDir().getPath() + File.separator + "matches" + File.separator + "matchList.plx";
-			File gamesListFile = new File(matchListPath);
-
-			// Read the matchList from file so we can update it
-			try
-			{
-				InputStream file = new FileInputStream(gamesListFile);
-				InputStream buffer = new BufferedInputStream(file);
-				ObjectInput input = new ObjectInputStream(buffer);
-				matchList = (ArrayList<PlexorTurn>) input.readObject();
-				input.close();
-				buffer.close();
-				file.close();
-			}
-			catch (IOException | ClassNotFoundException ex)
-			{
-				ex.printStackTrace();
-				// Create the folder we need
-				if (!(new File(getFilesDir().getPath() + File.separator + "matches").mkdir()))
-				{
-					Log.e("plexor", "matches folder created");
-				}
-				matchList = new ArrayList<>();
-			}
-
-			// Update the matchList
-			for (PlexorTurn i : matchList)
-			{
-				if (i.matchName.equals(matchData.matchName))
-				{
-					matchList.remove(i);
-					break;
-				}
-			}
-
-			matchList.add(matchData);
-
-			// Write the list of games to a file
-			try
-			{
-				File matchListFile = new File(matchListPath);
-				OutputStream file = new FileOutputStream(matchListFile);
-				OutputStream buffer = new BufferedOutputStream(file);
-				ObjectOutput output = new ObjectOutputStream(buffer);
-				output.writeObject(matchList);
-				output.close();
-				buffer.close();
-				file.close();
-			}
-			catch (IOException ex)
-			{
-				ex.printStackTrace();
-			}
-		}
-		Globals.turnData = null;
 	}
 
 	/**
@@ -758,7 +904,7 @@ public class MatchLocal extends Activity
 					for (int l = 0; l < 3; l++) // hits 0,1,2 - 27 times
 					{
 						// if the char at the block is not the empty value, set the value equal to the character at that position
-						if(!String.valueOf(serializedBoard.charAt(count)).equals(Block.empty))
+						if (!String.valueOf(serializedBoard.charAt(count)).equals(Block.empty))
 						{
 							setSquareValueOfBlock(board[i][k], j, l, String.valueOf(serializedBoard.charAt(count)));
 						}
@@ -787,6 +933,205 @@ public class MatchLocal extends Activity
 			toast.show();
 			return false;
 		}
+	}
+
+	// This is the main function that gets called when players choose a match
+	// from the inbox, or else create a match and want to start it.
+	/*TODO add handling for the bitmask that is passed from the roomConfig call on line 186 in mainActivity*/
+	public void updateMatch(TurnBasedMatch match)
+	{
+		/**
+		 * What we need this TODO
+		 * -Initialize all the backend stuff that can't be initialized from local values
+		 */
+
+		mMatch = match;
+
+		int status = match.getStatus();
+		int turnStatus = match.getTurnStatus();
+
+		switch (status)
+		{
+			case TurnBasedMatch.MATCH_STATUS_CANCELED:
+				showWarning("Canceled!", "This game was canceled!");
+				return;
+			case TurnBasedMatch.MATCH_STATUS_EXPIRED:
+				showWarning("Expired!", "This game is expired.  So sad!");
+				return;
+			case TurnBasedMatch.MATCH_STATUS_AUTO_MATCHING:
+				showWarning("Waiting for auto-match...", "We're still waiting for an automatch partner.");
+				return;
+			case TurnBasedMatch.MATCH_STATUS_COMPLETE:
+				if (turnStatus == TurnBasedMatch.MATCH_TURN_STATUS_COMPLETE)
+				{
+					showWarning("Complete!", "This game is over; someone finished it, and so did you!  There is nothing to be done.");
+					break;
+				}
+
+				// Note that in this state, you must still call "Finish" yourself, so we allow this to continue.
+				showWarning("Complete!", "This game is over; someone finished it!  You can only close it now.");
+		}
+
+		// OK, it's active. Check on turn status.
+		switch (turnStatus)
+		{
+			case TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN:
+				isDoingTurn = true;
+
+				initializeMatchOnUpdate();
+
+				return;
+			case TurnBasedMatch.MATCH_TURN_STATUS_THEIR_TURN:
+			{
+				isDoingTurn = false;
+
+				initializeMatchOnUpdate();
+
+				return;
+			}
+			//TODO investigate when this turn status is given
+			case TurnBasedMatch.MATCH_TURN_STATUS_INVITED:
+				showWarning("Good inititative!", "Still waiting for invitations.\n\nBe patient!");
+		}
+
+		mTurnData = null;
+	}
+
+	public void processResult(TurnBasedMultiplayer.UpdateMatchResult result)
+	{
+		TurnBasedMatch match = result.getMatch();
+
+		if (!checkStatusCode(match, result.getStatus().getStatusCode()))
+		{
+			return;
+		}
+		if (match.canRematch())
+		{
+			//askForRematch();
+		}
+
+		/*TODO Error occurring here when a move is confirmed where getTurnStatus is returning that it is this player's turn,
+		 * when in fact it should not be because the first move was cast and it should be the next player's turn*/
+		isDoingTurn = (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN);
+
+		if (isDoingTurn)
+		{
+			updateMatch(match);
+			return;
+		}
+	}
+
+	private void initializeMatchOnUpdate()
+	{
+		mTurnData = PlexorTurn.unpersist(mMatch.getData());
+
+		if (mTurnData.secondPlayer == null)
+		{
+			String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+			String myParticipantId = mMatch.getParticipantId(playerId);
+
+			String firstPlayerParticipantId = mTurnData.firstPlayer;
+			if (firstPlayerParticipantId != myParticipantId)
+			{
+				mTurnData.secondPlayer = myParticipantId;
+			}
+		}
+
+		// Determines and sets the current player
+		determineCurrentPlayer();
+
+		/* Represents the row and column of the currently selected block within the 3x3 greaterBoard.
+		 * Modulo the last move positions by 3 to find the current blockRow and column*/
+		currentBlockRow = mTurnData.lastMoveX % 3;
+		currentBlockCol = mTurnData.lastMoveY % 3;
+
+		nextTurnSelectABlock = mTurnData.nextTurnSelectABlock;
+
+		deSerializeBoard(mTurnData.serializedBoard);
+		updateGreaterBoard();
+
+		if (nextTurnSelectABlock)
+		{
+			/*TODO
+			 * reveal a title that tells the user to select a block.*/
+			enableAllBlocks();
+			//highlightSelectableBlocks();
+		}
+		/* nextTurnSelectABlock is false, so we have a current block to now update the visuals with*/
+		else
+		{
+			// Sets the starting block
+			currentBlock = board[currentBlockRow][currentBlockCol];
+			/*Enables the current block and disables all others*/
+			lockVisuals(currentBlockRow, currentBlockCol);
+		}
+	}
+
+	/**
+	 * Determines which player it is right now that's making the move.
+	 * So we know what visual thing the player will be placing on the board when they touch the screen.
+	 */
+	private void determineCurrentPlayer()
+	{
+		/*TODO change this so that global values aren't changed automatically*/
+		new AsyncTask<Void, Void, Void>()
+		{
+
+			@Override
+			protected Void doInBackground(Void... params)
+			{
+				ConnectionResult cr = getApiClient().blockingConnect();
+				//dismissSpinner();
+				if (!cr.isSuccess())
+				{
+					showWarning("Connection Failed", "Could not connect to google api client");
+				}
+				/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
+				String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+				String myParticipantId = mMatch.getParticipantId(playerId);
+
+				String firstPlayerParticipantId = mTurnData.firstPlayer;
+				if (firstPlayerParticipantId == myParticipantId)
+				{
+					player = firstPlayer;
+					return null;
+				}
+
+				player = secondPlayer;
+
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result)
+			{
+				dismissSpinner();
+			}
+
+		}.execute();
+	}
+
+	private void updateGreaterBoard()
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				board[i][j].checkForWin();
+
+				if (board[i][j].getWinStatus())
+				{
+					setBlockValue(i, j, board[i][j]);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void onSignInSucceeded()
+	{
+		// Don't do shit.
+		return;
 	}
 
 	/**
@@ -1015,7 +1360,8 @@ public class MatchLocal extends Activity
 		if (i == 0)
 		{
 			return true;
-		} else
+		}
+		else
 		{
 			return false;
 		}

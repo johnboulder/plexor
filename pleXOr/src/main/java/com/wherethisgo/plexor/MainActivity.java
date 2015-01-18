@@ -351,7 +351,7 @@ public class MainActivity extends BaseGameActivity
 
 	public void openMatchView(TurnBasedMatch match)
 	{
-		Intent intent = new Intent(this, Match.class);
+		Intent intent = new Intent(this, MatchLocal.class);
 		// Pass match data to the activity
 		intent.putExtra(EXTRA_MATCH_DATA, match);
 		startActivity(intent);

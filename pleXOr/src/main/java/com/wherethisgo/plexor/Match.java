@@ -59,14 +59,14 @@ public class Match extends MainActivity
 	private Integer selectedCol;
 	private Integer selectedRow;
 	// Is the player currently performing a move
-	private boolean isDoingTurn = false;
+	private boolean isDoingTurn          = false;
 	private boolean nextTurnSelectABlock = false;
 	// This is the current match we're in; null if not loaded
 	private TurnBasedMatch mMatch;
 	// Local convenience pointers
-	private TextView mDataView;
-	private TextView mTurnTextView;
-	private String player, firstPlayer, secondPlayer;
+	private TextView       mDataView;
+	private TextView       mTurnTextView;
+	private String         player, firstPlayer, secondPlayer;
 
 	// boolean playerIsX = true;
 	/**
@@ -117,7 +117,8 @@ public class Match extends MainActivity
 								 * setSquareValue outputs a toast when the value cannot be placed
 								 */
 								return false;
-							} else
+							}
+							else
 							{
 								/* TODO not sure whether we should make this call or, just call something that
 								 * disables all the blocks so the first player can't make a move again.
@@ -134,7 +135,8 @@ public class Match extends MainActivity
 						}
 					}
 				}
-			} else if (nextTurnSelectABlock)
+			}
+			else if (nextTurnSelectABlock)
 			{
 				/*
 				 * #########################################################################
@@ -316,7 +318,7 @@ public class Match extends MainActivity
 		/*It's the first move of this game. So we have to initialize some stuff to starting values*/
 		else
 		{
-            /* These values represent the current block's coordinates within the 3x3 greaterBoard.
+			/* These values represent the current block's coordinates within the 3x3 greaterBoard.
 			 * Game starts in the middle block.*/
 			currentBlockCol = 1;
 			currentBlockRow = 1;
@@ -366,6 +368,17 @@ public class Match extends MainActivity
 
 		}
 
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.play_puzzles, menu);
+		return true;
 	}
 
 	private void showSpinner()
@@ -420,7 +433,8 @@ public class Match extends MainActivity
 		if (myId == firstPlayer)
 		{
 			return mTurnData.secondPlayer;
-		} else
+		}
+		else
 		{
 			return firstPlayer;
 		}
@@ -571,17 +585,6 @@ public class Match extends MainActivity
 				}
 			}
 		}
-	}
-
-	/**
-	 *
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.play_puzzles, menu);
-		return true;
 	}
 
 	/**
@@ -884,7 +887,8 @@ public class Match extends MainActivity
 		if (value.length() == 0)
 		{
 			newValue = 0;
-		} else
+		}
+		else
 		{
 			switch (value.charAt(0))
 			{
@@ -1289,7 +1293,8 @@ public class Match extends MainActivity
 		if (i == 0)
 		{
 			return true;
-		} else
+		}
+		else
 		{
 			return false;
 		}

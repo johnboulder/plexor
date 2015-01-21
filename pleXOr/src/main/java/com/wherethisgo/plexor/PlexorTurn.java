@@ -41,6 +41,7 @@ public class PlexorTurn implements Serializable
 	public int lastMoveY;
 	public int turnCounter;
 	public boolean nextTurnSelectABlock = false;
+	public boolean multiplayerMatch     = false;
 	public String  firstPlayer          = null;
 	public String  secondPlayer         = null;
 	public String  matchName            = null;
@@ -86,6 +87,10 @@ public class PlexorTurn implements Serializable
 			if (obj.has("serializedBoard"))
 			{
 				retVal.serializedBoard = obj.getString("serializedBoard");
+			}
+			if (obj.has("multiplayerMatch"))
+			{
+				retVal.multiplayerMatch = obj.getBoolean("multiplayerMatch");
 			}
 			if (obj.has("matchName"))
 			{
@@ -134,6 +139,7 @@ public class PlexorTurn implements Serializable
 		try
 		{
 			retVal.put("serializedBoard", serializedBoard);
+			retVal.put("multiplayerMatch", multiplayerMatch);
 			retVal.put("matchName", matchName);
 			retVal.put("turnCounter", turnCounter);
 			retVal.put("lastMoveX", lastMoveX);
@@ -163,6 +169,7 @@ public class PlexorTurn implements Serializable
 		stream.writeInt(lastMoveY);
 		stream.writeInt(turnCounter);
 		stream.writeBoolean(nextTurnSelectABlock);
+		stream.writeBoolean(multiplayerMatch);
 		stream.writeObject(firstPlayer);
 		stream.writeObject(secondPlayer);
 	}
@@ -175,6 +182,7 @@ public class PlexorTurn implements Serializable
 		lastMoveY = stream.readInt();
 		turnCounter = stream.readInt();
 		nextTurnSelectABlock = stream.readBoolean();
+		multiplayerMatch = stream.readBoolean();
 		firstPlayer = (String) stream.readObject();
 		secondPlayer = (String) stream.readObject();
 	}

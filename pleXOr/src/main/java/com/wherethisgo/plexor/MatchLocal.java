@@ -336,11 +336,11 @@ public class MatchLocal extends MainActivity
 		{
 			multiplayerMatch = false;
 			// Player is always doing turn when the game is not multiplayer
-			isDoingTurn = true;
+			isDoingTurn = true;;
 		}
 
 		// Initialize data for a new game that's been started
-		if (matchData == null || mMatch.getData() == null)
+		if (matchData.turnCounter == 0) //mMatch.getData().equals(null)
 		{
 			player = firstPlayer;
 
@@ -420,35 +420,36 @@ public class MatchLocal extends MainActivity
 					case TurnBasedMatch.MATCH_TURN_STATUS_INVITED:
 						showWarning("Good inititative!", "Still waiting for invitations.\n\nBe patient!");
 				}
+
+				// Connect to google
+				new AsyncTask<Void, Void, Void>()
+				{
+
+					@Override
+					protected Void doInBackground(Void... params)
+					{
+						ConnectionResult cr = getApiClient().blockingConnect();
+						//dismissSpinner();
+						if (!cr.isSuccess())
+						{
+							showWarning("Connection Failed", "Could not connect to google api client");
+						}
+					/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
+						String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+						String myParticipantId = mMatch.getParticipantId(playerId);
+						mTurnData.firstPlayer = myParticipantId;
+						return null;
+					}
+
+					@Override
+					protected void onPostExecute(Void result)
+					{
+						dismissSpinner();
+					}
+
+				}.execute();
 			}
 
-			// Connect to google
-			new AsyncTask<Void, Void, Void>()
-			{
-
-				@Override
-				protected Void doInBackground(Void... params)
-				{
-					ConnectionResult cr = getApiClient().blockingConnect();
-					//dismissSpinner();
-					if (!cr.isSuccess())
-					{
-						showWarning("Connection Failed", "Could not connect to google api client");
-					}
-					/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
-					String playerId = Games.Players.getCurrentPlayerId(getApiClient());
-					String myParticipantId = mMatch.getParticipantId(playerId);
-					mTurnData.firstPlayer = myParticipantId;
-					return null;
-				}
-
-				@Override
-				protected void onPostExecute(Void result)
-				{
-					dismissSpinner();
-				}
-
-			}.execute();
 		}
 	}
 

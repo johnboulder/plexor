@@ -44,7 +44,6 @@ public class MatchLocal extends MainActivity
 
 	final String LETTER_O = "O";
 	final String LETTER_X = "X";
-	public PlexorTurn mTurnData;
 	// private String grid[][]= new String [9][9];
 	EditText ViewArray[][] = new EditText[9][9];
 	Drawable DEFAULT_COLOR;
@@ -300,11 +299,9 @@ public class MatchLocal extends MainActivity
 			matchName = getIntent().getExtras().getString("matchName");
 		}
 
-		if (Globals.turnData != null)
-		{
-			matchData = Globals.turnData;
-			matchName = matchData.matchName;
-		}
+		// turnData should ALWAYS have a value so we can differentiate between multiplayer and local matches
+		matchData = Globals.turnData;
+		matchName = matchData.matchName;
 
 		/* Init game variables */
 		board = new Block[3][3];
@@ -437,7 +434,7 @@ public class MatchLocal extends MainActivity
 					/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
 						String playerId = Games.Players.getCurrentPlayerId(getApiClient());
 						String myParticipantId = mMatch.getParticipantId(playerId);
-						mTurnData.firstPlayer = myParticipantId;
+						matchData.firstPlayer = myParticipantId;
 						return null;
 					}
 
@@ -525,6 +522,7 @@ public class MatchLocal extends MainActivity
 				ex.printStackTrace();
 			}
 		}
+		// We're leaving the activity, so turnData should be cleared.
 		Globals.turnData = null;
 	}
 
@@ -747,6 +745,7 @@ public class MatchLocal extends MainActivity
 		 */
 		if (selectedRow != null && selectedCol != null)
 		{
+			matchData.turnCounter+=1;
 			currentBlock.checkForWin();
 
 			if (currentBlock.getWinStatus())
@@ -759,23 +758,23 @@ public class MatchLocal extends MainActivity
 			if (multiplayerMatch)
 			{
 				// Some basic turn data
-				mTurnData.serializedBoard = serializeBoard();
+				matchData.serializedBoard = serializeBoard();
 				// TODO confirm that selectedRow and selectedCol are not null at this point.
-				mTurnData.lastMoveX = selectedRow;
-				mTurnData.lastMoveY = selectedCol;
+				matchData.lastMoveX = selectedRow;
+				matchData.lastMoveY = selectedCol;
 				if (player.equals(firstPlayer))
 				{
-					mTurnData.firstPlayer = secondPlayer;
+					matchData.firstPlayer = secondPlayer;
 				}
 				else
 				{
-					mTurnData.firstPlayer = firstPlayer;
+					matchData.firstPlayer = firstPlayer;
 				}
 
 				/* gets the id of the next participant. next participant is NULL on first move, and will have the participant ID on every other move*/
 				String nextParticipant = getNextParticipantID();
 
-				Games.TurnBasedMultiplayer.takeTurn(getApiClient(), mMatch.getMatchId(), mTurnData.persist(), nextParticipant /*The ID of the player who's turn is next*/).setResultCallback(new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>()
+				Games.TurnBasedMultiplayer.takeTurn(getApiClient(), mMatch.getMatchId(), matchData.persist(), nextParticipant /*The ID of the player who's turn is next*/).setResultCallback(new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>()
 				{
 					@Override
 					public void onResult(TurnBasedMultiplayer.UpdateMatchResult result)
@@ -819,10 +818,10 @@ public class MatchLocal extends MainActivity
 		String playerId = Games.Players.getCurrentPlayerId(getApiClient());
 		String myId = mMatch.getParticipantId(playerId);
 
-		String firstPlayer = mTurnData.firstPlayer;
+		String firstPlayer = matchData.firstPlayer;
 		if (myId == firstPlayer)
 		{
-			return mTurnData.secondPlayer;
+			return matchData.secondPlayer;
 		}
 		else
 		{
@@ -995,7 +994,7 @@ public class MatchLocal extends MainActivity
 				showWarning("Good inititative!", "Still waiting for invitations.\n\nBe patient!");
 		}
 
-		mTurnData = null;
+		matchData = null;
 	}
 
 	public void processResult(TurnBasedMultiplayer.UpdateMatchResult result)
@@ -1024,17 +1023,17 @@ public class MatchLocal extends MainActivity
 
 	private void initializeMatchOnUpdate()
 	{
-		mTurnData = PlexorTurn.unpersist(mMatch.getData());
+		matchData = PlexorTurn.unpersist(mMatch.getData());
 
-		if (mTurnData.secondPlayer == null)
+		if (matchData.secondPlayer == null)
 		{
 			String playerId = Games.Players.getCurrentPlayerId(getApiClient());
 			String myParticipantId = mMatch.getParticipantId(playerId);
 
-			String firstPlayerParticipantId = mTurnData.firstPlayer;
+			String firstPlayerParticipantId = matchData.firstPlayer;
 			if (firstPlayerParticipantId != myParticipantId)
 			{
-				mTurnData.secondPlayer = myParticipantId;
+				matchData.secondPlayer = myParticipantId;
 			}
 		}
 
@@ -1043,12 +1042,12 @@ public class MatchLocal extends MainActivity
 
 		/* Represents the row and column of the currently selected block within the 3x3 greaterBoard.
 		 * Modulo the last move positions by 3 to find the current blockRow and column*/
-		currentBlockRow = mTurnData.lastMoveX % 3;
-		currentBlockCol = mTurnData.lastMoveY % 3;
+		currentBlockRow = matchData.lastMoveX % 3;
+		currentBlockCol = matchData.lastMoveY % 3;
 
-		nextTurnSelectABlock = mTurnData.nextTurnSelectABlock;
+		nextTurnSelectABlock = matchData.nextTurnSelectABlock;
 
-		deSerializeBoard(mTurnData.serializedBoard);
+		deSerializeBoard(matchData.serializedBoard);
 		updateGreaterBoard();
 
 		if (nextTurnSelectABlock)
@@ -1091,7 +1090,7 @@ public class MatchLocal extends MainActivity
 				String playerId = Games.Players.getCurrentPlayerId(getApiClient());
 				String myParticipantId = mMatch.getParticipantId(playerId);
 
-				String firstPlayerParticipantId = mTurnData.firstPlayer;
+				String firstPlayerParticipantId = matchData.firstPlayer;
 				if (firstPlayerParticipantId == myParticipantId)
 				{
 					player = firstPlayer;

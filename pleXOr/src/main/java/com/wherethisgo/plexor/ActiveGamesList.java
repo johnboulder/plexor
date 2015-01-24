@@ -79,7 +79,7 @@ public class ActiveGamesList extends Activity
 				// Search for the turnData related to the match name
 				for (PlexorTurn i : matchList)
 				{
-					if (i.matchName == item)
+					if (i.matchName.equals(item))
 					{
 						Globals.turnData = i;
 						break;

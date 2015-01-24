@@ -53,7 +53,7 @@ public class MainActivity extends BaseGameActivity
 	// This is the current match data after being unpersisted.
 	// Do not retain references to match data once you have
 	// taken an action on the match, such as takeTurn()
-	// public SkeletonTurn mTurnData;
+	// public SkeletonTurn matchData;
 	// private TextView mDisplay;
 	// private AtomicInteger msgId = new AtomicInteger();
 	// private SharedPreferences prefs;
@@ -123,6 +123,8 @@ public class MainActivity extends BaseGameActivity
 				findViewById(R.id.create_game_shadow).setVisibility(View.GONE);
 				findViewById(R.id.button_view_games).setVisibility(View.GONE);
 				findViewById(R.id.view_games_shadow).setVisibility(View.GONE);
+				findViewById(R.id.button_inbox).setVisibility(View.GONE);
+				findViewById(R.id.inbox_shadow).setVisibility(View.GONE);
 			}
 		});
 
@@ -160,6 +162,7 @@ public class MainActivity extends BaseGameActivity
 		// Initialize turn data for the new local game
 		PlexorTurn newGame = new PlexorTurn(name);
 		matchList.add(newGame);
+		Globals.turnData = newGame;
 
 		// Write the list of games to a file
 		try
@@ -179,7 +182,7 @@ public class MainActivity extends BaseGameActivity
 
 		Intent intent = new Intent(this, MatchLocal.class);
 		// Add the name to the intent so the match class will have it
-		intent.putExtra("matchName", name);
+		//intent.putExtra("matchName", name);
 		startActivity(intent);
 	}// END openMatchLocal
 
@@ -286,6 +289,12 @@ public class MainActivity extends BaseGameActivity
 
 			TurnBasedMatchConfig tbmc = TurnBasedMatchConfig.builder().addInvitedPlayers(invitees).setAutoMatchCriteria(autoMatchCriteria).build();
 
+			//TODO write this game to the games list
+			PlexorTurn newGame = new PlexorTurn();
+			newGame.turnCounter = 0;
+			newGame.multiplayerMatch = true;
+			Globals.turnData = newGame;
+
 			// Creates a match on google play
 			Games.TurnBasedMultiplayer.createMatch(getApiClient(), tbmc).setResultCallback(new ResultCallback<TurnBasedMultiplayer.InitiateMatchResult>()
 			{
@@ -339,6 +348,7 @@ public class MainActivity extends BaseGameActivity
 	private void processResult(TurnBasedMultiplayer.LoadMatchResult result)
 	{
 		TurnBasedMatch match = result.getMatch();
+		//matchData = PlexorTurn.unpersist(mMatch.getData());
 
 		if (!checkStatusCode(match, result.getStatus().getStatusCode()))
 		{
@@ -465,6 +475,8 @@ public class MainActivity extends BaseGameActivity
 		findViewById(R.id.create_game_shadow).setVisibility(View.VISIBLE);
 		findViewById(R.id.button_view_games).setVisibility(View.VISIBLE);
 		findViewById(R.id.view_games_shadow).setVisibility(View.VISIBLE);
+		findViewById(R.id.button_inbox).setVisibility(View.VISIBLE);
+		findViewById(R.id.inbox_shadow).setVisibility(View.VISIBLE);
 
 	}
 

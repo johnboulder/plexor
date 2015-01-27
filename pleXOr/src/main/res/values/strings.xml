@@ -19,6 +19,7 @@
     <string name="create_a_game">Create A Game</string>
     <string name="confirm_move">Confirm Move</string>
     <string name="view_games">View Games</string>
+    <string name="inbox">Inbox</string>
 
     <!-- Dialogs -->
     <string name="dialog_game_settings">Game Settings</string>

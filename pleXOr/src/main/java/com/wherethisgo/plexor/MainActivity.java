@@ -43,13 +43,13 @@ public class MainActivity extends BaseGameActivity
 	public final static int    RC_LOOK_AT_MATCHES = 10001;
 	public final static int    RC_CREATE_GAME     = 10002;
 	public static final int    RC_OPEN_GAME       = 10003;
+	public static final int    RC_INBOX           = 10004;
 	// For activities with arguments
 	public final static String EXTRA_MATCH_DATA   = "com.wherethisgo.plexor.match_data";
+	String matchListPath = null;
 	// How long to show toasts.
 	private AlertDialog mAlertDialog;
 	private ArrayList<PlexorTurn> matchList = null;
-	String matchListPath = null;
-
 	// This is the current match data after being unpersisted.
 	// Do not retain references to match data once you have
 	// taken an action on the match, such as takeTurn()
@@ -95,11 +95,11 @@ public class MainActivity extends BaseGameActivity
 			buffer.close();
 			file.close();
 		}
-		catch (IOException|ClassNotFoundException ex)
+		catch (IOException | ClassNotFoundException ex)
 		{
 			ex.printStackTrace();
 			// Create the folder we need
-			if(!(new File(getFilesDir().getPath() + File.separator + "matches").mkdir()))
+			if (!(new File(getFilesDir().getPath() + File.separator + "matches").mkdir()))
 			{
 				Log.e("plexor", "matches folder created");
 			}
@@ -141,77 +141,6 @@ public class MainActivity extends BaseGameActivity
 		});
 	}// END onCreate
 
-	@Override
-	protected void onPause()
-	{
-		// Save any necessary data to a file.
-		super.onPause();
-	}
-
-	/**
-	 * TODO
-	 *
-	 */
-	public void openMatchLocal(View view)
-	{
-		// Use the current time as the name for the match until the player changes the name on save
-		Calendar c = Calendar.getInstance();
-		Date date = c.getTime();
-		String name = date.toString();
-
-		// Initialize turn data for the new local game
-		PlexorTurn newGame = new PlexorTurn(name);
-		matchList.add(newGame);
-		Globals.turnData = newGame;
-
-		// Write the list of games to a file
-		try
-		{
-			File matchListFile = new File(matchListPath);
-			OutputStream file = new FileOutputStream(matchListFile);
-			OutputStream buffer = new BufferedOutputStream(file);
-			ObjectOutput output = new ObjectOutputStream(buffer);
-			output.writeObject(matchList);
-			output.close();
-			buffer.close();
-			file.close();
-		}
-		catch(IOException ex){
-			ex.printStackTrace();
-		}
-
-		Intent intent = new Intent(this, MatchLocal.class);
-		// Add the name to the intent so the match class will have it
-		//intent.putExtra("matchName", name);
-		startActivity(intent);
-	}// END openMatchLocal
-
-	// Open the create-game UI. You will get back an onActivityResult
-	// and figure out what to do.
-	public void onCreateAGameClicked(View view)
-	{
-		// TODO create a popup side-slider form (possibly) that can be filled in
-		// with match settings and then confirmed to create a match
-
-		Intent intent = new Intent(this, CreateGameDialogActivity.class);
-		startActivityForResult(intent, RC_CREATE_GAME);
-	}// END onCreateAGameClicked
-
-	public void onViewGamesClicked(View v)
-	{
-		Intent intent = new Intent(this, ActiveGamesList.class);
-		startActivity(intent);
-	}// END onViewGamesClicked
-
-	public void onOpenAGameClicked(View view)
-	{
-		// TODO consult the function calls below
-		// Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
-		// startActivityForResult(intent, RC_LOOK_AT_MATCHES);
-		//Intent intent = new Intent(this, ViewGamesDialog.class);
-		//startActivityForResult(intent, RC_OPEN_GAME);
-	}
-
 	// This function is what gets called when you return from either the Play Games built-in inbox, or else the create game built-in interface.
 	@Override
 	public void onActivityResult(int request, int response, Intent data)
@@ -237,11 +166,12 @@ public class MainActivity extends BaseGameActivity
 			}
 
 			Log.d(TAG, "Match = " + match);
-		} else if (request == RC_CREATE_GAME)
+		}
+		else if (request == RC_CREATE_GAME)
 		{
 			/*
-             * -Get game timelimit
-			 * -Get ranked or unranked 
+			 * -Get game timelimit
+			 * -Get ranked or unranked
 			 * -Create a bitmask from passed data
 			 * -TODO Get invited player name, currently only gets the player's ID
 			 */
@@ -282,7 +212,8 @@ public class MainActivity extends BaseGameActivity
 			if (minAutoMatchPlayers > 0)
 			{
 				autoMatchCriteria = RoomConfig.createAutoMatchCriteria(minAutoMatchPlayers, maxAutoMatchPlayers, bitmask);
-			} else
+			}
+			else
 			{
 				autoMatchCriteria = null;
 			}
@@ -307,30 +238,117 @@ public class MainActivity extends BaseGameActivity
 				}
 			});
 		}
+			else if (request == RC_OPEN_GAME)
+			{
+				//TODO take a look at Games.TurnBasedMultiplayer.loadMatch()
+				// Also look at how Games.TurnBasedMultiplayer.getInboxIntent(getApiClient()); works and using a custom view to select matches
 
-		//		else if (request == RC_OPEN_GAME)
-		//		{
-		//			//TODO take a look at Games.TurnBasedMultiplayer.loadMatch()
-		//			// Also look at how Games.TurnBasedMultiplayer.getInboxIntent(getApiClient()); works and using a custom view to select matches
-		//
-		//			//			Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
-		//			//			startActivityForResult(intent, RC_LOOK_AT_MATCHES);
-		//
-		//			TurnBasedMatch match = data.getParcelableExtra(Multiplayer.EXTRA_TURN_BASED_MATCH);
-		//			String matchId = match.getMatchId();
-		//
-		//			Games.TurnBasedMultiplayer.loadMatch(getApiClient(), matchId).setResultCallback(new ResultCallback<TurnBasedMultiplayer.LoadMatchResult>()
-		//			{
-		//				@Override
-		//				public void onResult(TurnBasedMultiplayer.LoadMatchResult result)
-		//				{
-		//					// Calls processResult which opens the match activity
-		//					processResult(result);
-		//
-		//				}
-		//			});
-		//		}
+				Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
+				startActivityForResult(intent, RC_LOOK_AT_MATCHES);
+
+				TurnBasedMatch match = data.getParcelableExtra(Multiplayer.EXTRA_TURN_BASED_MATCH);
+				Globals.turnData = PlexorTurn.unpersist(match.getData());
+				String matchId = match.getMatchId();
+
+				Games.TurnBasedMultiplayer.loadMatch(getApiClient(), matchId).setResultCallback(new ResultCallback<TurnBasedMultiplayer.LoadMatchResult>()
+				{
+					@Override
+					public void onResult(TurnBasedMultiplayer.LoadMatchResult result)
+					{
+						// Calls processResult which opens the match activity
+						processResult(result);
+
+					}
+				});
+			}
 	}// END onActivityResult
+
+	@Override
+	protected void onPause()
+	{
+		// Save any necessary data to a file.
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+	}
+
+	/**
+	 * TODO
+	 */
+	public void openMatchLocal(View view)
+	{
+		// Use the current time as the name for the match until the player changes the name on save
+		Calendar c = Calendar.getInstance();
+		Date date = c.getTime();
+		String name = date.toString();
+
+		// Initialize turn data for the new local game
+		PlexorTurn newGame = new PlexorTurn(name);
+		matchList.add(newGame);
+		Globals.turnData = newGame;
+
+		// Write the list of games to a file
+		try
+		{
+			File matchListFile = new File(matchListPath);
+			OutputStream file = new FileOutputStream(matchListFile);
+			OutputStream buffer = new BufferedOutputStream(file);
+			ObjectOutput output = new ObjectOutputStream(buffer);
+			output.writeObject(matchList);
+			output.close();
+			buffer.close();
+			file.close();
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
+
+		Intent intent = new Intent(this, MatchLocal.class);
+		// Add the name to the intent so the match class will have it
+		//intent.putExtra("matchName", name);
+		startActivity(intent);
+	}// END openMatchLocal
+
+	// Open the create-game UI. You will get back an onActivityResult
+	// and figure out what to do.
+	public void onCreateAGameClicked(View view)
+	{
+		// TODO create a popup side-slider form (possibly) that can be filled in
+		// with match settings and then confirmed to create a match
+
+		Intent intent = new Intent(this, CreateGameDialogActivity.class);
+		startActivityForResult(intent, RC_CREATE_GAME);
+	}// END onCreateAGameClicked
+
+	public void onViewGamesClicked(View v)
+	{
+		Intent intent = new Intent(this, ActiveGamesList.class);
+		startActivity(intent);
+	}// END onViewGamesClicked
+
+	public void onInboxClicked(View v)
+	{
+		//Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
+		//startActivityForResult(intent, RC_INBOX);
+		//startActivityForResult(intent, RC_INBOX);
+
+		Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
+		startActivityForResult(intent, RC_OPEN_GAME);
+	}
+
+	public void onOpenAGameClicked(View view)
+	{
+		// TODO consult the function calls below
+		// Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
+		// startActivityForResult(intent, RC_LOOK_AT_MATCHES);
+		//Intent intent = new Intent(this, ViewGamesDialog.class);
+		//startActivityForResult(intent, RC_OPEN_GAME);
+	}
 
 	private void processResult(TurnBasedMultiplayer.InitiateMatchResult result)
 	{
@@ -448,12 +466,6 @@ public class MainActivity extends BaseGameActivity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
-	}
-
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
 	}
 
 	@Override

@@ -178,16 +178,16 @@ public final class R {
 		public static final int gamehelper_license_failed = 0x7f09003d;
 		public static final int gamehelper_sign_in_failed = 0x7f09003e;
 		public static final int gamehelper_unknown_error = 0x7f09003f;
-		public static final int internal_error = 0x7f090041;
-		public static final int match_error_already_rematched = 0x7f090042;
-		public static final int match_error_inactive_match = 0x7f090043;
-		public static final int match_error_locally_modified = 0x7f090044;
-		public static final int network_error_operation_failed = 0x7f090045;
-		public static final int status_multiplayer_error_not_trusted_tester = 0x7f09004c;
-		public static final int store_picture_message = 0x7f09004d;
-		public static final int store_picture_title = 0x7f09004e;
-		public static final int unexpected_status = 0x7f090056;
-		public static final int wallet_buy_button_place_holder = 0x7f090058;
+		public static final int internal_error = 0x7f090042;
+		public static final int match_error_already_rematched = 0x7f090043;
+		public static final int match_error_inactive_match = 0x7f090044;
+		public static final int match_error_locally_modified = 0x7f090045;
+		public static final int network_error_operation_failed = 0x7f090046;
+		public static final int status_multiplayer_error_not_trusted_tester = 0x7f09004d;
+		public static final int store_picture_message = 0x7f09004e;
+		public static final int store_picture_title = 0x7f09004f;
+		public static final int unexpected_status = 0x7f090057;
+		public static final int wallet_buy_button_place_holder = 0x7f090059;
 	}
 	public static final class style {
 		public static final int Theme_IAPTheme = 0x7f0a000b;

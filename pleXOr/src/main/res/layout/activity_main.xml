@@ -76,7 +76,7 @@
         android:visibility="gone"
         android:text="@string/sign_out"
         style="@style/ButtonMenuItem"
-        android:layout_below="@+id/button_view_games"
+        android:layout_below="@+id/button_inbox"
         android:layout_marginBottom="20dp"
        	android:layout_marginRight="20dp"/>
     
@@ -121,6 +121,27 @@
 	    android:layout_below="@id/button_create_game"
 	    android:layout_marginBottom="20dp"
        	android:layout_marginRight="20dp"/>
+
+    <View
+        android:id="@+id/inbox_shadow"
+        android:background="#E7E8CE"
+        android:layout_alignTop="@+id/button_inbox"
+        android:clickable="false"
+        android:layout_height="48dp"
+        android:layout_width="fill_parent"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/button_inbox"
+        android:onClick="onInboxClicked"
+        android:text="@string/inbox"
+        android:visibility="gone"
+        style="@style/ButtonMenuItem"
+        android:layout_below="@id/button_view_games"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"/>
 
 
 </RelativeLayout>

@@ -34,6 +34,8 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -67,7 +69,6 @@ public class MatchLocal extends MainActivity
 	private Integer selectedCol = null;
 	private Integer lastRow     = null;
 	private Integer lastCol     = null;
-	private Boolean xIsEven/* = false */, oIsEven/* = false */;
 	private boolean nextTurnSelectABlock = false;
 	private boolean gameFinished         = false;
 	private String player, firstPlayer, secondPlayer;
@@ -177,11 +178,14 @@ public class MatchLocal extends MainActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		// Call the superclass (required)
 		super.onCreate(savedInstanceState);
+		// Set the view to the game board xml (required)
 		setContentView(R.layout.activity_game_board);
 
 		context = getApplicationContext();
 
+		// Populate the array of textboxes that represent the board visually
 		ViewArray[0][0] = (EditText) findViewById(R.id.TextBoxR1C1);
 		ViewArray[0][1] = (EditText) findViewById(R.id.TextBoxR1C2);
 		DEFAULT_COLOR = ViewArray[0][1].getBackground();
@@ -274,7 +278,7 @@ public class MatchLocal extends MainActivity
 		ViewArray[8][7] = (EditText) findViewById(R.id.TextBoxR9C8);
 		ViewArray[8][8] = (EditText) findViewById(R.id.TextBoxR9C9);
 
-		/* Set onClick listeners*/
+		/* Set onClick listeners for all the text boxes of the gameboard*/
 		findViewById(R.id.button_confirm_move).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
@@ -289,19 +293,9 @@ public class MatchLocal extends MainActivity
 			for (int j = 0; j < 9; j++)
 			{
 				ViewArray[i][j].setOnTouchListener(onTouchListener);
-				//ViewArray[i][j].setClickable(false);
 				ViewArray[i][j].setFocusable(false);
 			}
 		}
-
-		if (getIntent().hasExtra("matchName"))
-		{
-			matchName = getIntent().getExtras().getString("matchName");
-		}
-
-		// turnData should ALWAYS have a value so we can differentiate between multiplayer and local matches
-		matchData = Globals.turnData;
-		matchName = matchData.matchName;
 
 		/* Init game variables */
 		board = new Block[3][3];
@@ -320,51 +314,67 @@ public class MatchLocal extends MainActivity
 		secondPlayer = LETTER_O;
 
 		// TODO implement stuff in ActiveGamesList to handle the passing of this extra
-		// TODO will the variable 'matchData' be initialized here? or passed into the Globals?
+
+		// Initialize the matchData variable depending on whether it's online or local
+		// Is this an online multiplayer game?
 		if (getIntent().hasExtra(EXTRA_MATCH_DATA))
 		{
-			TurnBasedMatch match = getIntent().getParcelableExtra(EXTRA_MATCH_DATA);
-			// TODO setup class so we're only using one version of the match
-			mMatch = match;
+			mMatch = getIntent().getParcelableExtra(EXTRA_MATCH_DATA);
 			matchData = PlexorTurn.unpersist(mMatch.getData());
-			multiplayerMatch = true;
 		}
+		// The game is not online, so it must be local
 		else
 		{
-			multiplayerMatch = false;
-			// Player is always doing turn when the game is not multiplayer
-			isDoingTurn = true;;
+			matchData = Globals.turnData;
 		}
 
-		// Initialize data for a new game that's been started
-		if (matchData.turnCounter == 0) //mMatch.getData().equals(null)
+		// Has anyone made a move yet?
+		if (matchData.turnCounter == 0)
 		{
-			player = firstPlayer;
+			// Noone has made a move yet, so we need to initialize the match with starting values
+			initGame();
 
-			// this.currentPlayer = "0";
-			currentBlockRow = 1;
-			currentBlockCol = 1;
+			if(multiplayerMatch)
+			{
+				// Since this is the first turn of the match, we need to set the value of matchData.firstPlayer
+				// To do this we must first connect to google.
 
-			// TODO do we still need these two variables?
-			xIsEven = false;
-			oIsEven = false;
+				// Connect to google
+				new AsyncTask<Void, Void, Void>()
+				{
+					@Override
+					protected Void doInBackground(Void... params)
+					{
+						ConnectionResult cr = getApiClient().blockingConnect();
+						//dismissSpinner();
+						if (!cr.isSuccess())
+						{
+							showWarning("Connection Failed", "Could not connect to google api client");
+						}
+					/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
+						String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+						String myParticipantId = mMatch.getParticipantId(playerId);
+						matchData.firstPlayer = myParticipantId;
+						return null;
+					}
 
-			currentBlock = board[currentBlockRow][currentBlockCol];
-			lockVisuals(currentBlockRow, currentBlockCol);
-			matchData = new PlexorTurn();
+					@Override
+					protected void onPostExecute(Void result)
+					{
+						dismissSpinner();
+					}
+
+				}.execute();
+			}
 		}
 
-		// Initialize data specific to a match that has already started
+		// Someone has mad a move, so there are existing values that we'll initialize the game with
 		else
 		{
-			player = matchData.firstPlayer;
+			multiplayerMatch = matchData.multiplayerMatch;
 
 			currentBlockRow = matchData.lastMoveX / 3;
 			currentBlockCol = matchData.lastMoveY / 3;
-
-			// TODO do we still need these two variables?
-			xIsEven = false;
-			oIsEven = false;
 
 			deSerializeBoard(matchData.serializedBoard);
 
@@ -395,59 +405,50 @@ public class MatchLocal extends MainActivity
 
 			if (multiplayerMatch)
 			{
-				int turnStatus = mMatch.getTurnStatus();
-				isDoingTurn = false;
-				switch (turnStatus)
-				{
-					case TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN:
-						isDoingTurn = true;
-
-						initializeMatchOnUpdate();
-
-						return;
-					case TurnBasedMatch.MATCH_TURN_STATUS_THEIR_TURN:
-					{
-						isDoingTurn = false;
-
-						initializeMatchOnUpdate();
-
-						return;
-					}
-					//TODO investigate when this turn status is given
-					case TurnBasedMatch.MATCH_TURN_STATUS_INVITED:
-						showWarning("Good inititative!", "Still waiting for invitations.\n\nBe patient!");
-				}
-
-				// Connect to google
-				new AsyncTask<Void, Void, Void>()
-				{
-
-					@Override
-					protected Void doInBackground(Void... params)
-					{
-						ConnectionResult cr = getApiClient().blockingConnect();
-						//dismissSpinner();
-						if (!cr.isSuccess())
-						{
-							showWarning("Connection Failed", "Could not connect to google api client");
-						}
-					/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
-						String playerId = Games.Players.getCurrentPlayerId(getApiClient());
-						String myParticipantId = mMatch.getParticipantId(playerId);
-						matchData.firstPlayer = myParticipantId;
-						return null;
-					}
-
-					@Override
-					protected void onPostExecute(Void result)
-					{
-						dismissSpinner();
-					}
-
-				}.execute();
+				updateMatch();
+			}
+			else
+			{
+				player = matchData.firstPlayer;
 			}
 
 		}
+	}
+
+	/**
+	 * Called only on the first turn of a game. Used to initialize everything to a starting value;
+	 *
+	 */
+	private void initGame()
+	{
+		if (getIntent().hasExtra("matchName"))
+		{
+			matchName = getIntent().getExtras().getString("matchName");
+			matchData.matchName = matchName;
+		}
+		else
+		{
+			// TODO refactor to comply with use of unique ids for game names
+			Calendar c = Calendar.getInstance();
+			Date date = c.getTime();
+			String name = date.toString();
+			matchName = "Multiplayer "+name;
+			matchData.matchName = matchName;
+		}
+
+		// It's the first turn, so turnData will have a value.
+		multiplayerMatch = Globals.turnData.multiplayerMatch;
+
+		player = firstPlayer;
+
+		currentBlockRow = 1;
+		currentBlockCol = 1;
+
+		currentBlock = board[currentBlockRow][currentBlockCol];
+		lockVisuals(currentBlockRow, currentBlockCol);
+
+		// It's the first turn so the player is certainly doing their turn
+		isDoingTurn = true;
 	}
 
 	@Override
@@ -459,7 +460,6 @@ public class MatchLocal extends MainActivity
 		{
 			// Some basic turn data
 			matchData.serializedBoard = serializeBoard();
-			matchData.matchName = matchName;
 			// TODO check for initializations
 			matchData.lastMoveX = lastRow;
 			matchData.lastMoveY = lastCol;
@@ -759,17 +759,10 @@ public class MatchLocal extends MainActivity
 			{
 				// Some basic turn data
 				matchData.serializedBoard = serializeBoard();
+
 				// TODO confirm that selectedRow and selectedCol are not null at this point.
 				matchData.lastMoveX = selectedRow;
 				matchData.lastMoveY = selectedCol;
-				if (player.equals(firstPlayer))
-				{
-					matchData.firstPlayer = secondPlayer;
-				}
-				else
-				{
-					matchData.firstPlayer = firstPlayer;
-				}
 
 				/* gets the id of the next participant. next participant is NULL on first move, and will have the participant ID on every other move*/
 				String nextParticipant = getNextParticipantID();
@@ -818,14 +811,13 @@ public class MatchLocal extends MainActivity
 		String playerId = Games.Players.getCurrentPlayerId(getApiClient());
 		String myId = mMatch.getParticipantId(playerId);
 
-		String firstPlayer = matchData.firstPlayer;
-		if (myId == firstPlayer)
+		if (myId.equals(matchData.firstPlayer))
 		{
 			return matchData.secondPlayer;
 		}
 		else
 		{
-			return firstPlayer;
+			return matchData.firstPlayer;
 		}
 
 	}
@@ -938,17 +930,15 @@ public class MatchLocal extends MainActivity
 	// This is the main function that gets called when players choose a match
 	// from the inbox, or else create a match and want to start it.
 	/*TODO add handling for the bitmask that is passed from the roomConfig call on line 186 in mainActivity*/
-	public void updateMatch(TurnBasedMatch match)
+	public void updateMatch()
 	{
 		/**
 		 * What we need this TODO
 		 * -Initialize all the backend stuff that can't be initialized from local values
 		 */
 
-		mMatch = match;
-
-		int status = match.getStatus();
-		int turnStatus = match.getTurnStatus();
+		int status = mMatch.getStatus();
+		int turnStatus = mMatch.getTurnStatus();
 
 		switch (status)
 		{
@@ -993,30 +983,28 @@ public class MatchLocal extends MainActivity
 			case TurnBasedMatch.MATCH_TURN_STATUS_INVITED:
 				showWarning("Good inititative!", "Still waiting for invitations.\n\nBe patient!");
 		}
-
-		matchData = null;
 	}
 
 	public void processResult(TurnBasedMultiplayer.UpdateMatchResult result)
 	{
-		TurnBasedMatch match = result.getMatch();
+		mMatch = result.getMatch();
 
-		if (!checkStatusCode(match, result.getStatus().getStatusCode()))
+		if (!checkStatusCode(mMatch, result.getStatus().getStatusCode()))
 		{
 			return;
 		}
-		if (match.canRematch())
+		if (mMatch.canRematch())
 		{
 			//askForRematch();
 		}
 
 		/*TODO Error occurring here when a move is confirmed where getTurnStatus is returning that it is this player's turn,
 		 * when in fact it should not be because the first move was cast and it should be the next player's turn*/
-		isDoingTurn = (match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN);
+		isDoingTurn = (mMatch.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN);
 
 		if (isDoingTurn)
 		{
-			updateMatch(match);
+			updateMatch();
 			return;
 		}
 	}
@@ -1025,13 +1013,13 @@ public class MatchLocal extends MainActivity
 	{
 		matchData = PlexorTurn.unpersist(mMatch.getData());
 
-		if (matchData.secondPlayer == null)
+		if (matchData.secondPlayer.equals(null) )
 		{
 			String playerId = Games.Players.getCurrentPlayerId(getApiClient());
 			String myParticipantId = mMatch.getParticipantId(playerId);
 
 			String firstPlayerParticipantId = matchData.firstPlayer;
-			if (firstPlayerParticipantId != myParticipantId)
+			if (!firstPlayerParticipantId.equals(myParticipantId))
 			{
 				matchData.secondPlayer = myParticipantId;
 			}

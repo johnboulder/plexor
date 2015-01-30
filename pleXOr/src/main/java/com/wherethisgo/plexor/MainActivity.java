@@ -282,12 +282,13 @@ public class MainActivity extends BaseGameActivity
 	public void openMatchLocal(View view)
 	{
 		// Use the current time as the name for the match until the player changes the name on save
+		//TODO setup games to use a uniqueID rather than a time.
 		Calendar c = Calendar.getInstance();
 		Date date = c.getTime();
 		String name = date.toString();
 
 		// Initialize turn data for the new local game
-		PlexorTurn newGame = new PlexorTurn(name);
+		PlexorTurn newGame = new PlexorTurn("Local "+name);
 		matchList.add(newGame);
 		Globals.turnData = newGame;
 

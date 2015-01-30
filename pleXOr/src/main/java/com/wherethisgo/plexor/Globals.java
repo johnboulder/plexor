@@ -6,4 +6,5 @@ package com.wherethisgo.plexor;
 public class Globals
 {
 	public static PlexorTurn turnData = null;
+	public static boolean multiplayerMatch = false;
 }

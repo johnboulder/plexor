@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/baseGameUtils/baseGameUtils.iml" filepath="$PROJECT_DIR$/baseGameUtils/baseGameUtils.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pleXOr.iml" filepath="$PROJECT_DIR$/pleXOr.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pleXOr/pleXOr-pleXOr.iml" filepath="$PROJECT_DIR$/pleXOr/pleXOr-pleXOr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pleXOr/pleXOr.iml" filepath="$PROJECT_DIR$/pleXOr/pleXOr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plexor.iml" filepath="$PROJECT_DIR$/plexor.iml" />
     </modules>
   </component>
 </project>

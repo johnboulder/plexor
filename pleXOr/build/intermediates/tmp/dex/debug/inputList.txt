@@ -1,6 +1,6 @@
-C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\classes\debug
-C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-617a52e772c94119f799fe23329aa63fdc13a589.jar
-C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\classes-94aef85d227c19111b3fe1bc1fa42be013f5f988.jar
-C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-0f85204cae0a783d74673f66094f026d4039b681.jar
-C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\classes-f5977de355b1db475eac7e1ebbff652f23c4b5d1.jar
-C:\Users\Stockweeeeeiizeeee\AndroidstudioProjects\pleXOr\pleXOr\build\intermediates\pre-dexed\debug\classes-28468320b68216e54ddd49fae20cef6e76ede29f.jar
+C:\Users\dell\AndroidStudioProjects\plexor\pleXOr\build\intermediates\classes\debug
+C:\Users\dell\AndroidStudioProjects\plexor\pleXOr\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-42abeb2f1dc243eb20d2d5bcd1b3e265337e4514.jar
+C:\Users\dell\AndroidStudioProjects\plexor\pleXOr\build\intermediates\pre-dexed\debug\classes-5aada8586ac4860a4de39e066bbc37b03ba63e2c.jar
+C:\Users\dell\AndroidStudioProjects\plexor\pleXOr\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-abbc9dc1e4e385f70b80f67b203f4f6659bec1ad.jar
+C:\Users\dell\AndroidStudioProjects\plexor\pleXOr\build\intermediates\pre-dexed\debug\classes-8f8ea75e1bbab9be0aa82e7c3b05ce189162d7c3.jar
+C:\Users\dell\AndroidStudioProjects\plexor\pleXOr\build\intermediates\pre-dexed\debug\classes-7e215fbe430884cc65cfd2d0ecf414295671c0bd.jar

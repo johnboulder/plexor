@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
@@ -321,6 +322,7 @@ public class MatchLocal extends MainActivity
 		{
 			mMatch = getIntent().getParcelableExtra(EXTRA_MATCH_DATA);
 			matchData = PlexorTurn.unpersist(mMatch.getData());
+			matchData.multiplayerMatch = Globals.turnData.multiplayerMatch;
 		}
 		// The game is not online, so it must be local
 		else
@@ -351,7 +353,6 @@ public class MatchLocal extends MainActivity
 						{
 							showWarning("Connection Failed", "Could not connect to google api client");
 						}
-					/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
 						String playerId = Games.Players.getCurrentPlayerId(getApiClient());
 						String myParticipantId = mMatch.getParticipantId(playerId);
 						matchData.firstPlayer = myParticipantId;
@@ -437,7 +438,7 @@ public class MatchLocal extends MainActivity
 		}
 
 		// It's the first turn, so turnData will have a value.
-		multiplayerMatch = Globals.turnData.multiplayerMatch;
+		multiplayerMatch = matchData.multiplayerMatch;
 
 		player = firstPlayer;
 
@@ -766,8 +767,9 @@ public class MatchLocal extends MainActivity
 
 				/* gets the id of the next participant. next participant is NULL on first move, and will have the participant ID on every other move*/
 				String nextParticipant = getNextParticipantID();
+				GoogleApiClient mApiClient = getApiClient();
 
-				Games.TurnBasedMultiplayer.takeTurn(getApiClient(), mMatch.getMatchId(), matchData.persist(), nextParticipant /*The ID of the player who's turn is next*/).setResultCallback(new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>()
+				Games.TurnBasedMultiplayer.takeTurn(mApiClient, mMatch.getMatchId(), matchData.persist(), nextParticipant /*The ID of the player who's turn is next*/).setResultCallback(new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>()
 				{
 					@Override
 					public void onResult(TurnBasedMultiplayer.UpdateMatchResult result)
@@ -809,17 +811,37 @@ public class MatchLocal extends MainActivity
 	public String getNextParticipantID()
 	{
 		String playerId = Games.Players.getCurrentPlayerId(getApiClient());
-		String myId = mMatch.getParticipantId(playerId);
+		String myParticipantId = mMatch.getParticipantId(playerId);
 
-		if (myId.equals(matchData.firstPlayer))
+		ArrayList<String> participantIds = mMatch.getParticipantIds();
+
+		int desiredIndex = -1;
+
+		for (int i = 0; i < participantIds.size(); i++)
 		{
-			return matchData.secondPlayer;
+			if (participantIds.get(i).equals(myParticipantId))
+			{
+				desiredIndex = i + 1;
+			}
 		}
+
+		if (desiredIndex < participantIds.size())
+		{
+			return participantIds.get(desiredIndex);
+		}
+
+		if (mMatch.getAvailableAutoMatchSlots() <= 0)
+		{
+			// You've run out of automatch slots, so we start over.
+			return participantIds.get(0);
+		}
+
 		else
 		{
-			return matchData.firstPlayer;
+			// You have not yet fully automatched, so null will find a new
+			// person to play against.
+			return null;
 		}
-
 	}
 
 	/**
@@ -1013,16 +1035,41 @@ public class MatchLocal extends MainActivity
 	{
 		matchData = PlexorTurn.unpersist(mMatch.getData());
 
-		if (matchData.secondPlayer.equals(null) )
+		if ( matchData.secondPlayer == null )
 		{
-			String playerId = Games.Players.getCurrentPlayerId(getApiClient());
-			String myParticipantId = mMatch.getParticipantId(playerId);
-
-			String firstPlayerParticipantId = matchData.firstPlayer;
-			if (!firstPlayerParticipantId.equals(myParticipantId))
+			new AsyncTask<Void, Void, Void>()
 			{
-				matchData.secondPlayer = myParticipantId;
-			}
+
+				@Override
+				protected Void doInBackground(Void... params)
+				{
+					ConnectionResult cr = getApiClient().blockingConnect();
+					//dismissSpinner();
+					if (!cr.isSuccess())
+					{
+						showWarning("Connection Failed", "Could not connect to google api client");
+					}
+					/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
+					String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+					String myParticipantId = mMatch.getParticipantId(playerId);
+
+					String firstPlayerParticipantId = matchData.firstPlayer;
+					if (!firstPlayerParticipantId.equals(myParticipantId))
+					{
+						matchData.secondPlayer = myParticipantId;
+					}
+
+					return null;
+				}
+
+				@Override
+				protected void onPostExecute(Void result)
+				{
+					dismissSpinner();
+				}
+
+			}.execute();
+
 		}
 
 		// Determines and sets the current player
@@ -1061,7 +1108,6 @@ public class MatchLocal extends MainActivity
 	 */
 	private void determineCurrentPlayer()
 	{
-		/*TODO change this so that global values aren't changed automatically*/
 		new AsyncTask<Void, Void, Void>()
 		{
 
@@ -1074,18 +1120,40 @@ public class MatchLocal extends MainActivity
 				{
 					showWarning("Connection Failed", "Could not connect to google api client");
 				}
-				/*TODO solve java.lang.IllegalStateException: GoogleApiClient must be connected*/
+
+//				String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+//				String myParticipantId = mMatch.getParticipantId(playerId);
+//
+//				ArrayList<String> participantIds = mMatch.getParticipantIds();
+//
+//				for (int i = 0; i < participantIds.size(); i++)
+//				{
+//					if (participantIds.get(i).equals(myParticipantId))
+//					{
+//						if(i == 0)
+//						{
+//							player = firstPlayer;
+//						}
+//						else
+//						{
+//							player = secondPlayer;
+//						}
+//						return null;
+//					}
+//				}
+
 				String playerId = Games.Players.getCurrentPlayerId(getApiClient());
 				String myParticipantId = mMatch.getParticipantId(playerId);
 
 				String firstPlayerParticipantId = matchData.firstPlayer;
-				if (firstPlayerParticipantId == myParticipantId)
+				if (firstPlayerParticipantId.equals(myParticipantId))
 				{
 					player = firstPlayer;
-					return null;
 				}
-
-				player = secondPlayer;
+				else
+				{
+					player = secondPlayer;
+				}
 
 				return null;
 			}

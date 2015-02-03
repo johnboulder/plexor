@@ -204,7 +204,7 @@ public class CreateGameDialogActivity extends BaseGameActivity
 			invitedPlayersTV.setVisibility(View.VISIBLE);
 
 			// Check if a real player was selected or not
-			if (invitees.size() > 0)
+			if (invitees.size() > 3)
 			{
                 /*TODO currently this causes the game to crash*/
 				Games.Players.loadPlayer(getApiClient(), invitees.get(0)).setResultCallback(new ResultCallback<Players.LoadPlayersResult>()

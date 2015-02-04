@@ -19,6 +19,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener;
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer;
 
@@ -42,7 +43,7 @@ import java.util.Random;
 /**
  *
  */
-public class MatchLocal extends MainActivity
+public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateReceivedListener
 {
 
 	final String LETTER_O = "O";
@@ -414,6 +415,42 @@ public class MatchLocal extends MainActivity
 			}
 
 		}
+	}
+
+	private void updateOnMove()
+	{
+
+		currentBlockRow = matchData.lastMoveX / 3;
+		currentBlockCol = matchData.lastMoveY / 3;
+
+		deSerializeBoard(matchData.serializedBoard);
+
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				Block localBlock = board[i][j];
+				localBlock.checkForWin();
+
+				if (localBlock.getWinStatus())
+				{
+					setBlockValue(i, j, localBlock.getWinner(), localBlock);
+					//setBlockValue(i, j, localBlock);
+				}
+			}
+		}
+
+		currentBlock = board[currentBlockRow][currentBlockCol];
+
+		lockVisuals(matchData.lastMoveX - currentBlockRow * 3, matchData.lastMoveY - currentBlockCol * 3);
+
+		if (currentBlock.getWinStatus())
+		{
+			nextTurnSelectABlock = true;
+			enableAllBlocks();
+		}
+
+		updateMatch();
 	}
 
 	/**
@@ -1033,7 +1070,6 @@ public class MatchLocal extends MainActivity
 
 	private void initializeMatchOnUpdate()
 	{
-		matchData = PlexorTurn.unpersist(mMatch.getData());
 
 		if ( matchData.secondPlayer == null )
 		{
@@ -1184,9 +1220,25 @@ public class MatchLocal extends MainActivity
 	}
 
 	@Override
+	public void onTurnBasedMatchReceived(TurnBasedMatch match)
+	{
+		mMatch = match;
+		matchData = PlexorTurn.unpersist(mMatch.getData());
+		updateOnMove();
+
+		Toast.makeText(this, "Match Updated", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onTurnBasedMatchRemoved(String matchId)
+	{
+		Toast.makeText(this, "A match was removed.", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
 	public void onSignInSucceeded()
 	{
-		// Don't do shit.
+		Games.TurnBasedMultiplayer.registerMatchUpdateListener(getApiClient(), this);
 		return;
 	}
 

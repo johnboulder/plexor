@@ -240,8 +240,12 @@ public class MainActivity extends BaseGameActivity
 		}
 			else if (request == RC_OPEN_GAME)
 			{
-				//TODO take a look at Games.TurnBasedMultiplayer.loadMatch()
-				// Also look at how Games.TurnBasedMultiplayer.getInboxIntent(getApiClient()); works and using a custom view to select matches
+
+				if (response != Activity.RESULT_OK)
+				{
+					// user canceled
+					return;
+				}
 
 				Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
 				startActivityForResult(intent, RC_LOOK_AT_MATCHES);

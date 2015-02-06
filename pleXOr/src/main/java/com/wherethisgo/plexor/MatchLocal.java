@@ -955,9 +955,12 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 					for (int l = 0; l < 3; l++) // hits 0,1,2 - 27 times
 					{
 						// if the char at the block is not the empty value, set the value equal to the character at that position
-						if (!String.valueOf(serializedBoard.charAt(count)).equals(Block.empty))
+						if ( !String.valueOf(serializedBoard.charAt(count)).equals(Block.empty) )
 						{
-							setSquareValueOfBlock(board[i][k], j, l, String.valueOf(serializedBoard.charAt(count)));
+							if( !String.valueOf(serializedBoard.charAt(count)).equals(board[i][k].getSquare(j,l)) )
+							{
+								setSquareValueOfBlock(board[i][k], j, l, String.valueOf(serializedBoard.charAt(count)));
+							}
 						}
 						count++;
 					}

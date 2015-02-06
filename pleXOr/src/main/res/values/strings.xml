@@ -80,4 +80,13 @@
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
 
+    <!-- Ad Stuff -->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <!-- While it's not a requirement, storing your Ad Unit ID values in a resource
+     file is a good practice. As your application grows and your ad publishing needs
+      mature, you will occasionally find that you want to change the ID values. If y
+      ou make sure they're always in a resource file, you'll never have to search th
+      rough your code looking for them.
+      https://developers.google.com/mobile-ads-sdk/docs/admob/android/quick-start#configuring_gradle-->
+
 </resources>

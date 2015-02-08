@@ -157,11 +157,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			{
 
 				String winner = greaterBoard.getWinner();
-				//				for (int i = 0; i < 3; i++)
-				//					for (int j = 0; j < 3; j++)
-				//					{
-				//						setCurrentBlockValue(i, j, winner);
-				//					}
+				Games.TurnBasedMultiplayer.finishMatch(getApiClient(), mMatch.getMatchId());
 				gameFinished = true;
 				return true;
 			}
@@ -414,6 +410,17 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				player = matchData.firstPlayer;
 			}
 
+			if(gameFinished)
+			{
+				if(greaterBoard.getWinner().toString().equals(firstPlayer))
+				{
+					//TODO Display popup that says first player wins
+				}
+				else
+				{
+					//TODO Display popup that says second player wins
+				}
+			}
 		}
 	}
 
@@ -805,6 +812,9 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				/* gets the id of the next participant. next participant is NULL on first move, and will have the participant ID on every other move*/
 				String nextParticipant = getNextParticipantID();
 				GoogleApiClient mApiClient = getApiClient();
+
+				selectedRow = null;
+				selectedCol = null;
 
 				Games.TurnBasedMultiplayer.takeTurn(mApiClient, mMatch.getMatchId(), matchData.persist(), nextParticipant /*The ID of the player who's turn is next*/).setResultCallback(new ResultCallback<TurnBasedMultiplayer.UpdateMatchResult>()
 				{

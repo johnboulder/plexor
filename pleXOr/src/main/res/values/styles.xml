@@ -80,6 +80,7 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:background">#8FAF23</item>
+        <!-- <item name="android:background">@drawable/plexor_button</item>-->
         <item name="android:popupBackground">#8FAF23</item>
     </style>
     
@@ -100,6 +101,5 @@
         <item name="android:background">@color/ETwhite</item>
         <item name="android:maxLength">1</item>
     </style>
-
 
 </resources>

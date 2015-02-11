@@ -3,7 +3,11 @@ package com.wherethisgo.plexor;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -12,7 +16,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -49,7 +53,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	final String LETTER_O = "O";
 	final String LETTER_X = "X";
 	// private String grid[][]= new String [9][9];
-	EditText ViewArray[][] = new EditText[9][9];
+	Button ViewArray[][] = new Button[9][9];
 	Drawable DEFAULT_COLOR;
 	/**
 	 * End Game related variables
@@ -67,10 +71,10 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	// private String currentPlayer/* = "0"*/;
 	private Integer currentBlockCol/* = 1 */;
 	private Integer currentBlockRow/* = 1 */;
-	private Integer selectedRow = null;
-	private Integer selectedCol = null;
-	private Integer lastRow     = null;
-	private Integer lastCol     = null;
+	private Integer selectedRow          = null;
+	private Integer selectedCol          = null;
+	private Integer lastRow              = null;
+	private Integer lastCol              = null;
 	private boolean nextTurnSelectABlock = false;
 	private boolean gameFinished         = false;
 	private String player, firstPlayer, secondPlayer;
@@ -78,7 +82,10 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	private Context        context;
 	// This is the current match we're in; null if not loaded
 	private TurnBasedMatch mMatch;
-	private       boolean         isDoingTurn     = false;
+	private boolean isDoingTurn = false;
+	private SoundPool soundPool;
+	private int       soundIds[];
+	private int blockWinner[];
 	/**
 	 *
 	 */
@@ -89,7 +96,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		public boolean onTouch(View v, MotionEvent event)
 		{
 			int action = event.getActionMasked();
-			if (!gameWon() && v.isEnabled() && !gameFinished && action == MotionEvent.ACTION_DOWN && isDoingTurn)
+			if (!gameWon() && v.isEnabled() && !gameFinished && action == MotionEvent.ACTION_UP && isDoingTurn)
 			{
 				for (int i = 0; i < 9; i++)
 				{
@@ -107,7 +114,6 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 								{
 									nextTurnSelectABlock = false;
 								}
-
 							}
 
 							if (nextTurnSelectABlock)
@@ -128,16 +134,15 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 							// If setSquareValue returns false i.e. a value couldn't be placed in that position
 							else if (!setSquareValue(i - currentBlockRow * 3, j - currentBlockCol * 3, player))
 							{
-								/*
-								 * TODO output an alert or some visual information that tells the player they can't
-								 * place a value there.
-								 */
+								//TODO add test for global sounds muted variable
+								soundPool.play(soundIds[5], 1, 1, 1, 0, 1);
 								Toast toast = Toast.makeText(MatchLocal.this, "setSquareValueOfBlock: Attempted to place value at square in block, but failed", Toast.LENGTH_SHORT);
 								toast.show();
 								return true;
 							}
 							else
 							{
+								soundPool.play(soundIds[7], 1, 1, 1, 0, 1);
 								/* TODO not sure whether we should make this call or, just call something that
 								 * disables all the blocks so the first player can't make a move again.
 								 */
@@ -147,7 +152,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 								selectedCol = j;
 								// if (player == firstPlayer) player = secondPlayer;
 								// else player = firstPlayer;
-
+								return false;
 							}
 						}
 					}
@@ -159,11 +164,11 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				String winner = greaterBoard.getWinner();
 				Games.TurnBasedMultiplayer.finishMatch(getApiClient(), mMatch.getMatchId());
 				gameFinished = true;
-				return true;
+				return false;
 			}
 
 			// Always returns true so the touch is consumed.
-			return true;
+			return false;
 		}
 	};
 	private       String          matchName       = null;
@@ -183,98 +188,144 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 		context = getApplicationContext();
 
-		// Populate the array of textboxes that represent the board visually
-		ViewArray[0][0] = (EditText) findViewById(R.id.TextBoxR1C1);
-		ViewArray[0][1] = (EditText) findViewById(R.id.TextBoxR1C2);
+		if (Build.VERSION.SDK_INT >= 21)
+		{
+			SoundPool.Builder sbldr = new SoundPool.Builder();
+			sbldr.setMaxStreams(10);
+			sbldr.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
+			soundPool = sbldr.build();
+		}
+		else
+		{
+			soundPool = new SoundPool(10, AudioManager.STREAM_NOTIFICATION, 0);
+			soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener()
+			{
+				@Override
+				public void onLoadComplete(SoundPool soundPool, int sampleId, int status)
+				{
+					Toast toast = Toast.makeText(MatchLocal.this, "Sounds Loaded", Toast.LENGTH_SHORT);
+				}
+			});
+		}
+
+
+		soundIds = new int[10];
+		soundIds[0] = soundPool.load(context, R.raw.blop, 1);
+		soundIds[1] = soundPool.load(context, R.raw.cork_pop, 1);
+		soundIds[2] = soundPool.load(context, R.raw.deep_pop, 1);
+		soundIds[3] = soundPool.load(context, R.raw.metal, 1);
+		soundIds[4]= soundPool.load(context, R.raw.yes, 1);
+		soundIds[5]= soundPool.load(context, R.raw.no, 1);
+		soundIds[6]= soundPool.load(context, R.raw.click_hard, 1);
+		soundIds[7]= soundPool.load(context, R.raw.click_squish, 1);
+
+		blockWinner = new int[11];
+		blockWinner[1] = R.id.block_1_win_image;
+		blockWinner[2] = R.id.block_2_win_image;
+		blockWinner[3] = R.id.block_3_win_image;
+		blockWinner[4] = R.id.block_4_win_image;
+		blockWinner[5] = R.id.block_5_win_image;
+		blockWinner[6] = R.id.block_6_win_image;
+		blockWinner[7] = R.id.block_7_win_image;
+		blockWinner[8] = R.id.block_8_win_image;
+		blockWinner[9] = R.id.block_9_win_image;
+
+		//MediaPlayer mPlayer = MediaPlayer.create(context, R.raw.windows_8_notify); // in 2nd param u have to pass your desire ringtone
+		//mPlayer.prepare();
+		//mPlayer.start();
+
+		// Populate the array of Image_Buttones that represent the board visually
+		ViewArray[0][0] = (Button) findViewById(R.id.Image_ButtonR1C1);
+		ViewArray[0][1] = (Button) findViewById(R.id.Image_ButtonR1C2);
 		DEFAULT_COLOR = ViewArray[0][1].getBackground();
 
-		ViewArray[0][2] = (EditText) findViewById(R.id.TextBoxR1C3);
-		ViewArray[0][3] = (EditText) findViewById(R.id.TextBoxR1C4);
-		ViewArray[0][4] = (EditText) findViewById(R.id.TextBoxR1C5);
-		ViewArray[0][5] = (EditText) findViewById(R.id.TextBoxR1C6);
-		ViewArray[0][6] = (EditText) findViewById(R.id.TextBoxR1C7);
-		ViewArray[0][7] = (EditText) findViewById(R.id.TextBoxR1C8);
-		ViewArray[0][8] = (EditText) findViewById(R.id.TextBoxR1C9);
+		ViewArray[0][2] = (Button) findViewById(R.id.Image_ButtonR1C3);
+		ViewArray[0][3] = (Button) findViewById(R.id.Image_ButtonR1C4);
+		ViewArray[0][4] = (Button) findViewById(R.id.Image_ButtonR1C5);
+		ViewArray[0][5] = (Button) findViewById(R.id.Image_ButtonR1C6);
+		ViewArray[0][6] = (Button) findViewById(R.id.Image_ButtonR1C7);
+		ViewArray[0][7] = (Button) findViewById(R.id.Image_ButtonR1C8);
+		ViewArray[0][8] = (Button) findViewById(R.id.Image_ButtonR1C9);
 
-		ViewArray[1][0] = (EditText) findViewById(R.id.TextBoxR2C1);
-		ViewArray[1][1] = (EditText) findViewById(R.id.TextBoxR2C2);
-		ViewArray[1][2] = (EditText) findViewById(R.id.TextBoxR2C3);
-		ViewArray[1][3] = (EditText) findViewById(R.id.TextBoxR2C4);
-		ViewArray[1][4] = (EditText) findViewById(R.id.TextBoxR2C5);
-		ViewArray[1][5] = (EditText) findViewById(R.id.TextBoxR2C6);
-		ViewArray[1][6] = (EditText) findViewById(R.id.TextBoxR2C7);
-		ViewArray[1][7] = (EditText) findViewById(R.id.TextBoxR2C8);
-		ViewArray[1][8] = (EditText) findViewById(R.id.TextBoxR2C9);
+		ViewArray[1][0] = (Button) findViewById(R.id.Image_ButtonR2C1);
+		ViewArray[1][1] = (Button) findViewById(R.id.Image_ButtonR2C2);
+		ViewArray[1][2] = (Button) findViewById(R.id.Image_ButtonR2C3);
+		ViewArray[1][3] = (Button) findViewById(R.id.Image_ButtonR2C4);
+		ViewArray[1][4] = (Button) findViewById(R.id.Image_ButtonR2C5);
+		ViewArray[1][5] = (Button) findViewById(R.id.Image_ButtonR2C6);
+		ViewArray[1][6] = (Button) findViewById(R.id.Image_ButtonR2C7);
+		ViewArray[1][7] = (Button) findViewById(R.id.Image_ButtonR2C8);
+		ViewArray[1][8] = (Button) findViewById(R.id.Image_ButtonR2C9);
 
-		ViewArray[2][0] = (EditText) findViewById(R.id.TextBoxR3C1);
-		ViewArray[2][1] = (EditText) findViewById(R.id.TextBoxR3C2);
-		ViewArray[2][2] = (EditText) findViewById(R.id.TextBoxR3C3);
-		ViewArray[2][3] = (EditText) findViewById(R.id.TextBoxR3C4);
-		ViewArray[2][4] = (EditText) findViewById(R.id.TextBoxR3C5);
-		ViewArray[2][5] = (EditText) findViewById(R.id.TextBoxR3C6);
-		ViewArray[2][6] = (EditText) findViewById(R.id.TextBoxR3C7);
-		ViewArray[2][7] = (EditText) findViewById(R.id.TextBoxR3C8);
-		ViewArray[2][8] = (EditText) findViewById(R.id.TextBoxR3C9);
+		ViewArray[2][0] = (Button) findViewById(R.id.Image_ButtonR3C1);
+		ViewArray[2][1] = (Button) findViewById(R.id.Image_ButtonR3C2);
+		ViewArray[2][2] = (Button) findViewById(R.id.Image_ButtonR3C3);
+		ViewArray[2][3] = (Button) findViewById(R.id.Image_ButtonR3C4);
+		ViewArray[2][4] = (Button) findViewById(R.id.Image_ButtonR3C5);
+		ViewArray[2][5] = (Button) findViewById(R.id.Image_ButtonR3C6);
+		ViewArray[2][6] = (Button) findViewById(R.id.Image_ButtonR3C7);
+		ViewArray[2][7] = (Button) findViewById(R.id.Image_ButtonR3C8);
+		ViewArray[2][8] = (Button) findViewById(R.id.Image_ButtonR3C9);
 
-		ViewArray[3][0] = (EditText) findViewById(R.id.TextBoxR4C1);
-		ViewArray[3][1] = (EditText) findViewById(R.id.TextBoxR4C2);
-		ViewArray[3][2] = (EditText) findViewById(R.id.TextBoxR4C3);
-		ViewArray[3][3] = (EditText) findViewById(R.id.TextBoxR4C4);
-		ViewArray[3][4] = (EditText) findViewById(R.id.TextBoxR4C5);
-		ViewArray[3][5] = (EditText) findViewById(R.id.TextBoxR4C6);
-		ViewArray[3][6] = (EditText) findViewById(R.id.TextBoxR4C7);
-		ViewArray[3][7] = (EditText) findViewById(R.id.TextBoxR4C8);
-		ViewArray[3][8] = (EditText) findViewById(R.id.TextBoxR4C9);
+		ViewArray[3][0] = (Button) findViewById(R.id.Image_ButtonR4C1);
+		ViewArray[3][1] = (Button) findViewById(R.id.Image_ButtonR4C2);
+		ViewArray[3][2] = (Button) findViewById(R.id.Image_ButtonR4C3);
+		ViewArray[3][3] = (Button) findViewById(R.id.Image_ButtonR4C4);
+		ViewArray[3][4] = (Button) findViewById(R.id.Image_ButtonR4C5);
+		ViewArray[3][5] = (Button) findViewById(R.id.Image_ButtonR4C6);
+		ViewArray[3][6] = (Button) findViewById(R.id.Image_ButtonR4C7);
+		ViewArray[3][7] = (Button) findViewById(R.id.Image_ButtonR4C8);
+		ViewArray[3][8] = (Button) findViewById(R.id.Image_ButtonR4C9);
 
-		ViewArray[4][0] = (EditText) findViewById(R.id.TextBoxR5C1);
-		ViewArray[4][1] = (EditText) findViewById(R.id.TextBoxR5C2);
-		ViewArray[4][2] = (EditText) findViewById(R.id.TextBoxR5C3);
-		ViewArray[4][3] = (EditText) findViewById(R.id.TextBoxR5C4);
-		ViewArray[4][4] = (EditText) findViewById(R.id.TextBoxR5C5);
-		ViewArray[4][5] = (EditText) findViewById(R.id.TextBoxR5C6);
-		ViewArray[4][6] = (EditText) findViewById(R.id.TextBoxR5C7);
-		ViewArray[4][7] = (EditText) findViewById(R.id.TextBoxR5C8);
-		ViewArray[4][8] = (EditText) findViewById(R.id.TextBoxR5C9);
+		ViewArray[4][0] = (Button) findViewById(R.id.Image_ButtonR5C1);
+		ViewArray[4][1] = (Button) findViewById(R.id.Image_ButtonR5C2);
+		ViewArray[4][2] = (Button) findViewById(R.id.Image_ButtonR5C3);
+		ViewArray[4][3] = (Button) findViewById(R.id.Image_ButtonR5C4);
+		ViewArray[4][4] = (Button) findViewById(R.id.Image_ButtonR5C5);
+		ViewArray[4][5] = (Button) findViewById(R.id.Image_ButtonR5C6);
+		ViewArray[4][6] = (Button) findViewById(R.id.Image_ButtonR5C7);
+		ViewArray[4][7] = (Button) findViewById(R.id.Image_ButtonR5C8);
+		ViewArray[4][8] = (Button) findViewById(R.id.Image_ButtonR5C9);
 
-		ViewArray[5][0] = (EditText) findViewById(R.id.TextBoxR6C1);
-		ViewArray[5][1] = (EditText) findViewById(R.id.TextBoxR6C2);
-		ViewArray[5][2] = (EditText) findViewById(R.id.TextBoxR6C3);
-		ViewArray[5][3] = (EditText) findViewById(R.id.TextBoxR6C4);
-		ViewArray[5][4] = (EditText) findViewById(R.id.TextBoxR6C5);
-		ViewArray[5][5] = (EditText) findViewById(R.id.TextBoxR6C6);
-		ViewArray[5][6] = (EditText) findViewById(R.id.TextBoxR6C7);
-		ViewArray[5][7] = (EditText) findViewById(R.id.TextBoxR6C8);
-		ViewArray[5][8] = (EditText) findViewById(R.id.TextBoxR6C9);
+		ViewArray[5][0] = (Button) findViewById(R.id.Image_ButtonR6C1);
+		ViewArray[5][1] = (Button) findViewById(R.id.Image_ButtonR6C2);
+		ViewArray[5][2] = (Button) findViewById(R.id.Image_ButtonR6C3);
+		ViewArray[5][3] = (Button) findViewById(R.id.Image_ButtonR6C4);
+		ViewArray[5][4] = (Button) findViewById(R.id.Image_ButtonR6C5);
+		ViewArray[5][5] = (Button) findViewById(R.id.Image_ButtonR6C6);
+		ViewArray[5][6] = (Button) findViewById(R.id.Image_ButtonR6C7);
+		ViewArray[5][7] = (Button) findViewById(R.id.Image_ButtonR6C8);
+		ViewArray[5][8] = (Button) findViewById(R.id.Image_ButtonR6C9);
 
-		ViewArray[6][0] = (EditText) findViewById(R.id.TextBoxR7C1);
-		ViewArray[6][1] = (EditText) findViewById(R.id.TextBoxR7C2);
-		ViewArray[6][2] = (EditText) findViewById(R.id.TextBoxR7C3);
-		ViewArray[6][3] = (EditText) findViewById(R.id.TextBoxR7C4);
-		ViewArray[6][4] = (EditText) findViewById(R.id.TextBoxR7C5);
-		ViewArray[6][5] = (EditText) findViewById(R.id.TextBoxR7C6);
-		ViewArray[6][6] = (EditText) findViewById(R.id.TextBoxR7C7);
-		ViewArray[6][7] = (EditText) findViewById(R.id.TextBoxR7C8);
-		ViewArray[6][8] = (EditText) findViewById(R.id.TextBoxR7C9);
+		ViewArray[6][0] = (Button) findViewById(R.id.Image_ButtonR7C1);
+		ViewArray[6][1] = (Button) findViewById(R.id.Image_ButtonR7C2);
+		ViewArray[6][2] = (Button) findViewById(R.id.Image_ButtonR7C3);
+		ViewArray[6][3] = (Button) findViewById(R.id.Image_ButtonR7C4);
+		ViewArray[6][4] = (Button) findViewById(R.id.Image_ButtonR7C5);
+		ViewArray[6][5] = (Button) findViewById(R.id.Image_ButtonR7C6);
+		ViewArray[6][6] = (Button) findViewById(R.id.Image_ButtonR7C7);
+		ViewArray[6][7] = (Button) findViewById(R.id.Image_ButtonR7C8);
+		ViewArray[6][8] = (Button) findViewById(R.id.Image_ButtonR7C9);
 
-		ViewArray[7][0] = (EditText) findViewById(R.id.TextBoxR8C1);
-		ViewArray[7][1] = (EditText) findViewById(R.id.TextBoxR8C2);
-		ViewArray[7][2] = (EditText) findViewById(R.id.TextBoxR8C3);
-		ViewArray[7][3] = (EditText) findViewById(R.id.TextBoxR8C4);
-		ViewArray[7][4] = (EditText) findViewById(R.id.TextBoxR8C5);
-		ViewArray[7][5] = (EditText) findViewById(R.id.TextBoxR8C6);
-		ViewArray[7][6] = (EditText) findViewById(R.id.TextBoxR8C7);
-		ViewArray[7][7] = (EditText) findViewById(R.id.TextBoxR8C8);
-		ViewArray[7][8] = (EditText) findViewById(R.id.TextBoxR8C9);
+		ViewArray[7][0] = (Button) findViewById(R.id.Image_ButtonR8C1);
+		ViewArray[7][1] = (Button) findViewById(R.id.Image_ButtonR8C2);
+		ViewArray[7][2] = (Button) findViewById(R.id.Image_ButtonR8C3);
+		ViewArray[7][3] = (Button) findViewById(R.id.Image_ButtonR8C4);
+		ViewArray[7][4] = (Button) findViewById(R.id.Image_ButtonR8C5);
+		ViewArray[7][5] = (Button) findViewById(R.id.Image_ButtonR8C6);
+		ViewArray[7][6] = (Button) findViewById(R.id.Image_ButtonR8C7);
+		ViewArray[7][7] = (Button) findViewById(R.id.Image_ButtonR8C8);
+		ViewArray[7][8] = (Button) findViewById(R.id.Image_ButtonR8C9);
 
-		ViewArray[8][0] = (EditText) findViewById(R.id.TextBoxR9C1);
-		ViewArray[8][1] = (EditText) findViewById(R.id.TextBoxR9C2);
-		ViewArray[8][2] = (EditText) findViewById(R.id.TextBoxR9C3);
-		ViewArray[8][3] = (EditText) findViewById(R.id.TextBoxR9C4);
-		ViewArray[8][4] = (EditText) findViewById(R.id.TextBoxR9C5);
-		ViewArray[8][5] = (EditText) findViewById(R.id.TextBoxR9C6);
-		ViewArray[8][6] = (EditText) findViewById(R.id.TextBoxR9C7);
-		ViewArray[8][7] = (EditText) findViewById(R.id.TextBoxR9C8);
-		ViewArray[8][8] = (EditText) findViewById(R.id.TextBoxR9C9);
+		ViewArray[8][0] = (Button) findViewById(R.id.Image_ButtonR9C1);
+		ViewArray[8][1] = (Button) findViewById(R.id.Image_ButtonR9C2);
+		ViewArray[8][2] = (Button) findViewById(R.id.Image_ButtonR9C3);
+		ViewArray[8][3] = (Button) findViewById(R.id.Image_ButtonR9C4);
+		ViewArray[8][4] = (Button) findViewById(R.id.Image_ButtonR9C5);
+		ViewArray[8][5] = (Button) findViewById(R.id.Image_ButtonR9C6);
+		ViewArray[8][6] = (Button) findViewById(R.id.Image_ButtonR9C7);
+		ViewArray[8][7] = (Button) findViewById(R.id.Image_ButtonR9C8);
+		ViewArray[8][8] = (Button) findViewById(R.id.Image_ButtonR9C9);
 
 		/* Set onClick listeners for all the text boxes of the gameboard*/
 		findViewById(R.id.button_confirm_move).setOnClickListener(new View.OnClickListener()
@@ -291,7 +342,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			for (int j = 0; j < 9; j++)
 			{
 				ViewArray[i][j].setOnTouchListener(onTouchListener);
-				ViewArray[i][j].setFocusable(false);
+				//ViewArray[i][j].setFocusable(false);
 			}
 		}
 
@@ -333,7 +384,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			// Noone has made a move yet, so we need to initialize the match with starting values
 			initGame();
 
-			if(multiplayerMatch)
+			if (multiplayerMatch)
 			{
 				// Since this is the first turn of the match, we need to set the value of matchData.firstPlayer
 				// To do this we must first connect to google.
@@ -410,9 +461,9 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				player = matchData.firstPlayer;
 			}
 
-			if(gameFinished)
+			if (gameFinished)
 			{
-				if(greaterBoard.getWinner().toString().equals(firstPlayer))
+				if (greaterBoard.getWinner().toString().equals(firstPlayer))
 				{
 					//TODO Display popup that says first player wins
 				}
@@ -462,7 +513,6 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 	/**
 	 * Called only on the first turn of a game. Used to initialize everything to a starting value;
-	 *
 	 */
 	private void initGame()
 	{
@@ -477,7 +527,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			Calendar c = Calendar.getInstance();
 			Date date = c.getTime();
 			String name = date.toString();
-			matchName = "Multiplayer "+name;
+			matchName = "Multiplayer " + name;
 			matchData.matchName = matchName;
 		}
 
@@ -772,7 +822,17 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 					String localBlock[][] = board[i][k].getBoard();
 					for (int l = 0; l < 3; l++) // hits 0,1,2 - 9 times each
 					{
-						ViewArray[j + i * 3][l + k * 3].setText(localBlock[j][l].equals(Block.empty) ? "#" : localBlock[j][l]);
+						//ViewArray[j + i * 3][l + k * 3].setText(localBlock[j][l].equals(Block.empty) ? "#" : localBlock[j][l]);
+
+						if (localBlock[j][l].equals(Block.empty))
+						{
+							ViewArray[j + i * 3][l + k * 3].setBackgroundResource(R.drawable.plexor_button);
+						}
+						else
+						{
+							int optionId = (localBlock[j][l].equals(LETTER_O)) ? R.drawable.plexor_obutton : R.drawable.plexor_xbutton;
+							ViewArray[j + i * 3][l + k * 3].setBackgroundResource(optionId);
+						}
 					}
 
 				}
@@ -790,7 +850,8 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		 */
 		if (selectedRow != null && selectedCol != null)
 		{
-			matchData.turnCounter+=1;
+			soundPool.play(soundIds[3], 1, 1, 1, 0, 1);
+			matchData.turnCounter += 1;
 			currentBlock.checkForWin();
 
 			if (currentBlock.getWinStatus())
@@ -965,9 +1026,9 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 					for (int l = 0; l < 3; l++) // hits 0,1,2 - 27 times
 					{
 						// if the char at the block is not the empty value, set the value equal to the character at that position
-						if ( !String.valueOf(serializedBoard.charAt(count)).equals(Block.empty) )
+						if (!String.valueOf(serializedBoard.charAt(count)).equals(Block.empty))
 						{
-							if( !String.valueOf(serializedBoard.charAt(count)).equals(board[i][k].getSquare(j,l)) )
+							if (!String.valueOf(serializedBoard.charAt(count)).equals(board[i][k].getSquare(j, l)))
 							{
 								setSquareValueOfBlock(board[i][k], j, l, String.valueOf(serializedBoard.charAt(count)));
 							}
@@ -1084,7 +1145,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	private void initializeMatchOnUpdate()
 	{
 
-		if ( matchData.secondPlayer == null )
+		if (matchData.secondPlayer == null)
 		{
 			new AsyncTask<Void, Void, Void>()
 			{
@@ -1170,26 +1231,26 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 					showWarning("Connection Failed", "Could not connect to google api client");
 				}
 
-//				String playerId = Games.Players.getCurrentPlayerId(getApiClient());
-//				String myParticipantId = mMatch.getParticipantId(playerId);
-//
-//				ArrayList<String> participantIds = mMatch.getParticipantIds();
-//
-//				for (int i = 0; i < participantIds.size(); i++)
-//				{
-//					if (participantIds.get(i).equals(myParticipantId))
-//					{
-//						if(i == 0)
-//						{
-//							player = firstPlayer;
-//						}
-//						else
-//						{
-//							player = secondPlayer;
-//						}
-//						return null;
-//					}
-//				}
+				//				String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+				//				String myParticipantId = mMatch.getParticipantId(playerId);
+				//
+				//				ArrayList<String> participantIds = mMatch.getParticipantIds();
+				//
+				//				for (int i = 0; i < participantIds.size(); i++)
+				//				{
+				//					if (participantIds.get(i).equals(myParticipantId))
+				//					{
+				//						if(i == 0)
+				//						{
+				//							player = firstPlayer;
+				//						}
+				//						else
+				//						{
+				//							player = secondPlayer;
+				//						}
+				//						return null;
+				//					}
+				//				}
 
 				String playerId = Games.Players.getCurrentPlayerId(getApiClient());
 				String myParticipantId = mMatch.getParticipantId(playerId);
@@ -1395,18 +1456,24 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				}
 			}
 
+			int optionId = (winner.equals(LETTER_O)) ? R.drawable.o_button_up_inactive : R.drawable.x_button_up_inactive;
+
 			/* The following creates a simple animation which appears as a spiral when a block is won */
-			ViewArray[3 * localBlockRow][3 * localBlockCol].setText(winner);
-			ViewArray[3 * localBlockRow][1 + 3 * localBlockCol].setText(winner);
-			ViewArray[3 * localBlockRow][2 + 3 * localBlockCol].setText(winner);
+			ViewArray[3 * localBlockRow][3 * localBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[3 * localBlockRow][1 + 3 * localBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[3 * localBlockRow][2 + 3 * localBlockCol].setVisibility(View.INVISIBLE);
 
-			ViewArray[1 + 3 * localBlockRow][2 + 3 * localBlockCol].setText(winner);
-			ViewArray[2 + 3 * localBlockRow][2 + 3 * localBlockCol].setText(winner);
-			ViewArray[2 + 3 * localBlockRow][1 + 3 * localBlockCol].setText(winner);
+			ViewArray[1 + 3 * localBlockRow][2 + 3 * localBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[2 + 3 * localBlockRow][2 + 3 * localBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[2 + 3 * localBlockRow][1 + 3 * localBlockCol].setVisibility(View.INVISIBLE);
 
-			ViewArray[2 + 3 * localBlockRow][3 * localBlockCol].setText(winner);
-			ViewArray[1 + 3 * localBlockRow][3 * localBlockCol].setText(winner);
-			ViewArray[1 + 3 * localBlockRow][1 + 3 * localBlockCol].setText(winner);
+			ViewArray[2 + 3 * localBlockRow][3 * localBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[1 + 3 * localBlockRow][3 * localBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[1 + 3 * localBlockRow][1 + 3 * localBlockCol].setVisibility(View.INVISIBLE);
+
+			View b = findViewById(blockWinner[getBlock(localBlockRow, localBlockCol)]);
+			b.setVisibility(View.VISIBLE);
+			b.setBackgroundResource(optionId);
 
 			return true;
 		}
@@ -1437,19 +1504,24 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 					currentBlock.setSquare(i, j, winner);
 				}
 			}
+			int optionId = (winner.equals(LETTER_O)) ? R.drawable.o_button_up_inactive : R.drawable.x_button_up_inactive;
 
-			/* The following creates a simple animation which appears as a spiral when a block is won */
-			ViewArray[3 * currentBlockRow][3 * currentBlockCol].setText(winner);
-			ViewArray[3 * currentBlockRow][1 + 3 * currentBlockCol].setText(winner);
-			ViewArray[3 * currentBlockRow][2 + 3 * currentBlockCol].setText(winner);
+			//getBlock
+			ViewArray[3 * currentBlockRow][3 * currentBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[3 * currentBlockRow][1 + 3 * currentBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[3 * currentBlockRow][2 + 3 * currentBlockCol].setVisibility(View.INVISIBLE);
 
-			ViewArray[1 + 3 * currentBlockRow][2 + 3 * currentBlockCol].setText(winner);
-			ViewArray[2 + 3 * currentBlockRow][2 + 3 * currentBlockCol].setText(winner);
-			ViewArray[2 + 3 * currentBlockRow][1 + 3 * currentBlockCol].setText(winner);
+			ViewArray[1 + 3 * currentBlockRow][2 + 3 * currentBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[2 + 3 * currentBlockRow][2 + 3 * currentBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[2 + 3 * currentBlockRow][1 + 3 * currentBlockCol].setVisibility(View.INVISIBLE);
 
-			ViewArray[2 + 3 * currentBlockRow][3 * currentBlockCol].setText(winner);
-			ViewArray[1 + 3 * currentBlockRow][3 * currentBlockCol].setText(winner);
-			ViewArray[1 + 3 * currentBlockRow][1 + 3 * currentBlockCol].setText(winner);
+			ViewArray[2 + 3 * currentBlockRow][3 * currentBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[1 + 3 * currentBlockRow][3 * currentBlockCol].setVisibility(View.INVISIBLE);
+			ViewArray[1 + 3 * currentBlockRow][1 + 3 * currentBlockCol].setVisibility(View.INVISIBLE);
+
+			View b = findViewById(blockWinner[getBlock(currentBlockRow, currentBlockCol)]);
+			b.setVisibility(View.VISIBLE);
+			b.setBackgroundResource(optionId);
 
 			return true;
 		}
@@ -1461,7 +1533,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 	private boolean gameWon()
 	{
-		if (greaterBoard.checkForWin() == "X" || greaterBoard.checkForWin() == "O")
+		if (greaterBoard.checkForWin() == "X" || greaterBoard.checkForWin() == ("O"))
 		{
 			return true;
 		}

@@ -84,8 +84,8 @@ public class MainActivity extends BaseGameActivity
 		File gamesListFile = new File(matchListPath);
 
 		// FOR TESTING ///////////////////////////////////////
-		//File fileToDelete = new File(matchListPath);
-		//fileToDelete.delete();
+		File fileToDelete = new File(matchListPath);
+		fileToDelete.delete();
 		// FOR TESTING ///////////////////////////////////////
 
 		// Initialize matchList with th matchList file

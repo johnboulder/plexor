@@ -2,6 +2,7 @@ package com.wherethisgo.plexor;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -11,11 +12,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -85,7 +89,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	private boolean isDoingTurn = false;
 	private SoundPool soundPool;
 	private int       soundIds[];
-	private int blockWinner[];
+	private int       blockWinner[];
 	/**
 	 *
 	 */
@@ -143,6 +147,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 							else
 							{
 								soundPool.play(soundIds[7], 1, 1, 1, 0, 1);
+
 								/* TODO not sure whether we should make this call or, just call something that
 								 * disables all the blocks so the first player can't make a move again.
 								 */
@@ -210,14 +215,14 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 
 		soundIds = new int[10];
-		soundIds[0] = soundPool.load(context, R.raw.blop, 1);
+		soundIds[0] = soundPool.load(context, R.raw.firstblood, 1);
 		soundIds[1] = soundPool.load(context, R.raw.cork_pop, 1);
 		soundIds[2] = soundPool.load(context, R.raw.deep_pop, 1);
 		soundIds[3] = soundPool.load(context, R.raw.metal, 1);
-		soundIds[4]= soundPool.load(context, R.raw.yes, 1);
-		soundIds[5]= soundPool.load(context, R.raw.no, 1);
-		soundIds[6]= soundPool.load(context, R.raw.click_hard, 1);
-		soundIds[7]= soundPool.load(context, R.raw.click_squish, 1);
+		soundIds[4] = soundPool.load(context, R.raw.yes, 1);
+		soundIds[5] = soundPool.load(context, R.raw.no, 1);
+		soundIds[6] = soundPool.load(context, R.raw.click_hard, 1);
+		soundIds[7] = soundPool.load(context, R.raw.click_squish, 1);
 
 		blockWinner = new int[11];
 		blockWinner[1] = R.id.block_1_win_image;
@@ -1522,6 +1527,18 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			View b = findViewById(blockWinner[getBlock(currentBlockRow, currentBlockCol)]);
 			b.setVisibility(View.VISIBLE);
 			b.setBackgroundResource(optionId);
+
+			//TODO create a mechanism for toasts so we don't have to type this every time
+			LayoutInflater inflater = getLayoutInflater();
+			View layout = inflater.inflate(R.layout.toast_layout, (ViewGroup) findViewById(R.id.toast_layout_root));
+			layout.setBackgroundColor(Color.TRANSPARENT);
+			Toast toast = new Toast(getApplicationContext());
+			toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+			toast.setDuration(Toast.LENGTH_SHORT);
+			toast.setView(layout);
+			toast.show();
+
+			soundPool.play(soundIds[0], 1, 1, 1, 0, 1);
 
 			return true;
 		}

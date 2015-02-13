@@ -410,22 +410,24 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f02001a;
         public static final int common_signin_btn_text_pressed_dark=0x7f02001b;
         public static final int common_signin_btn_text_pressed_light=0x7f02001c;
-        public static final int ic_launcher=0x7f02001d;
-        public static final int ic_plusone_medium_off_client=0x7f02001e;
-        public static final int ic_plusone_small_off_client=0x7f02001f;
-        public static final int ic_plusone_standard_off_client=0x7f020020;
-        public static final int ic_plusone_tall_off_client=0x7f020021;
-        public static final int o_button_down=0x7f020022;
-        public static final int o_button_up_active=0x7f020023;
-        public static final int o_button_up_inactive=0x7f020024;
-        public static final int plexor_button=0x7f020025;
-        public static final int plexor_obutton=0x7f020026;
-        public static final int plexor_xbutton=0x7f020027;
-        public static final int powered_by_google_dark=0x7f020028;
-        public static final int powered_by_google_light=0x7f020029;
-        public static final int x_button_down=0x7f02002a;
-        public static final int x_button_up_active=0x7f02002b;
-        public static final int x_button_up_inactive=0x7f02002c;
+        public static final int firstblood_text=0x7f02001d;
+        public static final int ic_launcher=0x7f02001e;
+        public static final int ic_plusone_medium_off_client=0x7f02001f;
+        public static final int ic_plusone_small_off_client=0x7f020020;
+        public static final int ic_plusone_standard_off_client=0x7f020021;
+        public static final int ic_plusone_tall_off_client=0x7f020022;
+        public static final int idiotdown_text=0x7f020023;
+        public static final int o_button_down=0x7f020024;
+        public static final int o_button_up_active=0x7f020025;
+        public static final int o_button_up_inactive=0x7f020026;
+        public static final int plexor_button=0x7f020027;
+        public static final int plexor_obutton=0x7f020028;
+        public static final int plexor_xbutton=0x7f020029;
+        public static final int powered_by_google_dark=0x7f02002a;
+        public static final int powered_by_google_light=0x7f02002b;
+        public static final int x_button_down=0x7f02002c;
+        public static final int x_button_up_active=0x7f02002d;
+        public static final int x_button_up_inactive=0x7f02002e;
     }
     public static final class id {
         public static final int Image_ButtonR1C1=0x7f0c0019;
@@ -592,7 +594,7 @@ containing a value of this type.
         public static final int TextBoxR9C7=0x7f0c00ed;
         public static final int TextBoxR9C8=0x7f0c00ee;
         public static final int TextBoxR9C9=0x7f0c00ef;
-        public static final int action_settings=0x7f0c00fe;
+        public static final int action_settings=0x7f0c0100;
         public static final int activity_main_menu_title=0x7f0c007e;
         public static final int adView=0x7f0c008b;
         public static final int adjust_height=0x7f0c0000;
@@ -680,6 +682,8 @@ containing a value of this type.
         public static final int tableRow9=0x7f0c0068;
         public static final int tbutton_hint=0x7f0c00f3;
         public static final int terrain=0x7f0c0006;
+        public static final int text=0x7f0c00ff;
+        public static final int toast_layout_root=0x7f0c00fe;
         public static final int top=0x7f0c008e;
         public static final int view_games_shadow=0x7f0c0088;
         public static final int wrap_content=0x7f0c000f;
@@ -693,6 +697,7 @@ containing a value of this type.
         public static final int activity_main=0x7f030002;
         public static final int activity_puzzle_helper=0x7f030003;
         public static final int dialog_create_game=0x7f030004;
+        public static final int toast_layout=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
@@ -706,10 +711,11 @@ containing a value of this type.
         public static final int click_squish=0x7f040002;
         public static final int cork_pop=0x7f040003;
         public static final int deep_pop=0x7f040004;
-        public static final int gtm_analytics=0x7f040005;
-        public static final int metal=0x7f040006;
-        public static final int no=0x7f040007;
-        public static final int yes=0x7f040008;
+        public static final int firstblood=0x7f040005;
+        public static final int gtm_analytics=0x7f040006;
+        public static final int metal=0x7f040007;
+        public static final int no=0x7f040008;
+        public static final int yes=0x7f040009;
     }
     public static final class string {
         public static final int accept=0x7f090000;

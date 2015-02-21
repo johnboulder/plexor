@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -90,6 +91,15 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	private SoundPool soundPool;
 	private int       soundIds[];
 	private int       blockWinner[];
+
+	private final int FIRST_BLOOD   = 0;
+	private final int BUTTON_LOCK   = 1;
+	private final int BUTTON_CLICK  = 2;
+	private final int CHERRY_POPPER = 3;
+	private final int GOOD_JOB      = 4;
+	private final int HEADSHOT      = 5;
+	private final int IDIOT_DOWN    = 6;
+
 	/**
 	 *
 	 */
@@ -215,14 +225,14 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 
 		soundIds = new int[10];
-		soundIds[0] = soundPool.load(context, R.raw.firstblood, 1);
-		soundIds[1] = soundPool.load(context, R.raw.cork_pop, 1);
-		soundIds[2] = soundPool.load(context, R.raw.deep_pop, 1);
-		soundIds[3] = soundPool.load(context, R.raw.metal, 1);
-		soundIds[4] = soundPool.load(context, R.raw.yes, 1);
-		soundIds[5] = soundPool.load(context, R.raw.no, 1);
-		soundIds[6] = soundPool.load(context, R.raw.click_hard, 1);
-		soundIds[7] = soundPool.load(context, R.raw.click_squish, 1);
+		soundIds[FIRST_BLOOD] = soundPool.load(context, R.raw.firstblood, 1);
+		soundIds[BUTTON_LOCK] = soundPool.load(context, R.raw.metal, 1);
+		soundIds[BUTTON_CLICK] = soundPool.load(context, R.raw.click_hard, 1);
+		soundIds[CHERRY_POPPER] = soundPool.load(context, R.raw.cherry_popper, 1);
+		soundIds[GOOD_JOB] = soundPool.load(context, R.raw.good_job, 1);
+		soundIds[HEADSHOT] = soundPool.load(context, R.raw.headshot, 1);
+		soundIds[IDIOT_DOWN] = soundPool.load(context, R.raw.idiot_down, 1);
+
 
 		blockWinner = new int[11];
 		blockWinner[1] = R.id.block_1_win_image;
@@ -441,7 +451,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 					if (localBlock.getWinStatus())
 					{
-						setBlockValue(i, j, localBlock.getWinner(), localBlock);
+						setBlockValue(i, j, localBlock);
 						//setBlockValue(i, j, localBlock);
 					}
 				}
@@ -1529,16 +1539,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			b.setBackgroundResource(optionId);
 
 			//TODO create a mechanism for toasts so we don't have to type this every time
-			LayoutInflater inflater = getLayoutInflater();
-			View layout = inflater.inflate(R.layout.toast_layout, (ViewGroup) findViewById(R.id.toast_layout_root));
-			layout.setBackgroundColor(Color.TRANSPARENT);
-			Toast toast = new Toast(getApplicationContext());
-			toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-			toast.setDuration(Toast.LENGTH_SHORT);
-			toast.setView(layout);
-			toast.show();
-
-			soundPool.play(soundIds[0], 1, 1, 1, 0, 1);
+			displayToast(R.drawable.text_small_firstblood, 1);
 
 			return true;
 		}
@@ -1546,6 +1547,26 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		{
 			return false;
 		}
+	}
+	/**
+	 * Used for displaying the various event toasts used in the game.
+	 * @param imageId ResourceId of the image to use for the image to display on the toast.
+	 * @param index Index of the sound to play
+	 */
+	public void displayToast(int imageId, int index)
+	{
+		LayoutInflater inflater = getLayoutInflater();
+		View v = inflater.inflate(R.layout.toast_layout, (ViewGroup) findViewById(R.id.toast_layout_root));
+		v.setBackgroundColor(Color.TRANSPARENT);
+		ImageView img = (ImageView) v.findViewById(R.id.toast_image);
+		img.setImageResource(imageId);
+		Toast toast = new Toast(getApplicationContext());
+		toast.setGravity(Gravity.BOTTOM, 0, 0);
+		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setView(v);
+		toast.show();
+
+		soundPool.play(soundIds[index], 1, 1, 1, 0, 1);
 	}
 
 	private boolean gameWon()

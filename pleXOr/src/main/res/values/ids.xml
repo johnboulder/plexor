@@ -1,4 +1,5 @@
 <resources>
     <!-- Insert your app id from the Developer Consoles -->
     <string name="app_id">769803694464</string>
+    <string name="LEADERBOARD_ID">CgkIgOOA37MWEAIQBw</string>
 </resources>

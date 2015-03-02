@@ -91,6 +91,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	private SoundPool soundPool;
 	private int       soundIds[];
 	private int       blockWinner[];
+	private int blocksWon;
 
 	private final int FIRST_BLOOD   = 0;
 	private final int BUTTON_LOCK   = 1;
@@ -99,6 +100,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	private final int GOOD_JOB      = 4;
 	private final int HEADSHOT      = 5;
 	private final int IDIOT_DOWN    = 6;
+	private final int NO = 7;
 
 	/**
 	 *
@@ -149,14 +151,14 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 							else if (!setSquareValue(i - currentBlockRow * 3, j - currentBlockCol * 3, player))
 							{
 								//TODO add test for global sounds muted variable
-								soundPool.play(soundIds[5], 1, 1, 1, 0, 1);
+								soundPool.play(soundIds[HEADSHOT], 1, 1, 1, 0, 1);
 								Toast toast = Toast.makeText(MatchLocal.this, "setSquareValueOfBlock: Attempted to place value at square in block, but failed", Toast.LENGTH_SHORT);
 								toast.show();
 								return true;
 							}
 							else
 							{
-								soundPool.play(soundIds[7], 1, 1, 1, 0, 1);
+								soundPool.play(soundIds[BUTTON_CLICK], 1, 1, 1, 0, 1);
 
 								/* TODO not sure whether we should make this call or, just call something that
 								 * disables all the blocks so the first player can't make a move again.
@@ -179,7 +181,8 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				String winner = greaterBoard.getWinner();
 				Games.TurnBasedMultiplayer.finishMatch(getApiClient(), mMatch.getMatchId());
 				gameFinished = true;
-				return false;
+				Games.Leaderboards.submitScore(getApiClient(), Globals.LEADERBOARD_ID, 1);
+				return true;
 			}
 
 			// Always returns true so the touch is consumed.
@@ -232,6 +235,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		soundIds[GOOD_JOB] = soundPool.load(context, R.raw.good_job, 1);
 		soundIds[HEADSHOT] = soundPool.load(context, R.raw.headshot, 1);
 		soundIds[IDIOT_DOWN] = soundPool.load(context, R.raw.idiot_down, 1);
+		soundIds[NO] = soundPool.load(context, R.raw.no, 1);
 
 
 		blockWinner = new int[11];
@@ -244,6 +248,8 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		blockWinner[7] = R.id.block_7_win_image;
 		blockWinner[8] = R.id.block_8_win_image;
 		blockWinner[9] = R.id.block_9_win_image;
+
+		blocksWon = 0;
 
 		//MediaPlayer mPlayer = MediaPlayer.create(context, R.raw.windows_8_notify); // in 2nd param u have to pass your desire ringtone
 		//mPlayer.prepare();
@@ -481,10 +487,12 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				if (greaterBoard.getWinner().toString().equals(firstPlayer))
 				{
 					//TODO Display popup that says first player wins
+
 				}
 				else
 				{
 					//TODO Display popup that says second player wins
+
 				}
 			}
 		}
@@ -865,7 +873,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		 */
 		if (selectedRow != null && selectedCol != null)
 		{
-			soundPool.play(soundIds[3], 1, 1, 1, 0, 1);
+			soundPool.play(soundIds[BUTTON_LOCK], 1, 1, 1, 0, 1);
 			matchData.turnCounter += 1;
 			currentBlock.checkForWin();
 
@@ -1102,6 +1110,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			case TurnBasedMatch.MATCH_STATUS_COMPLETE:
 				if (turnStatus == TurnBasedMatch.MATCH_TURN_STATUS_COMPLETE)
 				{
+					gameFinished = true;
 					showWarning("Complete!", "This game is over; someone finished it, and so did you!  There is nothing to be done.");
 					break;
 				}
@@ -1538,8 +1547,16 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			b.setVisibility(View.VISIBLE);
 			b.setBackgroundResource(optionId);
 
-			//TODO create a mechanism for toasts so we don't have to type this every time
-			displayToast(R.drawable.text_small_firstblood, 1);
+			if(blocksWon == 0)
+			{
+				displayToast(R.drawable.text_small_cherrypopper, CHERRY_POPPER);
+			}
+			else
+			{
+				displayToast(R.drawable.text_small_headshot, HEADSHOT);
+			}
+
+			blocksWon++;
 
 			return true;
 		}

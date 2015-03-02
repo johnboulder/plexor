@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -67,6 +69,11 @@ public class MainActivity extends BaseGameActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		ImageView backgroundImage = (ImageView)findViewById(R.id.activity_background);
+		backgroundImage.setBackgroundResource(R.drawable.hammer_animation);
+		AnimationDrawable backgroundAnimation = (AnimationDrawable) backgroundImage.getBackground();
+		backgroundAnimation.start();
+
 		AdView mAdView = (AdView) findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder().build();
 		mAdView.loadAd(adRequest);
@@ -115,26 +122,38 @@ public class MainActivity extends BaseGameActivity
 		context = getApplicationContext();
 
 		// Setup signin button
-		findViewById(R.id.button_sign_out).setOnClickListener(new View.OnClickListener()
+		findViewById(R.id.button_exit).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
 			{
-				signOut();
-				findViewById(R.id.button_sign_out).setVisibility(View.GONE);
-				findViewById(R.id.sign_out_shadow).setVisibility(View.GONE);
-				findViewById(R.id.button_sign_in).setVisibility(View.VISIBLE);
-				findViewById(R.id.sign_in_shadow).setVisibility(View.VISIBLE);
-				findViewById(R.id.button_create_game).setVisibility(View.GONE);
-				findViewById(R.id.create_game_shadow).setVisibility(View.GONE);
-				findViewById(R.id.button_view_games).setVisibility(View.GONE);
-				findViewById(R.id.view_games_shadow).setVisibility(View.GONE);
-				findViewById(R.id.button_inbox).setVisibility(View.GONE);
-				findViewById(R.id.inbox_shadow).setVisibility(View.GONE);
+
+				if (getApiClient() != null && getApiClient().isConnected())
+				{
+					signOut();
+					findViewById(R.id.button_play_multiplayer).setBackgroundResource(R.drawable.plexor_button);
+					findViewById(R.id.button_create_game).setBackgroundResource(R.drawable.plexor_button);
+					findViewById(R.id.button_inbox).setBackgroundResource(R.drawable.plexor_button);
+				}
+				else
+				{
+					finish();
+				}
+
+//				findViewById(R.id.button_sign_out).setVisibility(View.GONE);
+//				findViewById(R.id.sign_out_shadow).setVisibility(View.GONE);
+//				findViewById(R.id.button_sign_in).setVisibility(View.VISIBLE);
+//				findViewById(R.id.sign_in_shadow).setVisibility(View.VISIBLE);
+//				findViewById(R.id.button_create_game).setVisibility(View.GONE);
+//				findViewById(R.id.create_game_shadow).setVisibility(View.GONE);
+//				findViewById(R.id.button_view_games).setVisibility(View.GONE);
+//				findViewById(R.id.view_games_shadow).setVisibility(View.GONE);
+//				findViewById(R.id.button_inbox).setVisibility(View.GONE);
+//				findViewById(R.id.inbox_shadow).setVisibility(View.GONE);
 			}
 		});
 
-		findViewById(R.id.button_sign_in).setOnClickListener(new View.OnClickListener()
+		findViewById(R.id.button_sign_in_google_play).setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
@@ -471,6 +490,19 @@ public class MainActivity extends BaseGameActivity
 		return false;
 	}
 
+	//@Override
+	public void onShowLeaderboardsRequested()
+	{
+		if (isSignedIn())
+		{
+			startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(getApiClient()),5001);
+		}
+		else
+		{
+			//super.makeSimpleDialog(this, getString(R.string.leaderboards_not_available)).show();
+		}
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -490,16 +522,17 @@ public class MainActivity extends BaseGameActivity
 	public void onSignInSucceeded()
 	{
 		// TODO Auto-generated method stub
-		findViewById(R.id.button_sign_out).setVisibility(View.VISIBLE);
-		findViewById(R.id.sign_out_shadow).setVisibility(View.VISIBLE);
-		findViewById(R.id.button_sign_in).setVisibility(View.GONE);
-		findViewById(R.id.sign_in_shadow).setVisibility(View.GONE);
-		findViewById(R.id.button_create_game).setVisibility(View.VISIBLE);
-		findViewById(R.id.create_game_shadow).setVisibility(View.VISIBLE);
-		findViewById(R.id.button_view_games).setVisibility(View.VISIBLE);
-		findViewById(R.id.view_games_shadow).setVisibility(View.VISIBLE);
-		findViewById(R.id.button_inbox).setVisibility(View.VISIBLE);
-		findViewById(R.id.inbox_shadow).setVisibility(View.VISIBLE);
+
+		findViewById(R.id.button_play_multiplayer).setBackgroundResource(R.drawable.plexor_button_play_multiplayer);
+		findViewById(R.id.button_create_game).setBackgroundResource(R.drawable.plexor_button_play_computer);
+		findViewById(R.id.button_inbox).setBackgroundResource(R.drawable.plexor_button_inbox);
+
+		//findViewById(R.id.button_sign_out).setVisibility(View.VISIBLE);
+		//findViewById(R.id.sign_out_shadow).setVisibility(View.VISIBLE);
+		//findViewById(R.id.button_sign_in).setVisibility(View.GONE);
+		//findViewById(R.id.button_create_game).setVisibility(View.VISIBLE);
+		//findViewById(R.id.button_view_games).setVisibility(View.VISIBLE);
+		//findViewById(R.id.button_inbox).setVisibility(View.VISIBLE);
 
 	}
 

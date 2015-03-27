@@ -5,11 +5,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -61,6 +64,12 @@ public class MainActivity extends BaseGameActivity
 	// private TextView mDisplay;
 	// private AtomicInteger msgId = new AtomicInteger();
 	// private SharedPreferences prefs;
+
+	// Stuff for panningView animation
+	private ImageView backgroundUL;
+	private ImageView backgroundU;
+	private ImageView backgroundL;
+	private ImageView background;
 	private Context context;
 
 	@Override
@@ -68,11 +77,6 @@ public class MainActivity extends BaseGameActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		ImageView backgroundImage = (ImageView)findViewById(R.id.activity_background);
-		backgroundImage.setBackgroundResource(R.drawable.hammer_animation);
-		AnimationDrawable backgroundAnimation = (AnimationDrawable) backgroundImage.getBackground();
-		backgroundAnimation.start();
 
 		AdView mAdView = (AdView) findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder().build();
@@ -88,7 +92,7 @@ public class MainActivity extends BaseGameActivity
 		* TODO make the matchListPath variable global so all classes can access it
 		*/
 		matchListPath = getFilesDir().getPath() + File.separator + "matches" + File.separator + "matchList.plx";
-		File gamesListFile = new File(matchListPath);
+		final File gamesListFile = new File(matchListPath);
 
 		// FOR TESTING ///////////////////////////////////////
 		//File fileToDelete = new File(matchListPath);
@@ -98,26 +102,42 @@ public class MainActivity extends BaseGameActivity
 		// Initialize matchList with th matchList file
 		// check to see if the existing games ArrayList was written to disk. If it was, read it and set the variable
 		// If it wasn't, create a new one, and use it to store new games
-		try
+
+		new AsyncTask<Void, Void, Void>()
 		{
-			InputStream file = new FileInputStream(gamesListFile);
-			InputStream buffer = new BufferedInputStream(file);
-			ObjectInput input = new ObjectInputStream(buffer);
-			matchList = (ArrayList<PlexorTurn>) input.readObject();
-			input.close();
-			buffer.close();
-			file.close();
-		}
-		catch (IOException | ClassNotFoundException ex)
-		{
-			ex.printStackTrace();
-			// Create the folder we need
-			if (!(new File(getFilesDir().getPath() + File.separator + "matches").mkdir()))
+			@Override
+			protected Void doInBackground(Void... params)
 			{
-				Log.e("plexor", "matches folder created");
+				try
+				{
+					InputStream file = new FileInputStream(gamesListFile);
+					InputStream buffer = new BufferedInputStream(file);
+					ObjectInput input = new ObjectInputStream(buffer);
+					matchList = (ArrayList<PlexorTurn>) input.readObject();
+					input.close();
+					buffer.close();
+					file.close();
+				}
+				catch (IOException | ClassNotFoundException ex)
+				{
+					ex.printStackTrace();
+					// Create the folder we need
+					if (!(new File(getFilesDir().getPath() + File.separator + "matches").mkdir()))
+					{
+						Log.e("plexor", "matches folder created");
+					}
+					matchList = new ArrayList<>();
+				}
+				return null;
 			}
-			matchList = new ArrayList<>();
-		}
+
+			@Override
+			protected void onPostExecute(Void result)
+			{
+
+			}
+
+		}.execute();
 
 		context = getApplicationContext();
 
@@ -166,6 +186,45 @@ public class MainActivity extends BaseGameActivity
 		});
 	}// END onCreate
 
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+
+		background = (ImageView) findViewById(R.id.activity_background);
+		backgroundUL = (ImageView) findViewById(R.id.activity_backgroundUL);
+		backgroundU = (ImageView) findViewById(R.id.activity_backgroundU);
+		backgroundL = (ImageView) findViewById(R.id.activity_backgroundL);
+
+		int distanceMultiple = 10;
+		int delta = (100*distanceMultiple);
+		int location[] = new int[2];
+		background.getLocationOnScreen(location);
+
+		TranslateAnimation animation = new TranslateAnimation(location[0], location[0]+(delta), location[1], location[1]+(delta));
+		animation.setDuration(10000);
+		animation.setFillAfter(false);
+		animation.setRepeatMode(Animation.RESTART);
+		animation.setRepeatCount(Animation.INFINITE);
+		animation.setInterpolator(new LinearInterpolator());
+
+//		AnimationSet animationSet = new AnimationSet(true);
+//		animationSet.addAnimation(animation);
+
+		backgroundUL.setX(-delta);
+		backgroundUL.setY(-delta);
+
+		backgroundL.setX(-delta);
+
+		backgroundU.setY(-delta);
+
+		background.startAnimation(animation);
+		backgroundUL.startAnimation(animation);
+		backgroundL.startAnimation(animation);
+		backgroundU.startAnimation(animation);
+	}
+
+	//END ANIMATION BULLSHIT#######################################################################
 	// This function is what gets called when you return from either the Play Games built-in inbox, or else the create game built-in interface.
 	@Override
 	public void onActivityResult(int request, int response, Intent data)

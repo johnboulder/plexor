@@ -226,7 +226,6 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			});
 		}
 
-
 		soundIds = new int[10];
 		soundIds[FIRST_BLOOD] = soundPool.load(context, R.raw.firstblood, 1);
 		soundIds[BUTTON_LOCK] = soundPool.load(context, R.raw.metal, 1);
@@ -1480,7 +1479,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				}
 			}
 
-			int optionId = (winner.equals(LETTER_O)) ? R.drawable.o_button_up_inactive : R.drawable.x_button_up_inactive;
+			int optionId = (winner.equals(LETTER_O)) ? R.drawable.o_button_inactive : R.drawable.x_button_inactive;
 
 			/* The following creates a simple animation which appears as a spiral when a block is won */
 			ViewArray[3 * localBlockRow][3 * localBlockCol].setVisibility(View.INVISIBLE);
@@ -1528,7 +1527,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 					currentBlock.setSquare(i, j, winner);
 				}
 			}
-			int optionId = (winner.equals(LETTER_O)) ? R.drawable.o_button_up_inactive : R.drawable.x_button_up_inactive;
+			int optionId = (winner.equals(LETTER_O)) ? R.drawable.o_button_inactive : R.drawable.x_button_inactive;
 
 			//getBlock
 			ViewArray[3 * currentBlockRow][3 * currentBlockCol].setVisibility(View.INVISIBLE);
@@ -1549,7 +1548,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 			if(blocksWon == 0)
 			{
-				displayToast(R.drawable.text_small_cherrypopper, CHERRY_POPPER);
+				displayToast(R.drawable.text_small_headshot, HEADSHOT);
 			}
 			else
 			{

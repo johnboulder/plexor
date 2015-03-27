@@ -3,8 +3,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#5B5B5B"
-                android:paddingLeft="2dp"
-                android:paddingTop="2dp">
+                android:paddingLeft="1dp"
+                android:paddingTop="1dp">
+    <ImageView
+        android:id="@+id/activity_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/hammer_background"/>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -986,8 +991,8 @@
         android:id="@+id/block_1_win_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
         android:background="@drawable/x_button_down"/>
 
     <ImageView
@@ -995,8 +1000,8 @@
         android:id="@+id/block_2_win_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
         android:background="@drawable/x_button_down"
         android:layout_toRightOf="@id/block_1_win_image"/>
 
@@ -1005,8 +1010,8 @@
         android:id="@+id/block_3_win_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
         android:background="@drawable/x_button_down"
         android:layout_toRightOf="@id/block_2_win_image"/>
 
@@ -1015,8 +1020,8 @@
         android:id="@+id/block_4_win_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
         android:background="@drawable/x_button_down"
         android:layout_below="@id/block_1_win_image"/>
 
@@ -1025,8 +1030,8 @@
         android:id="@+id/block_5_win_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
         android:background="@drawable/x_button_down"
         android:layout_below="@id/block_2_win_image"
         android:layout_toRightOf="@id/block_4_win_image"/>
@@ -1036,8 +1041,8 @@
         android:id="@+id/block_6_win_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
         android:background="@drawable/x_button_down"
         android:layout_below="@id/block_3_win_image"
         android:layout_toRightOf="@id/block_5_win_image"/>
@@ -1047,8 +1052,8 @@
         android:id="@+id/block_7_win_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
         android:background="@drawable/x_button_down"
         android:layout_below="@id/block_4_win_image"/>
 
@@ -1057,9 +1062,9 @@
         android:id="@+id/block_8_win_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
-        android:background="@drawable/x_button_up_inactive"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
+        android:background="@drawable/x_button_active"
         android:layout_below="@id/block_4_win_image"
         android:layout_toRightOf="@id/block_7_win_image"/>
 
@@ -1068,9 +1073,9 @@
         android:id="@+id/block_9_win_image"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
-        android:background="@drawable/x_button_up_inactive"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
+        android:background="@drawable/x_button_active"
         android:layout_below="@id/block_4_win_image"
         android:layout_toRightOf="@id/block_8_win_image"/>
 

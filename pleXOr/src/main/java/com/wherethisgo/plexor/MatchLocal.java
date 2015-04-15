@@ -6,10 +6,12 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,6 +22,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -88,10 +93,22 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	// This is the current match we're in; null if not loaded
 	private TurnBasedMatch mMatch;
 	private boolean isDoingTurn = false;
+
+	// Sound
 	private SoundPool soundPool;
 	private int       soundIds[];
+	private MediaPlayer mp;
+
 	private int       blockWinner[];
-	private int blocksWon;
+	private int       blocksWon;
+
+	private boolean computerMatch = false;
+	private Random r;
+
+	private ImageView backgroundUL;
+	private ImageView backgroundU;
+	private ImageView backgroundL;
+	private ImageView background;
 
 	private final int FIRST_BLOOD   = 0;
 	private final int BUTTON_LOCK   = 1;
@@ -100,7 +117,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	private final int GOOD_JOB      = 4;
 	private final int HEADSHOT      = 5;
 	private final int IDIOT_DOWN    = 6;
-	private final int NO = 7;
+	private final int NO            = 7;
 
 	/**
 	 *
@@ -151,7 +168,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 							else if (!setSquareValue(i - currentBlockRow * 3, j - currentBlockCol * 3, player))
 							{
 								//TODO add test for global sounds muted variable
-								soundPool.play(soundIds[HEADSHOT], 1, 1, 1, 0, 1);
+								//soundPool.play(soundIds[HEADSHOT], 1, 1, 1, 0, 1);
 								Toast toast = Toast.makeText(MatchLocal.this, "setSquareValueOfBlock: Attempted to place value at square in block, but failed", Toast.LENGTH_SHORT);
 								toast.show();
 								return true;
@@ -226,6 +243,43 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			});
 		}
 
+		computerMatch = Globals.computerMatch;
+
+		if (computerMatch)
+		{
+			r = new Random();
+		}
+
+		// Background animation
+		background = (ImageView) findViewById(R.id.activity_background);
+		backgroundUL = (ImageView) findViewById(R.id.activity_backgroundUL);
+		backgroundU = (ImageView) findViewById(R.id.activity_backgroundU);
+		backgroundL = (ImageView) findViewById(R.id.activity_backgroundL);
+
+		int distanceMultiple = 10;
+		int delta = (100 * distanceMultiple);
+		int location[] = new int[2];
+		background.getLocationOnScreen(location);
+
+		TranslateAnimation animation = new TranslateAnimation(location[0], location[0] + (delta), location[1], location[1] + (delta));
+		animation.setDuration(10000);
+		animation.setFillAfter(false);
+		animation.setRepeatMode(Animation.RESTART);
+		animation.setRepeatCount(Animation.INFINITE);
+		animation.setInterpolator(new LinearInterpolator());
+
+		backgroundUL.setX(-delta);
+		backgroundUL.setY(-delta);
+		backgroundL.setX(-delta);
+		backgroundU.setY(-delta);
+
+		background.startAnimation(animation);
+		backgroundUL.startAnimation(animation);
+		backgroundL.startAnimation(animation);
+		backgroundU.startAnimation(animation);
+
+		/*TODO setup soundPool to play button sounds and similar such things, and use mediaPlayer for playing
+		* sequential sounds like the ones that come with toast popups*/
 		soundIds = new int[10];
 		soundIds[FIRST_BLOOD] = soundPool.load(context, R.raw.firstblood, 1);
 		soundIds[BUTTON_LOCK] = soundPool.load(context, R.raw.metal, 1);
@@ -236,6 +290,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		soundIds[IDIOT_DOWN] = soundPool.load(context, R.raw.idiot_down, 1);
 		soundIds[NO] = soundPool.load(context, R.raw.no, 1);
 
+		mp = new MediaPlayer();
 
 		blockWinner = new int[11];
 		blockWinner[1] = R.id.block_1_win_image;
@@ -848,12 +903,25 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 						if (localBlock[j][l].equals(Block.empty))
 						{
-							ViewArray[j + i * 3][l + k * 3].setBackgroundResource(R.drawable.plexor_button);
+							int c = l + k * 3;
+							int r = j + i * 3;
+							if(colorGrey(r, c))
+								ViewArray[r][c].setBackgroundResource(R.drawable.plexor_match_button_grey);
+							else
+								ViewArray[r][c].setBackgroundResource(R.drawable.plexor_match_button_green);
+
 						}
 						else
 						{
-							int optionId = (localBlock[j][l].equals(LETTER_O)) ? R.drawable.plexor_obutton : R.drawable.plexor_xbutton;
-							ViewArray[j + i * 3][l + k * 3].setBackgroundResource(optionId);
+							int optionId = 0;
+							int r = j + i * 3;
+							int c = l + k * 3;
+							if(colorGrey(r, c))
+								optionId = (localBlock[j][l].equals(LETTER_O)) ? R.drawable.plexor_match_obutton_grey : R.drawable.plexor_match_xbutton_grey;
+							else
+								optionId = (localBlock[j][l].equals(LETTER_O)) ? R.drawable.plexor_match_obutton_green : R.drawable.plexor_match_xbutton_green;
+
+							ViewArray[r][c].setBackgroundResource(optionId);
 						}
 					}
 
@@ -861,6 +929,23 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			}
 		}
 
+	}
+	/**
+	 * Returns whether or not a square is grey or whether or not it's green
+	 */
+	private boolean colorGrey(int row, int col)
+	{
+		// Center Top
+		if((0<=row && row<=2) && (2<col && col<6))
+			return true; //grey
+		// Right/Left Center
+		if((3<=row && row<=5) && ((0<=col && col<=2) || (6<=col && col<=8)))
+			return true; //grey
+		// Center Bottom
+		if((6<=row && row<=8) && (2<col && col<6))
+			return true; //grey
+		else
+			return false;
 	}
 
 	public void confirmMove()
@@ -924,6 +1009,24 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				{
 					player = firstPlayer;
 				}
+
+				// If it's a computer match, let the computer make the next set of moves
+				if(computerMatch && player.equals(secondPlayer))
+				{
+					// currentBlockRow/currentBlockCol 0-2
+					// 0-2
+					selectedRow = r.nextInt(2);
+					// 0-2
+					selectedCol = r.nextInt(2);
+
+					selectedRow += currentBlockRow *3;
+					selectedCol += currentBlockCol *3;
+
+					performTouch(ViewArray[selectedRow][selectedCol]);
+					performTouch(findViewById(R.id.button_confirm_move));
+
+					// lockVisuals(selectedRow - currentBlockRow * 3, selectedCol - currentBlockCol * 3);
+				}
 			}
 		}
 		else
@@ -935,6 +1038,20 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		}
 	}
 
+	private void performTouch(View view)
+	{
+		// Obtain MotionEvent object
+		long downTime = SystemClock.uptimeMillis();
+		long eventTime = SystemClock.uptimeMillis() + 100;
+		float x = 0.0f;
+		float y = 0.0f;
+		// List of meta states found here: developer.android.com/reference/android/view/KeyEvent.html#getMetaState()
+		int metaState = 0;
+		MotionEvent motionEvent = MotionEvent.obtain(downTime, eventTime, MotionEvent.ACTION_UP, x, y, metaState);
+
+		// Dispatch touch event to view
+		view.dispatchTouchEvent(motionEvent);
+	}
 	/**
 	 *
 	 */

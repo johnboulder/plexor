@@ -1,20 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:clipChildren="false"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#5B5B5B"
-                android:paddingLeft="1dp"
-                android:paddingTop="1dp">
-    <ImageView
-        android:id="@+id/activity_background"
+                android:background="#5B5B5B">
+
+    <RelativeLayout
+        android:id="@+id/background_animation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/hammer_background"/>
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/activity_background"
+            android:scaleType="matrix"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/hammer_background"
+            android:padding="1px"/>
+
+        <ImageView
+            android:id="@+id/activity_backgroundU"
+            android:scaleType="matrix"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/hammer_background"
+            android:padding="1px"/>
+
+        <ImageView
+            android:id="@+id/activity_backgroundL"
+            android:scaleType="matrix"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/hammer_background"
+            android:padding="1px"/>
+
+        <ImageView
+            android:id="@+id/activity_backgroundUL"
+            android:scaleType="matrix"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/hammer_background"
+            android:padding="1px"/>
+        </RelativeLayout>
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#5B5B5B">
+        android:layout_height="match_parent">
 
         <!-- android:padding="14dp"  -->
         <TableRow
@@ -31,7 +61,8 @@
                 android:layout_height="40dp"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -41,7 +72,8 @@
                 android:layout_height="40dp"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -51,7 +83,8 @@
                 android:layout_height="40dp"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -61,7 +94,8 @@
                 android:layout_height="40dp"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -71,7 +105,8 @@
                 android:layout_height="40dp"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -81,7 +116,8 @@
                 android:layout_height="40dp"
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -89,10 +125,10 @@
                 android:id="@+id/Image_ButtonR1C7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -100,10 +136,10 @@
                 android:id="@+id/Image_ButtonR1C8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -111,10 +147,10 @@
                 android:id="@+id/Image_ButtonR1C9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
         </TableRow>
@@ -130,10 +166,10 @@
                 android:id="@+id/Image_ButtonR2C1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -141,10 +177,10 @@
                 android:id="@+id/Image_ButtonR2C2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -152,10 +188,10 @@
                 android:id="@+id/Image_ButtonR2C3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -163,10 +199,10 @@
                 android:id="@+id/Image_ButtonR2C4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -174,10 +210,10 @@
                 android:id="@+id/Image_ButtonR2C5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -185,10 +221,10 @@
                 android:id="@+id/Image_ButtonR2C6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -196,10 +232,9 @@
                 android:id="@+id/Image_ButtonR2C7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -207,10 +242,9 @@
                 android:id="@+id/Image_ButtonR2C8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -218,10 +252,10 @@
                 android:id="@+id/Image_ButtonR2C9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
         </TableRow>
@@ -237,10 +271,10 @@
                 android:id="@+id/Image_ButtonR3C1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -248,10 +282,10 @@
                 android:id="@+id/Image_ButtonR3C2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -259,10 +293,10 @@
                 android:id="@+id/Image_ButtonR3C3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -270,10 +304,10 @@
                 android:id="@+id/Image_ButtonR3C4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -281,10 +315,10 @@
                 android:id="@+id/Image_ButtonR3C5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -292,10 +326,10 @@
                 android:id="@+id/Image_ButtonR3C6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -303,10 +337,10 @@
                 android:id="@+id/Image_ButtonR3C7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -314,10 +348,10 @@
                 android:id="@+id/Image_ButtonR3C8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -325,10 +359,10 @@
                 android:id="@+id/Image_ButtonR3C9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
         </TableRow>
@@ -347,7 +381,7 @@
 
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -355,10 +389,10 @@
                 android:id="@+id/Image_ButtonR4C2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -366,10 +400,10 @@
                 android:id="@+id/Image_ButtonR4C3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -377,10 +411,10 @@
                 android:id="@+id/Image_ButtonR4C4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -388,10 +422,10 @@
                 android:id="@+id/Image_ButtonR4C5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -399,10 +433,10 @@
                 android:id="@+id/Image_ButtonR4C6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -410,10 +444,10 @@
                 android:id="@+id/Image_ButtonR4C7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -421,10 +455,10 @@
                 android:id="@+id/Image_ButtonR4C8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -432,10 +466,10 @@
                 android:id="@+id/Image_ButtonR4C9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
         </TableRow>
@@ -451,10 +485,10 @@
                 android:id="@+id/Image_ButtonR5C1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -462,10 +496,10 @@
                 android:id="@+id/Image_ButtonR5C2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -473,10 +507,10 @@
                 android:id="@+id/Image_ButtonR5C3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -484,10 +518,10 @@
                 android:id="@+id/Image_ButtonR5C4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -495,10 +529,10 @@
                 android:id="@+id/Image_ButtonR5C5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -506,10 +540,10 @@
                 android:id="@+id/Image_ButtonR5C6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -517,10 +551,10 @@
                 android:id="@+id/Image_ButtonR5C7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -528,10 +562,10 @@
                 android:id="@+id/Image_ButtonR5C8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -539,10 +573,10 @@
                 android:id="@+id/Image_ButtonR5C9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
         </TableRow>
@@ -558,10 +592,10 @@
                 android:id="@+id/Image_ButtonR6C1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -569,10 +603,10 @@
                 android:id="@+id/Image_ButtonR6C2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -580,10 +614,10 @@
                 android:id="@+id/Image_ButtonR6C3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -591,10 +625,10 @@
                 android:id="@+id/Image_ButtonR6C4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -602,10 +636,10 @@
                 android:id="@+id/Image_ButtonR6C5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -613,10 +647,10 @@
                 android:id="@+id/Image_ButtonR6C6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -624,10 +658,10 @@
                 android:id="@+id/Image_ButtonR6C7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -635,10 +669,10 @@
                 android:id="@+id/Image_ButtonR6C8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -646,10 +680,10 @@
                 android:id="@+id/Image_ButtonR6C9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
         </TableRow>
@@ -665,10 +699,10 @@
                 android:id="@+id/Image_ButtonR7C1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -676,10 +710,10 @@
                 android:id="@+id/Image_ButtonR7C2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -687,10 +721,10 @@
                 android:id="@+id/Image_ButtonR7C3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -698,10 +732,10 @@
                 android:id="@+id/Image_ButtonR7C4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -709,10 +743,10 @@
                 android:id="@+id/Image_ButtonR7C5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -720,10 +754,10 @@
                 android:id="@+id/Image_ButtonR7C6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -731,10 +765,10 @@
                 android:id="@+id/Image_ButtonR7C7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -742,10 +776,10 @@
                 android:id="@+id/Image_ButtonR7C8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -753,10 +787,10 @@
                 android:id="@+id/Image_ButtonR7C9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
         </TableRow>
@@ -772,10 +806,10 @@
                 android:id="@+id/Image_ButtonR8C1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -783,10 +817,10 @@
                 android:id="@+id/Image_ButtonR8C2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -794,10 +828,10 @@
                 android:id="@+id/Image_ButtonR8C3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -805,10 +839,10 @@
                 android:id="@+id/Image_ButtonR8C4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -816,10 +850,10 @@
                 android:id="@+id/Image_ButtonR8C5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -827,10 +861,10 @@
                 android:id="@+id/Image_ButtonR8C6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -838,10 +872,10 @@
                 android:id="@+id/Image_ButtonR8C7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -849,10 +883,10 @@
                 android:id="@+id/Image_ButtonR8C8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -860,10 +894,10 @@
                 android:id="@+id/Image_ButtonR8C9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
         </TableRow>
@@ -880,10 +914,10 @@
                 android:id="@+id/Image_ButtonR9C1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -891,10 +925,10 @@
                 android:id="@+id/Image_ButtonR9C2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -902,10 +936,10 @@
                 android:id="@+id/Image_ButtonR9C3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -913,10 +947,10 @@
                 android:id="@+id/Image_ButtonR9C4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -924,10 +958,10 @@
                 android:id="@+id/Image_ButtonR9C5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -935,10 +969,10 @@
                 android:id="@+id/Image_ButtonR9C6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_grey"
                 android:scaleType="fitXY">
             </Button>
 
@@ -946,10 +980,10 @@
                 android:id="@+id/Image_ButtonR9C7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -957,10 +991,10 @@
                 android:id="@+id/Image_ButtonR9C8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
 
@@ -968,10 +1002,10 @@
                 android:id="@+id/Image_ButtonR9C9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_margin="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:layout_marginRight="1dp"
+                android:background="@drawable/plexor_match_button_green"
                 android:scaleType="fitXY">
             </Button>
         </TableRow>

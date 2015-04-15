@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -82,6 +83,49 @@ public class MainActivity extends BaseGameActivity
 		AdRequest adRequest = new AdRequest.Builder().build();
 		mAdView.loadAd(adRequest);
 
+		// Background animation
+		background = (ImageView) findViewById(R.id.activity_background);
+		backgroundUL = (ImageView) findViewById(R.id.activity_backgroundUL);
+		backgroundU = (ImageView) findViewById(R.id.activity_backgroundU);
+		backgroundL = (ImageView) findViewById(R.id.activity_backgroundL);
+
+		background.setPadding(1,1,1,1);
+		backgroundUL.setPadding(1,1,1,1);
+		backgroundU.setPadding(1,1,1,1);
+		backgroundL.setPadding(1,1,1,1);
+
+		int distanceMultiple = 10;
+		int delta = (100*distanceMultiple);
+		int location[] = new int[2];
+		background.getLocationOnScreen(location);
+
+		TranslateAnimation animation = new TranslateAnimation(location[0], location[0]+(delta), location[1], location[1]+(delta));
+		animation.setDuration(10000);
+		animation.setFillAfter(false);
+		animation.setRepeatMode(Animation.RESTART);
+		animation.setRepeatCount(Animation.INFINITE);
+		animation.setInterpolator(new LinearInterpolator());
+
+		backgroundUL.setX(-delta);
+		backgroundUL.setY(-delta);
+
+		backgroundL.setX(-delta);
+
+		backgroundU.setY(-delta);
+
+		background.startAnimation(animation);
+		backgroundUL.startAnimation(animation);
+		backgroundL.startAnimation(animation);
+		backgroundU.startAnimation(animation);
+
+		// Splash Screen fade out
+		ImageView splash = (ImageView) findViewById(R.id.logoSplash);
+		Animation fadeOut = new AlphaAnimation(1, 0);
+		fadeOut.setFillAfter(true);
+		fadeOut.setStartOffset(3000);
+		fadeOut.setDuration(1000);
+		//splash.setAnimation(fadeOut);
+
 		getGameHelper().setMaxAutoSignInAttempts(0);
 
 		File appDirectory = new File(getFilesDir(), "");
@@ -152,7 +196,7 @@ public class MainActivity extends BaseGameActivity
 				{
 					signOut();
 					findViewById(R.id.button_play_multiplayer).setBackgroundResource(R.drawable.plexor_button);
-					findViewById(R.id.button_create_game).setBackgroundResource(R.drawable.plexor_button);
+					findViewById(R.id.button_play_computer).setBackgroundResource(R.drawable.plexor_button);
 					findViewById(R.id.button_inbox).setBackgroundResource(R.drawable.plexor_button);
 				}
 				else
@@ -190,41 +234,8 @@ public class MainActivity extends BaseGameActivity
 	public void onStart()
 	{
 		super.onStart();
-
-		background = (ImageView) findViewById(R.id.activity_background);
-		backgroundUL = (ImageView) findViewById(R.id.activity_backgroundUL);
-		backgroundU = (ImageView) findViewById(R.id.activity_backgroundU);
-		backgroundL = (ImageView) findViewById(R.id.activity_backgroundL);
-
-		int distanceMultiple = 10;
-		int delta = (100*distanceMultiple);
-		int location[] = new int[2];
-		background.getLocationOnScreen(location);
-
-		TranslateAnimation animation = new TranslateAnimation(location[0], location[0]+(delta), location[1], location[1]+(delta));
-		animation.setDuration(10000);
-		animation.setFillAfter(false);
-		animation.setRepeatMode(Animation.RESTART);
-		animation.setRepeatCount(Animation.INFINITE);
-		animation.setInterpolator(new LinearInterpolator());
-
-//		AnimationSet animationSet = new AnimationSet(true);
-//		animationSet.addAnimation(animation);
-
-		backgroundUL.setX(-delta);
-		backgroundUL.setY(-delta);
-
-		backgroundL.setX(-delta);
-
-		backgroundU.setY(-delta);
-
-		background.startAnimation(animation);
-		backgroundUL.startAnimation(animation);
-		backgroundL.startAnimation(animation);
-		backgroundU.startAnimation(animation);
 	}
 
-	//END ANIMATION BULLSHIT#######################################################################
 	// This function is what gets called when you return from either the Play Games built-in inbox, or else the create game built-in interface.
 	@Override
 	public void onActivityResult(int request, int response, Intent data)
@@ -414,6 +425,15 @@ public class MainActivity extends BaseGameActivity
 		startActivityForResult(intent, RC_CREATE_GAME);
 	}// END onCreateAGameClicked
 
+	public void onComputerGameClicked(View view)
+	{
+		// TODO create a popup side-slider form (possibly) that can be filled in
+		// with match settings and then confirmed to create a match
+
+		Globals.computerMatch = true;
+		openMatchLocal(view);
+	}// END onCreateAGameClicked
+
 	public void onViewGamesClicked(View v)
 	{
 		Intent intent = new Intent(this, ActiveGamesList.class);
@@ -583,7 +603,7 @@ public class MainActivity extends BaseGameActivity
 		// TODO Auto-generated method stub
 
 		findViewById(R.id.button_play_multiplayer).setBackgroundResource(R.drawable.plexor_button_play_multiplayer);
-		findViewById(R.id.button_create_game).setBackgroundResource(R.drawable.plexor_button_play_computer);
+		findViewById(R.id.button_play_computer).setBackgroundResource(R.drawable.plexor_button_play_computer);
 		findViewById(R.id.button_inbox).setBackgroundResource(R.drawable.plexor_button_inbox);
 
 		//findViewById(R.id.button_sign_out).setVisibility(View.VISIBLE);

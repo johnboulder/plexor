@@ -7,39 +7,43 @@
     android:background="#5B5B5B"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/activity_background"
-        android:scaleType="matrix"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/hammer_background"/>
-    <ImageView
-        android:id="@+id/activity_backgroundUL"
-        android:scaleType="matrix"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/hammer_background"/>
-    <ImageView
-        android:id="@+id/activity_backgroundU"
-        android:scaleType="matrix"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/hammer_background"/>
-    <ImageView
-        android:id="@+id/activity_backgroundL"
-        android:scaleType="matrix"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/hammer_background"/>
-
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/activity_background"
+            android:scaleType="matrix"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/hammer_background"/>
+        <ImageView
+            android:id="@+id/activity_backgroundUL"
+            android:scaleType="matrix"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/hammer_background"/>
+        <ImageView
+            android:id="@+id/activity_backgroundU"
+            android:scaleType="matrix"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/hammer_background"/>
+        <ImageView
+            android:id="@+id/activity_backgroundL"
+            android:scaleType="matrix"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/hammer_background"/>
+        </RelativeLayout>
     <!--android:layout_marginLeft="20dp"-->
     <!--android:layout_marginTop="20dp"-->
     <!--android:paddingLeft="115dp"-->
     <ImageView
         android:id="@+id/activity_main_menu_title"
-        android:layout_height="120dp"
-        android:layout_width="510dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:scaleType="fitCenter"
+        android:layout_marginBottom="-10dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/plexor_logo_horizontal"/>
@@ -51,12 +55,11 @@
         android:layout_centerInParent="true">
 
         <TableRow
-            android:paddingRight="0dp"
             android:layout_marginBottom="0dp">
 
             <Button
                 android:id="@+id/button_play_local"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="3dp"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:onClick="openMatchLocal"
@@ -66,14 +69,14 @@
 
             <Button
                 android:id="@+id/button_sign_in_google_play"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:layout_height="120dp"
                 android:layout_width="120dp"
                 android:background="@drawable/plexor_button"/>
             <Button
                 android:id="@+id/button_sign_in_facebook"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:layout_height="120dp"
                 android:layout_width="120dp"
@@ -85,22 +88,25 @@
             android:layout_width="wrap_content">
             <TextView android:text="Play Local"
                       android:gravity="center"
+                      android:textStyle="bold"
                       android:textColor="#FFFFFF"/>
             <TextView android:text="Google"
                       android:gravity="center"
+                      android:textStyle="bold"
                       android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-10dp"/>
+                      android:layout_marginLeft="-15dp"/>
             <TextView android:text="Facebook"
                       android:gravity="center"
+                      android:textStyle="bold"
                       android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-10dp"/>
+                      android:layout_marginLeft="-20dp"/>
         </TableRow>
 
         <TableRow
             android:layout_marginBottom="0dp">
             <Button
                 android:id="@+id/button_inbox"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="3dp"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:onClick="onInboxClicked"
@@ -109,17 +115,17 @@
                 android:layout_width="120dp"/>
             <Button
                 android:id="@+id/button_play_multiplayer"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:onClick="onCreateAGameClicked"
                 android:background="@drawable/plexor_button_play_multiplayer"
                 android:layout_height="120dp"
                 android:layout_width="120dp"/>
             <Button
-                android:id="@+id/button_create_game"
-                android:layout_marginRight="0dp"
+                android:id="@+id/button_play_computer"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
-                android:onClick="onCreateAGameClicked"
+                android:onClick="onComputerGameClicked"
                 android:background="@drawable/plexor_button_play_computer"
                 android:layout_height="120dp"
                 android:layout_width="120dp">
@@ -129,37 +135,40 @@
         <TableRow>
             <TextView android:text="Inbox"
                       android:gravity="center"
+                      android:textStyle="bold"
                       android:textColor="#FFFFFF"/>
             <TextView android:text="Multiplayer"
                       android:gravity="center"
+                      android:textStyle="bold"
                       android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-10dp"/>
+                      android:layout_marginLeft="-15dp"/>
             <TextView android:text="Computer"
                       android:gravity="center"
+                      android:textStyle="bold"
                       android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-10dp"/>
+                      android:layout_marginLeft="-20dp"/>
         </TableRow>
 
         <TableRow
             android:layout_marginBottom="0dp">
             <Button
                 android:id="@+id/button_stats"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="3dp"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
-                android:background="@drawable/plexor_button"
+                android:background="@drawable/plexor_button_stats"
                 android:layout_height="120dp"
                 android:layout_width="120dp"/>
             <Button
                 android:id="@+id/button_settings"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/plexor_button"
                 android:layout_height="120dp"
                 android:layout_width="120dp"/>
             <Button
                 android:id="@+id/button_exit"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/plexor_button_exit"
                 android:layout_height="120dp"
@@ -169,15 +178,18 @@
         <TableRow>
             <TextView android:text="Stats"
                       android:gravity="center"
+                      android:textStyle="bold"
                       android:textColor="#FFFFFF"/>
             <TextView android:text="Settings"
                       android:gravity="center"
+                      android:textStyle="bold"
                       android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-10dp"/>
+                      android:layout_marginLeft="-15dp"/>
             <TextView android:text="Sign Out"
                       android:gravity="center"
+                      android:textStyle="bold"
                       android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-10dp"/>
+                      android:layout_marginLeft="-20dp"/>
         </TableRow>
 
         </TableLayout>
@@ -192,4 +204,12 @@
         ads:adUnitId="@string/banner_ad_unit_id">
 
     </com.google.android.gms.ads.AdView>
+
+    <ImageView
+        android:id="@+id/logoSplash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/plexor_logo"
+        android:background="#5B5B5B"
+        android:visibility="invisible"/>
 </RelativeLayout>

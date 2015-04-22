@@ -1,5 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Insert your app id from the Developer Consoles -->
     <string name="app_id">769803694464</string>
-    <string name="LEADERBOARD_ID">CgkIgOOA37MWEAIQBw</string>
+    <string name="achievement_you_cannot_achieve_this.">CgkIgOOA37MWEAIQAg</string>
+    <string name="achievement_overachiever">CgkIgOOA37MWEAIQAw</string>
+    <string name="achievement_game_beast">CgkIgOOA37MWEAIQBA</string>
+    <string name="achievement_idiot_down.">CgkIgOOA37MWEAIQBQ</string>
+    <string name="achievement_you_seriously_bought_something">CgkIgOOA37MWEAIQBg</string>
+    <string name="leaderboard_world_elite">CgkIgOOA37MWEAIQBw</string>
 </resources>

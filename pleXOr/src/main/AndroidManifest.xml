@@ -8,22 +8,21 @@
         android:minSdkVersion="17"
         android:targetSdkVersion="21" />
 
-
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="21" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="21" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="21" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="21" />
 
-    <!-- Include required permissions for Google Mobile Ads to run-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
-
+    <!-- Include required permissions for Google Mobile Ads to run -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- <application android:name="com.wherethisgo.plexor"/> -->
     <application
@@ -35,8 +34,7 @@
         <!-- google play services -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
@@ -54,10 +52,11 @@
             </intent-filter>
         </activity>
 
-        <!--Include the AdActivity configChanges and theme. -->
-        <activity android:name="com.google.android.gms.ads.AdActivity"
-                  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-                  android:theme="@android:style/Theme.Translucent" />
+        <!-- Include the AdActivity configChanges and theme. -->
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
 
         <!-- play locally -->
         <activity
@@ -101,10 +100,14 @@
             android:name=".ActiveGamesList"
             android:label="@string/title_activity_active_games_list"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.FullScreen">
+            android:theme="@style/Theme.FullScreen" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wherethisgo.plexor.MainActivity" />
+        </activity>
+        <activity
+            android:name=".StatsActivity"
+            android:label="@string/title_activity_stats" >
         </activity>
     </application>
 

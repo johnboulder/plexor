@@ -2,7 +2,6 @@ package com.wherethisgo.plexor;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -110,6 +109,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	private ImageView backgroundL;
 	private ImageView background;
 
+	private final int NO_SOUND = -1;
 	private final int FIRST_BLOOD   = 0;
 	private final int BUTTON_LOCK   = 1;
 	private final int BUTTON_CLICK  = 2;
@@ -171,7 +171,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 								//soundPool.play(soundIds[HEADSHOT], 1, 1, 1, 0, 1);
 								Toast toast = Toast.makeText(MatchLocal.this, "setSquareValueOfBlock: Attempted to place value at square in block, but failed", Toast.LENGTH_SHORT);
 								toast.show();
-								return true;
+								return false;
 							}
 							else
 							{
@@ -186,7 +186,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 								selectedCol = j;
 								// if (player == firstPlayer) player = secondPlayer;
 								// else player = firstPlayer;
-								return false;
+								return true;
 							}
 						}
 					}
@@ -196,9 +196,13 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			{
 
 				String winner = greaterBoard.getWinner();
-				Games.TurnBasedMultiplayer.finishMatch(getApiClient(), mMatch.getMatchId());
 				gameFinished = true;
-				Games.Leaderboards.submitScore(getApiClient(), Globals.LEADERBOARD_ID, 1);
+				if(multiplayerMatch)
+				{
+					Games.TurnBasedMultiplayer.finishMatch(getApiClient(), mMatch.getMatchId());
+					Games.Achievements.unlock(getApiClient(), "achievement_idiot_down");
+					Games.Leaderboards.submitScore(getApiClient(), Globals.LEADERBOARD_ID, 1);
+				}
 				return true;
 			}
 
@@ -261,22 +265,68 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		int location[] = new int[2];
 		background.getLocationOnScreen(location);
 
-		TranslateAnimation animation = new TranslateAnimation(location[0], location[0] + (delta), location[1], location[1] + (delta));
-		animation.setDuration(10000);
-		animation.setFillAfter(false);
-		animation.setRepeatMode(Animation.RESTART);
-		animation.setRepeatCount(Animation.INFINITE);
-		animation.setInterpolator(new LinearInterpolator());
+		TranslateAnimation backgroundAnimation = new TranslateAnimation(location[0], location[0] + (delta), location[1], location[1] + (delta));
+		backgroundAnimation.setDuration(10000);
+		backgroundAnimation.setFillAfter(false);
+		backgroundAnimation.setRepeatMode(Animation.RESTART);
+		backgroundAnimation.setRepeatCount(Animation.INFINITE);
+		backgroundAnimation.setInterpolator(new LinearInterpolator());
 
 		backgroundUL.setX(-delta);
 		backgroundUL.setY(-delta);
 		backgroundL.setX(-delta);
 		backgroundU.setY(-delta);
 
-		background.startAnimation(animation);
-		backgroundUL.startAnimation(animation);
-		backgroundL.startAnimation(animation);
-		backgroundU.startAnimation(animation);
+		background.startAnimation(backgroundAnimation);
+		backgroundUL.startAnimation(backgroundAnimation);
+		backgroundL.startAnimation(backgroundAnimation);
+		backgroundU.startAnimation(backgroundAnimation);
+
+		// Animate button so that it slides in from the left of the screen
+//		Button confirmButton = (Button)findViewById(R.id.button_confirm_move);
+//
+//
+//		DisplayMetrics displaymetrics = new DisplayMetrics();
+//		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+//		int width = displaymetrics.widthPixels;
+//		int density = displaymetrics.densityDpi;
+//
+//		// Convert width from px to dp
+//		width = (width/(density/160));
+//		width-=20;
+//		// Convert back
+//		width = (width*(density/160));
+//
+//		confirmButton.setX(-width);
+//
+//		TranslateAnimation buttonAnimation = new TranslateAnimation(location[0], location[0] + (width), location[1], location[1]);
+//		buttonAnimation.setDuration(1000);
+//		buttonAnimation.setFillAfter(false);
+//		buttonAnimation.setAnimationListener( new Animation.AnimationListener(){
+//			@Override
+//			public void onAnimationStart(Animation animation){}
+//
+//			@Override
+//			public void onAnimationEnd(Animation animation)
+//			{
+//				/* Set onClick listeners for all the text boxes of the gameboard*/
+//				Button confirmButton = (Button)findViewById(R.id.button_confirm_move);
+//				confirmButton.setOnClickListener(new View.OnClickListener()
+//				{
+//					@Override
+//					public void onClick(View v)
+//					{
+//						confirmMove();
+//					}
+//				});
+//				//int width = confirmButton.getWidth();
+//				confirmButton.setX(0);
+//			}
+//
+//			@Override
+//			public void onAnimationRepeat(Animation animation){}
+//		});
+//		confirmButton.startAnimation(buttonAnimation);
 
 		/*TODO setup soundPool to play button sounds and similar such things, and use mediaPlayer for playing
 		* sequential sounds like the ones that come with toast popups*/
@@ -402,16 +452,6 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		ViewArray[8][7] = (Button) findViewById(R.id.Image_ButtonR9C8);
 		ViewArray[8][8] = (Button) findViewById(R.id.Image_ButtonR9C9);
 
-		/* Set onClick listeners for all the text boxes of the gameboard*/
-		findViewById(R.id.button_confirm_move).setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				confirmMove();
-			}
-		});
-
 		for (int i = 0; i < 9; i++)
 		{
 			for (int j = 0; j < 9; j++)
@@ -420,6 +460,17 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				//ViewArray[i][j].setFocusable(false);
 			}
 		}
+
+		/* Set onClick listeners for all the text boxes of the gameboard*/
+		Button confirmButton = (Button)findViewById(R.id.button_confirm_move);
+		confirmButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				confirmMove();
+			}
+		});
 
 		/* Init game variables */
 		board = new Block[3][3];
@@ -446,6 +497,11 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			mMatch = getIntent().getParcelableExtra(EXTRA_MATCH_DATA);
 			matchData = PlexorTurn.unpersist(mMatch.getData());
 			matchData.multiplayerMatch = Globals.turnData.multiplayerMatch;
+
+			if(getApiClient() != null && getApiClient().isConnected())
+			{
+				Games.Achievements.unlock(getApiClient(), "achievement_game_beast");
+			}
 		}
 		// The game is not online, so it must be local
 		else
@@ -948,6 +1004,17 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			return false;
 	}
 
+	/**
+	 * Returns whether or not a square is grey or whether or not it's green
+	 */
+	private boolean colorGrey(int blockNum)
+	{
+		if(blockNum == 2 || blockNum == 4 || blockNum == 6 || blockNum == 8)
+			return true;
+		else
+			return false;
+	}
+
 	public void confirmMove()
 	{
 		/* TODO
@@ -1004,28 +1071,45 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				if (player.equals(firstPlayer))
 				{
 					player = secondPlayer;
+
+					if(!computerMatch)
+					{
+						displayToast(R.drawable.its_os_turn_small, NO_SOUND);
+					}
 				}
 				else
 				{
 					player = firstPlayer;
+					if(computerMatch)
+					{
+						displayToast(R.drawable.its_your_turn_small, NO_SOUND);
+					}
+					else
+					{
+						displayToast(R.drawable.its_xs_turn_small, NO_SOUND);
+					}
 				}
 
 				// If it's a computer match, let the computer make the next set of moves
 				if(computerMatch && player.equals(secondPlayer))
 				{
-					// currentBlockRow/currentBlockCol 0-2
 					// 0-2
-					selectedRow = r.nextInt(2);
+					int row = r.nextInt(2);
 					// 0-2
-					selectedCol = r.nextInt(2);
+					int col = r.nextInt(2);
 
-					selectedRow += currentBlockRow *3;
-					selectedCol += currentBlockCol *3;
+					row += currentBlockRow *3;
+					col += currentBlockCol *3;
 
-					performTouch(ViewArray[selectedRow][selectedCol]);
+					while(!performTouch(ViewArray[row][col]))
+					{
+						row = r.nextInt(2);
+						col = r.nextInt(2);
+						row += currentBlockRow *3;
+						col += currentBlockCol *3;
+					}
+
 					performTouch(findViewById(R.id.button_confirm_move));
-
-					// lockVisuals(selectedRow - currentBlockRow * 3, selectedCol - currentBlockCol * 3);
 				}
 			}
 		}
@@ -1038,11 +1122,11 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		}
 	}
 
-	private void performTouch(View view)
+	private boolean performTouch(View view)
 	{
 		// Obtain MotionEvent object
 		long downTime = SystemClock.uptimeMillis();
-		long eventTime = SystemClock.uptimeMillis() + 100;
+		long eventTime = SystemClock.uptimeMillis() + 1000;
 		float x = 0.0f;
 		float y = 0.0f;
 		// List of meta states found here: developer.android.com/reference/android/view/KeyEvent.html#getMetaState()
@@ -1050,7 +1134,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		MotionEvent motionEvent = MotionEvent.obtain(downTime, eventTime, MotionEvent.ACTION_UP, x, y, metaState);
 
 		// Dispatch touch event to view
-		view.dispatchTouchEvent(motionEvent);
+		return view.dispatchTouchEvent(motionEvent);
 	}
 	/**
 	 *
@@ -1240,15 +1324,16 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		{
 			case TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN:
 				isDoingTurn = true;
-
 				initializeMatchOnUpdate();
+				// Tell player it's their turn
+				displayToast(R.drawable.its_your_turn_small, NO_SOUND);
 
 				return;
 			case TurnBasedMatch.MATCH_TURN_STATUS_THEIR_TURN:
 			{
 				isDoingTurn = false;
-
 				initializeMatchOnUpdate();
+				// TODO Tell player it's not their turn
 
 				return;
 			}
@@ -1596,9 +1681,15 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				}
 			}
 
-			int optionId = (winner.equals(LETTER_O)) ? R.drawable.o_button_inactive : R.drawable.x_button_inactive;
+			int optionId ;//= (winner.equals(LETTER_O)) ? R.drawable.plexor_match_obutton_green : R.drawable.plexor_match_xbutton_green;
+
+			if(colorGrey(getBlock(localBlockRow, localBlockCol)))
+				optionId = (winner.equals(LETTER_O)) ? R.drawable.plexor_match_obutton_grey : R.drawable.plexor_match_xbutton_grey;
+			else
+				optionId = (winner.equals(LETTER_O)) ? R.drawable.plexor_match_obutton_green : R.drawable.plexor_match_xbutton_green;
 
 			/* The following creates a simple animation which appears as a spiral when a block is won */
+
 			ViewArray[3 * localBlockRow][3 * localBlockCol].setVisibility(View.INVISIBLE);
 			ViewArray[3 * localBlockRow][1 + 3 * localBlockCol].setVisibility(View.INVISIBLE);
 			ViewArray[3 * localBlockRow][2 + 3 * localBlockCol].setVisibility(View.INVISIBLE);
@@ -1614,6 +1705,17 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 			View b = findViewById(blockWinner[getBlock(localBlockRow, localBlockCol)]);
 			b.setVisibility(View.VISIBLE);
 			b.setBackgroundResource(optionId);
+
+			if(blocksWon == 0)
+			{
+				displayToast(R.drawable.text_small_firstblood, FIRST_BLOOD);
+			}
+			else
+			{
+				displayToast(R.drawable.text_small_headshot, HEADSHOT);
+			}
+
+			blocksWon++;
 
 			return true;
 		}
@@ -1644,7 +1746,12 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 					currentBlock.setSquare(i, j, winner);
 				}
 			}
-			int optionId = (winner.equals(LETTER_O)) ? R.drawable.o_button_inactive : R.drawable.x_button_inactive;
+			int optionId ;//= (winner.equals(LETTER_O)) ? R.drawable.o_button_inactive : R.drawable.x_button_inactive;
+
+			if(colorGrey(getBlock(currentBlockRow, currentBlockCol)))
+				optionId = (winner.equals(LETTER_O)) ? R.drawable.plexor_match_obutton_grey : R.drawable.plexor_match_xbutton_grey;
+			else
+				optionId = (winner.equals(LETTER_O)) ? R.drawable.plexor_match_obutton_green : R.drawable.plexor_match_xbutton_green;
 
 			//getBlock
 			ViewArray[3 * currentBlockRow][3 * currentBlockCol].setVisibility(View.INVISIBLE);
@@ -1665,7 +1772,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 			if(blocksWon == 0)
 			{
-				displayToast(R.drawable.text_small_headshot, HEADSHOT);
+				displayToast(R.drawable.text_small_firstblood, FIRST_BLOOD);
 			}
 			else
 			{
@@ -1690,16 +1797,19 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	{
 		LayoutInflater inflater = getLayoutInflater();
 		View v = inflater.inflate(R.layout.toast_layout, (ViewGroup) findViewById(R.id.toast_layout_root));
-		v.setBackgroundColor(Color.TRANSPARENT);
 		ImageView img = (ImageView) v.findViewById(R.id.toast_image);
 		img.setImageResource(imageId);
-		Toast toast = new Toast(getApplicationContext());
-		toast.setGravity(Gravity.BOTTOM, 0, 0);
+
+		//img.setBackgroundColor(Color.WHITE);
+
+		Toast toast = new Toast(context);
+		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 		toast.setDuration(Toast.LENGTH_SHORT);
 		toast.setView(v);
 		toast.show();
 
-		soundPool.play(soundIds[index], 1, 1, 1, 0, 1);
+		if(index >= 0)
+			soundPool.play(soundIds[index], 1, 1, 1, 0, 1);
 	}
 
 	private boolean gameWon()

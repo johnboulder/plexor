@@ -126,7 +126,7 @@ public class MainActivity extends BaseGameActivity
 		fadeOut.setDuration(1000);
 		//splash.setAnimation(fadeOut);
 
-		getGameHelper().setMaxAutoSignInAttempts(0);
+		getGameHelper().setMaxAutoSignInAttempts(1);
 
 		File appDirectory = new File(getFilesDir(), "");
 		/* TODO ensure that on release of this game, the array list of games is encrypted so it cannot
@@ -605,7 +605,7 @@ public class MainActivity extends BaseGameActivity
 		findViewById(R.id.button_play_multiplayer).setBackgroundResource(R.drawable.plexor_button_play_multiplayer);
 		findViewById(R.id.button_play_computer).setBackgroundResource(R.drawable.plexor_button_play_computer);
 		findViewById(R.id.button_inbox).setBackgroundResource(R.drawable.plexor_button_inbox);
-
+		Games.Achievements.unlock(getApiClient(), "achievement_overachiever");
 		//findViewById(R.id.button_sign_out).setVisibility(View.VISIBLE);
 		//findViewById(R.id.sign_out_shadow).setVisibility(View.VISIBLE);
 		//findViewById(R.id.button_sign_in).setVisibility(View.GONE);

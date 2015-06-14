@@ -1019,6 +1019,18 @@
             android:layout_marginTop="20dp"
             android:text="@string/confirm_move"/>
 
+        <ImageView
+            android:id="@+id/current_player_status"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:scaleType="fitCenter"
+            android:background="#8FAF23"
+            android:src="@drawable/its_xs_turn_small"
+            android:layout_below="@+id/button_confirm_move">
+        </ImageView>
+
     </TableLayout>
 
     <ImageView
@@ -1128,5 +1140,4 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
-
 </RelativeLayout>

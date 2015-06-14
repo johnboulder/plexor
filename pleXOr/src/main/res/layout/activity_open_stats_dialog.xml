@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/trans"
+                android:orientation="vertical"
+                tools:context="com.wherethisgo.plexor.OpenStatsDialogActivity">
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+        <TableRow>
+            <Button
+                android:id="@+id/button_leaderboard"
+                android:layout_weight="1"
+                android:onClick="onLeaderboardClicked"
+                android:background="@drawable/plexor_button"/>
+            <Button
+                android:id="@+id/button_achievements"
+                android:layout_weight="1"
+                android:onClick="onAchievementsClicked"
+                android:background="@drawable/plexor_button"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:text="Leaderboard"
+                      android:gravity="center"
+                      android:textStyle="bold"
+                      android:layout_weight="1"
+                      android:textColor="#FFFFFF"/>
+            <TextView android:text="Achievements"
+                      android:gravity="center"
+                      android:textStyle="bold"
+                      android:layout_weight="1"
+                      android:textColor="#FFFFFF"/>
+        </TableRow>
+        </TableLayout>
+
+</RelativeLayout>

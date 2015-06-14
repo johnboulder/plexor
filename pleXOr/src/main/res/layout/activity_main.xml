@@ -89,17 +89,18 @@
             <TextView android:text="Play Local"
                       android:gravity="center"
                       android:textStyle="bold"
+                      android:layout_weight="1"
                       android:textColor="#FFFFFF"/>
             <TextView android:text="Google"
                       android:gravity="center"
                       android:textStyle="bold"
-                      android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-15dp"/>
+                      android:layout_weight="1"
+                      android:textColor="#FFFFFF"/>
             <TextView android:text="Facebook"
                       android:gravity="center"
                       android:textStyle="bold"
-                      android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-20dp"/>
+                      android:layout_weight="1"
+                      android:textColor="#FFFFFF"/>
         </TableRow>
 
         <TableRow
@@ -136,17 +137,18 @@
             <TextView android:text="Inbox"
                       android:gravity="center"
                       android:textStyle="bold"
+                      android:layout_weight="1"
                       android:textColor="#FFFFFF"/>
             <TextView android:text="Multiplayer"
                       android:gravity="center"
                       android:textStyle="bold"
-                      android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-15dp"/>
+                      android:layout_weight="1"
+                      android:textColor="#FFFFFF"/>
             <TextView android:text="Computer"
                       android:gravity="center"
                       android:textStyle="bold"
-                      android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-20dp"/>
+                      android:layout_weight="1"
+                      android:textColor="#FFFFFF"/>
         </TableRow>
 
         <TableRow
@@ -156,6 +158,7 @@
                 android:layout_marginRight="3dp"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="1"
+                android:onClick="onStatsClicked"
                 android:background="@drawable/plexor_button_stats"
                 android:layout_height="120dp"
                 android:layout_width="120dp"/>
@@ -179,17 +182,18 @@
             <TextView android:text="Stats"
                       android:gravity="center"
                       android:textStyle="bold"
+                      android:layout_weight="1"
                       android:textColor="#FFFFFF"/>
             <TextView android:text="Settings"
                       android:gravity="center"
                       android:textStyle="bold"
                       android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-15dp"/>
+                      android:layout_weight="1"/>
             <TextView android:text="Sign Out"
                       android:gravity="center"
                       android:textStyle="bold"
                       android:textColor="#FFFFFF"
-                      android:layout_marginLeft="-20dp"/>
+                      android:layout_weight="1"/>
         </TableRow>
 
         </TableLayout>

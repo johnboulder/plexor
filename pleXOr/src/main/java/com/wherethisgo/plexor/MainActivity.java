@@ -52,6 +52,8 @@ public class MainActivity extends BaseGameActivity
 	public final static int    RC_CREATE_GAME     = 10002;
 	public static final int    RC_OPEN_GAME       = 10003;
 	public static final int    RC_INBOX           = 10004;
+	public static final int RC_STATS = 10005;
+
 	// For activities with arguments
 	public final static String EXTRA_MATCH_DATA   = "com.wherethisgo.plexor.match_data";
 	String matchListPath = null;
@@ -333,33 +335,34 @@ public class MainActivity extends BaseGameActivity
 				}
 			});
 		}
-			else if (request == RC_OPEN_GAME)
+
+		else if (request == RC_OPEN_GAME)
+		{
+
+			if (response != Activity.RESULT_OK)
 			{
-
-				if (response != Activity.RESULT_OK)
-				{
-					// user canceled
-					return;
-				}
-
-				Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
-				startActivityForResult(intent, RC_LOOK_AT_MATCHES);
-
-				TurnBasedMatch match = data.getParcelableExtra(Multiplayer.EXTRA_TURN_BASED_MATCH);
-				Globals.turnData = PlexorTurn.unpersist(match.getData());
-				String matchId = match.getMatchId();
-
-				Games.TurnBasedMultiplayer.loadMatch(getApiClient(), matchId).setResultCallback(new ResultCallback<TurnBasedMultiplayer.LoadMatchResult>()
-				{
-					@Override
-					public void onResult(TurnBasedMultiplayer.LoadMatchResult result)
-					{
-						// Calls processResult which opens the match activity
-						processResult(result);
-
-					}
-				});
+				// user canceled
+				return;
 			}
+
+			Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
+			startActivityForResult(intent, RC_LOOK_AT_MATCHES);
+
+			TurnBasedMatch match = data.getParcelableExtra(Multiplayer.EXTRA_TURN_BASED_MATCH);
+			Globals.turnData = PlexorTurn.unpersist(match.getData());
+			String matchId = match.getMatchId();
+
+			Games.TurnBasedMultiplayer.loadMatch(getApiClient(), matchId).setResultCallback(new ResultCallback<TurnBasedMultiplayer.LoadMatchResult>()
+			{
+				@Override
+				public void onResult(TurnBasedMultiplayer.LoadMatchResult result)
+				{
+					// Calls processResult which opens the match activity
+					processResult(result);
+
+				}
+			});
+		}
 	}// END onActivityResult
 
 	@Override
@@ -438,6 +441,12 @@ public class MainActivity extends BaseGameActivity
 	{
 		Intent intent = new Intent(this, ActiveGamesList.class);
 		startActivity(intent);
+	}// END onViewGamesClicked
+
+	public void onStatsClicked(View v)
+	{
+		Intent intent = new Intent(this, OpenStatsDialogActivity.class);
+		startActivityForResult(intent, RC_STATS);
 	}// END onViewGamesClicked
 
 	public void onInboxClicked(View v)

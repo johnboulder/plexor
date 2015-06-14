@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NavUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -108,6 +110,8 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 	private ImageView backgroundU;
 	private ImageView backgroundL;
 	private ImageView background;
+
+	private static ImageView turnStatus;
 
 	private final int NO_SOUND = -1;
 	private final int FIRST_BLOOD   = 0;
@@ -282,10 +286,10 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 		backgroundL.startAnimation(backgroundAnimation);
 		backgroundU.startAnimation(backgroundAnimation);
 
-		// Animate button so that it slides in from the left of the screen
-//		Button confirmButton = (Button)findViewById(R.id.button_confirm_move);
-//
-//
+		//Animate turn status image so that it slides in from the left of the screen
+		turnStatus = (ImageView)findViewById(R.id.current_player_status);
+		updateTurnStatusImage(R.drawable.its_xs_turn_small);
+
 //		DisplayMetrics displaymetrics = new DisplayMetrics();
 //		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 //		int width = displaymetrics.widthPixels;
@@ -297,36 +301,42 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 //		// Convert back
 //		width = (width*(density/160));
 //
-//		confirmButton.setX(-width);
+//		turnStatus.setX(-width);
 //
-//		TranslateAnimation buttonAnimation = new TranslateAnimation(location[0], location[0] + (width), location[1], location[1]);
-//		buttonAnimation.setDuration(1000);
-//		buttonAnimation.setFillAfter(false);
-//		buttonAnimation.setAnimationListener( new Animation.AnimationListener(){
+//		TranslateAnimation imageAnimation = new TranslateAnimation(0, (width), 0,0);
+//		imageAnimation.setDuration(1000);
+//		imageAnimation.setFillAfter(true);
+//		imageAnimation.setAnimationListener(new Animation.AnimationListener()
+//		{
 //			@Override
-//			public void onAnimationStart(Animation animation){}
+//			public void onAnimationStart(Animation animation)
+//			{
+//
+//			}
 //
 //			@Override
 //			public void onAnimationEnd(Animation animation)
 //			{
-//				/* Set onClick listeners for all the text boxes of the gameboard*/
-//				Button confirmButton = (Button)findViewById(R.id.button_confirm_move);
-//				confirmButton.setOnClickListener(new View.OnClickListener()
-//				{
-//					@Override
-//					public void onClick(View v)
-//					{
-//						confirmMove();
-//					}
-//				});
-//				//int width = confirmButton.getWidth();
-//				confirmButton.setX(0);
+//				int location[] = new int[2];
+//				background.getLocationOnScreen(location);
+//				location[0] = -location[0];
+//				ImageView newTurnStatus = new ImageView(context);
+//				newTurnStatus.setVisibility(View.INVISIBLE);
+//				newTurnStatus.setX(location[0]);
+//				newTurnStatus.setY(location[1]);
+//				newTurnStatus.setVisibility(View.INVISIBLE);
+//				turnStatus.invalidate();
+//
 //			}
 //
 //			@Override
-//			public void onAnimationRepeat(Animation animation){}
+//			public void onAnimationRepeat(Animation animation)
+//			{
+//
+//			}
 //		});
-//		confirmButton.startAnimation(buttonAnimation);
+//
+//		turnStatus.startAnimation(imageAnimation);
 
 		/*TODO setup soundPool to play button sounds and similar such things, and use mediaPlayer for playing
 		* sequential sounds like the ones that come with toast popups*/
@@ -1074,7 +1084,7 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 
 					if(!computerMatch)
 					{
-						displayToast(R.drawable.its_os_turn_small, NO_SOUND);
+						updateTurnStatusImage(R.drawable.its_os_turn_small);
 					}
 				}
 				else
@@ -1082,11 +1092,11 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 					player = firstPlayer;
 					if(computerMatch)
 					{
-						displayToast(R.drawable.its_your_turn_small, NO_SOUND);
+						updateTurnStatusImage(R.drawable.its_your_turn_small);
 					}
 					else
 					{
-						displayToast(R.drawable.its_xs_turn_small, NO_SOUND);
+						updateTurnStatusImage(R.drawable.its_xs_turn_small);
 					}
 				}
 
@@ -1516,6 +1526,62 @@ public class MatchLocal extends MainActivity implements OnTurnBasedMatchUpdateRe
 				}
 			}
 		}
+	}
+
+	private void updateTurnStatusImage(final int imageId)
+	{
+		//Animate turn status image so that it slides in from the left of the screen
+		turnStatus = (ImageView)findViewById(R.id.current_player_status);
+
+		int location[] = new int[2];
+		turnStatus.getLocationOnScreen(location);
+
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		int width = displaymetrics.widthPixels;
+		int density = displaymetrics.densityDpi;
+
+		// Convert width from px to dp
+		width = (width/(density/160));
+		width-=20;
+		// Convert back
+		width = (width*(density/160));
+
+		TranslateAnimation retract = new TranslateAnimation(location[0],-width, location[1], location[1]);
+		retract.setDuration(500);
+		retract.setFillAfter(true);
+		retract.setAnimationListener(new Animation.AnimationListener()
+		{
+			@Override
+			public void onAnimationStart(Animation animation)
+			{
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation)
+			{
+				//turnStatus.setBackgroundResource(imageId);
+				turnStatus.setImageResource(imageId);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation)
+			{
+
+			}
+		});
+		TranslateAnimation expose = new TranslateAnimation(-width,location[0], location[1], location[1]);
+		expose.setDuration(500);
+		expose.setStartOffset(500);
+		expose.setFillAfter(true);
+
+		AnimationSet rE = new AnimationSet(true);
+		rE.addAnimation(retract);
+		rE.addAnimation(expose);
+		rE.setInterpolator(new LinearInterpolator());
+
+		turnStatus.startAnimation(rE);
 	}
 
 	@Override

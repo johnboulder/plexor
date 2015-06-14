@@ -62,6 +62,7 @@
     <string name="cancel">Cancel</string>
 
     <color name="red">#FF0000</color>
+    <color name="trans">#00FFFFFF</color>
     <color name="background_grey">#5B5B5B</color>
     <string name="hello_world">Hello world!</string>
     
@@ -84,6 +85,10 @@
     <!-- Ad Stuff -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="title_activity_stats">StatsActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_open_stats_dialog">OpenStatsDialogActivity</string>
     <!-- While it's not a requirement, storing your Ad Unit ID values in a resource
      file is a good practice. As your application grows and your ad publishing needs
       mature, you will occasionally find that you want to change the ID values. If y
